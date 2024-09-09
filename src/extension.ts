@@ -6,6 +6,7 @@ import {
   LanguageClientOptions,
   ServerOptions,
 } from "vscode-languageclient/node";
+import { assert } from "console";
 
 const enum AderynCommands {
   RestartServer = "aderyn.restartServer",
@@ -83,10 +84,27 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
   //   },
   // };
 
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+
+  if (!workspaceFolders || workspaceFolders.length == 0) {
+    const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
+    vscode.window.showInformationMessage(message);
+    return;
+  }
+
+  const projectRootName = workspaceFolders[0].name;
+  const projectRootUri = workspaceFolders[0].uri.toString().substring("file://".length);
+
+  if (workspaceFolders.length > 1) {
+    const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
+    vscode.window.showInformationMessage(message);
+    return;
+  }
+
   // DEV
   const serverOptions: ServerOptions = {
     command: 'cargo',
-    args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/tests/adhoc-sol-files", "--lsp", "--stdout"],
+    args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", projectRootUri, "--lsp", "--stdout"],
     options: {
       env: process.env
     },
