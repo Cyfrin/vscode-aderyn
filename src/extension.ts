@@ -86,7 +86,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
   // DEV
   const serverOptions: ServerOptions = {
     command: 'cargo',
-    args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/tests/adhoc-sol-files", "--watch", "--stdout", "-o", "report.json", "-x", "lib/"],
+    args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/tests/adhoc-sol-files", "--lsp", "--stdout"],
     options: {
       env: process.env
     },
