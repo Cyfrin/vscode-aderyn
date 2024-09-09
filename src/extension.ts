@@ -104,7 +104,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     } 
     return {
       command,
-      args: ["lsp", "stdout"],
+      args: [projectRootUri, "--lsp", "--stdout"],
       options: {
         env: process.env
       },
