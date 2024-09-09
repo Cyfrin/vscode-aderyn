@@ -6,7 +6,6 @@ import {
   LanguageClientOptions,
   ServerOptions,
 } from "vscode-languageclient/node";
-import { assert } from "console";
 
 const enum AderynCommands {
   RestartServer = "aderyn.restartServer",
@@ -75,15 +74,6 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     },
   };
 
-  // PRODUCTION
-  // const serverOptions: ServerOptions = {
-  //   command,
-  //   args: ["lsp"],
-  //   options: {
-  //     env: process.env
-  //   },
-  // };
-
   const workspaceFolders = vscode.workspace.workspaceFolders;
 
   if (!workspaceFolders || workspaceFolders.length == 0) {
@@ -101,19 +91,30 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     return;
   }
 
-  // DEV
-  const serverOptions: ServerOptions = {
-    command: 'cargo',
-    args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", projectRootUri, "--lsp", "--stdout"],
-    options: {
-      env: process.env
-    },
+  const getServerOptions = () => {
+    if (process.env.NODE_ENV === "development") {
+      vscode.window.showInformationMessage("DEBUG MODE: Using /Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml");
+      return {
+        command: 'cargo',
+        args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", projectRootUri, "--lsp", "--stdout"],
+        options: {
+          env: process.env
+        }
+      }
+    } 
+    return {
+      command,
+      args: ["lsp", "stdout"],
+      options: {
+        env: process.env
+      },
+    };
   };
 
   return new LanguageClient(
     "aderyn_language_server",
     "Aderyn Language Server",
-    serverOptions,
+    getServerOptions() as ServerOptions,
     clientOptions,
   );
 }

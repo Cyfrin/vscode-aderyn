@@ -40,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "@vscode/vsce": "^2.29.0",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^7.15.0",
     "glob": "^7.1.6",
     "mocha": "^10.1.0",
@@ -51,6 +52,7 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "vscode-languageclient": "^8.1.0"
   }
 }
