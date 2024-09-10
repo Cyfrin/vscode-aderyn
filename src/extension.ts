@@ -85,7 +85,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
   }
 
   const projectRootName = workspaceFolders[0].name;
-  const projectRootUri = workspaceFolders[0].uri.toString().substring("file://".length);
+  let projectRootUri = workspaceFolders[0].uri.toString().substring("file://".length);
 
   if (workspaceFolders.length > 1) {
     const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
@@ -93,7 +93,8 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     return;
   }
 
-  const getServerOptions = () => {
+  const getServerOptions = (projectRootUri: string) => {
+    let actualProjectRootUri = findProjectRoot(projectRootUri);
     if (process.env.NODE_ENV === "development") {
       let URL;
       try {
@@ -101,10 +102,10 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
       } catch (ex) {
         vscode.window.showErrorMessage("File manifest not found. Read manifest.sample please!");
       }
-      vscode.window.showInformationMessage(`DEBUG MODE: ${URL}`);
+      vscode.window.showInformationMessage(`DEBUG MODE: ${actualProjectRootUri}`);
       return {
         command: 'cargo',
-        args: ["run", "--quiet", "--manifest-path", URL, "--", projectRootUri, "--lsp", "--stdout"],
+        args: ["run", "--quiet", "--manifest-path", URL, "--", actualProjectRootUri, "--lsp", "--stdout"],
         options: {
           env: process.env
         }
@@ -112,7 +113,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     } 
     return {
       command,
-      args: [projectRootUri, "--lsp", "--stdout"],
+      args: [actualProjectRootUri, "--lsp", "--stdout"],
       options: {
         env: process.env
       },
@@ -122,11 +123,26 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
   return new LanguageClient(
     "aderyn_language_server",
     "Aderyn Language Server",
-    getServerOptions() as ServerOptions,
+    getServerOptions(projectRootUri) as ServerOptions,
     clientOptions,
   );
 }
 
+// This will make sure that even if the user opens a subfolder of the solidity project, the server will still be started
+// succesfully because we use the nearest parent that is a git folder heuristic to know where the project root is.
+function findProjectRoot(projectRootUri: string): string | null {
+  let currentDir = projectRootUri;
+  while (currentDir !== path.parse(currentDir).root) {
+      if (fs.existsSync(path.join(currentDir, '.git')) ||
+        fs.existsSync(path.join(currentDir, 'foundry.toml')) ||
+        fs.existsSync(path.join(currentDir, 'aderyn.toml')) ||
+        fs.existsSync(path.join(currentDir, 'hardhat.config.ts'))) {
+        return currentDir;
+      }
+      currentDir = path.dirname(currentDir);
+  }
+  return projectRootUri;
+}
 
 async function getAderynCommand(): Promise<string> {
   const findOut = new Promise<string>((resolve, reject) => {
