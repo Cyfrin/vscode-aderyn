@@ -1,0 +1,4 @@
+/absolute/path/to/aderyn/repo/workspace/root/Cargo.toml
+
+^^^^
+    Create a file called `manifest` in the root and paste the path in the first line as shown above

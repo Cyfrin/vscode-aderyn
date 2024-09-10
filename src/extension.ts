@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import { exec } from "child_process";
 import { workspace } from "vscode";
+import * as fs from "fs";
+import * as path from "path";
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -93,10 +95,16 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
 
   const getServerOptions = () => {
     if (process.env.NODE_ENV === "development") {
-      vscode.window.showInformationMessage("DEBUG MODE: Using /Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml");
+      let URL;
+      try {
+        URL = fs.readFileSync(path.join(__dirname, "../manifestnope"));
+      } catch (ex) {
+        vscode.window.showErrorMessage("File manifest not found. Read manifest.sample please!");
+      }
+      vscode.window.showInformationMessage(`DEBUG MODE: ${URL}`);
       return {
         command: 'cargo',
-        args: ["run", "--quiet", "--manifest-path", "/Users/tilakmadichetti/Documents/OpenSource/realaderyn/Cargo.toml", "--", projectRootUri, "--lsp", "--stdout"],
+        args: ["run", "--quiet", "--manifest-path", URL, "--", projectRootUri, "--lsp", "--stdout"],
         options: {
           env: process.env
         }
