@@ -97,7 +97,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
     if (process.env.NODE_ENV === "development") {
       let URL;
       try {
-        URL = fs.readFileSync(path.join(__dirname, "../manifestnope"));
+        URL = fs.readFileSync(path.join(__dirname, "../manifest"));
       } catch (ex) {
         vscode.window.showErrorMessage("File manifest not found. Read manifest.sample please!");
       }
