@@ -27,9 +27,7 @@ async function createLanguageClient(): Promise<LanguageClient> {
     }
 
     const projectRootName = workspaceFolders[0].name;
-    let projectRootUri = workspaceFolders[0].uri
-        .toString()
-        .substring('file://'.length);
+    let projectRootUri = workspaceFolders[0].uri.toString().substring('file://'.length);
 
     if (workspaceFolders.length > 1) {
         const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
@@ -65,9 +63,7 @@ function productionServerOptions(solidityProjectRoot: string): ServerOptions {
     };
 }
 
-function developmentServerOptions(
-    solidityProjectRoot: string,
-): ServerOptions | null {
+function developmentServerOptions(solidityProjectRoot: string): ServerOptions | null {
     // Path to cargo manifest file of locally running Aderyn
     let URL: Buffer;
     try {
