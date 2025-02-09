@@ -1,4 +1,5 @@
-import { OnboardViewProvider } from './onboard';
-import { registerWebviewProviders } from './registrations';
+import { WebviewProviders } from './variants';
+import { registerWebviewPanels } from './registrations';
+import { OnboardPanel } from './onboard-panel';
 
-export { OnboardViewProvider, registerWebviewProviders };
+export { WebviewProviders, OnboardPanel, registerWebviewPanels };

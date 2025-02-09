@@ -8,7 +8,7 @@ import {
     LanguageClientOptions,
     ServerOptions,
 } from 'vscode-languageclient/node';
-import { findProjectRoot } from '../utils/';
+import { findProjectRoot } from '../../utils';
 
 async function createLanguageClient(): Promise<LanguageClient> {
     const clientOptions: LanguageClientOptions = {

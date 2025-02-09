@@ -1,16 +1,24 @@
 import * as vscode from 'vscode';
-import { onboardProvider } from '../state/index';
-import { OnboardViewProvider } from './onboard';
+import { OnboardPanel } from './onboard-panel';
+import { WebviewProviders } from './variants';
 
-function registerWebviewProviders(context: vscode.ExtensionContext) {
-    if (!onboardProvider) {
-        throw new Error('Registering uninitialized webview');
+function registerWebviewPanels(context: vscode.ExtensionContext) {
+    if (vscode.window.registerWebviewPanelSerializer) {
+        vscode.window.registerWebviewPanelSerializer(WebviewProviders.Onboard, {
+            async deserializeWebviewPanel(
+                webviewPanel: vscode.WebviewPanel,
+                _state: unknown,
+            ) {
+                webviewPanel.webview.options = {
+                    enableScripts: true,
+                    localResourceRoots: [
+                        vscode.Uri.joinPath(context.extensionUri, 'media'),
+                    ],
+                };
+                OnboardPanel.revive(webviewPanel, context.extensionUri, 'Welcome!');
+            },
+        });
     }
-    const onboardViewProvider = vscode.window.registerWebviewViewProvider(
-        OnboardViewProvider.viewType,
-        onboardProvider,
-    );
-    context.subscriptions.push(onboardViewProvider);
 }
 
-export { registerWebviewProviders };
+export { registerWebviewPanels };

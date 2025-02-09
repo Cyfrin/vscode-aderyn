@@ -1,6 +1,6 @@
-import { client } from './index';
+import { client } from '..';
 
-function startServing() {
+async function startServing() {
     if (!client) {
         throw new Error('Uninitialized Language Server asked to start serving');
     }

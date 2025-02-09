@@ -1,19 +1,18 @@
 import * as vscode from 'vscode';
 import {
     createOrInitClient,
-    startServing,
+    // startServing,
     stopServingIfOn,
     createOrInitOnboardProvider,
 } from './state';
-import { registerEditorCommands } from './commands/registrations';
-import { registerWebviewProviders } from './webview-providers/registrations';
+import { registerEditorCommands } from './commands';
+import { registerWebviewPanels } from './webview-providers';
 
 export function activate(context: vscode.ExtensionContext) {
     createOrInitClient()
         .then(() => createOrInitOnboardProvider(context.extensionUri))
-        .then(() => registerEditorCommands(context))
-        .then(() => registerWebviewProviders(context))
-        .then(startServing);
+        .then(() => registerWebviewPanels(context))
+        .then(() => registerEditorCommands(context));
 }
 
 export function deactivate(): Thenable<void> | undefined {
