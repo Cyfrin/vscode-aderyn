@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { workspace } from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-// import { exec } from "child_process";
+import { exec } from "child_process";
 
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
 
@@ -53,7 +53,6 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
         commandNotFound = true;
     })) as string;
 
-    vscode.window.showInformationMessage(command);
 
     if (commandNotFound) {
         return;
@@ -70,7 +69,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
 
     if (!workspaceFolders || workspaceFolders.length == 0) {
         const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
-        vscode.window.showInformationMessage(message);
+        vscode.window.showErrorMessage(message);
         return;
     }
 
@@ -79,7 +78,7 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
 
     if (workspaceFolders.length > 1) {
         const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
-        vscode.window.showInformationMessage(message);
+        vscode.window.showErrorMessage(message);
         return;
     }
 
@@ -152,27 +151,27 @@ async function getAderynCommand(): Promise<string> {
     return 'aderyn';
 }
 
-// interface SystemInfo {
-//   systemName: string;
-//   machineName: string;
-// }
+interface SystemInfo {
+    systemName: string;
+    machineName: string;
+}
 
-// async function getSystemInfo(): Promise<SystemInfo> {
-//   const fullSystemName = (await executeCommand("uname -a")).trim();
-//   const machineName = (await executeCommand("uname -m")).trim();
-//   const systemName = fullSystemName.substring(0, fullSystemName.indexOf(" "));
-//   return { systemName, machineName };
-// }
+async function getSystemInfo(): Promise<SystemInfo> {
+    const fullSystemName = (await executeCommand("uname -a")).trim();
+    const machineName = (await executeCommand("uname -m")).trim();
+    const systemName = fullSystemName.substring(0, fullSystemName.indexOf(" "));
+    return { systemName, machineName };
+}
 
-// Function to execute a shell command and return it as a promise
-// function executeCommand(command: string): Promise<string> {
-//   return new Promise((resolve, reject) => {
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         reject(`Error: ${stderr}`);
-//       } else {
-//         resolve(stdout.trim());
-//       }
-//     });
-//   });
-// }
+//Function to execute a shell command and return it as a promise
+function executeCommand(command: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                reject(`Error: ${stderr}`);
+            } else {
+                resolve(stdout.trim());
+            }
+        });
+    });
+}
