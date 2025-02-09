@@ -1,5 +1,3 @@
-import { action as restartServer } from "./restart-server";
+import { action as restartServer } from './restart-server';
 
-export {
-    restartServer,
-}
+export { restartServer };

@@ -5,14 +5,7 @@ import { startServing, stopServingIfOn, stopServing } from './mechanics';
 let client: LanguageClient | undefined;
 
 async function createOrInitClient() {
-    if (!client)
-        client = await createLanguageClient();
+    if (!client) client = await createLanguageClient();
 }
 
-export {
-    client,
-    createOrInitClient,
-    startServing,
-    stopServingIfOn,
-    stopServing,
-}
+export { client, createOrInitClient, startServing, stopServingIfOn, stopServing };

@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { exec } from 'child_process';
 
 interface SystemInfo {
     systemName: string;
@@ -6,9 +6,9 @@ interface SystemInfo {
 }
 
 async function getSystemInfo(): Promise<SystemInfo> {
-    const fullSystemName = (await executeCommand("uname -a")).trim();
-    const machineName = (await executeCommand("uname -m")).trim();
-    const systemName = fullSystemName.substring(0, fullSystemName.indexOf(" "));
+    const fullSystemName = (await executeCommand('uname -a')).trim();
+    const machineName = (await executeCommand('uname -m')).trim();
+    const systemName = fullSystemName.substring(0, fullSystemName.indexOf(' '));
     return { systemName, machineName };
 }
 

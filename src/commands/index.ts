@@ -1,5 +1,3 @@
-import { registerEditorCommands } from "./registrations";
+import { registerEditorCommands } from './registrations';
 
-export {
-    registerEditorCommands
-}
+export { registerEditorCommands };

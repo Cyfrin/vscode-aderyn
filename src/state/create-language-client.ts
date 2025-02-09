@@ -51,13 +51,12 @@ async function createLanguageClient(): Promise<LanguageClient> {
 
 function productionServerOptions(solidityProjectRoot: string): ServerOptions {
     return {
-        command: "aderyn",
+        command: 'aderyn',
         args: [solidityProjectRoot, '--lsp', '--stdout'],
         options: {
             env: process.env,
         },
     };
-
 }
 
 function developmentServerOptions(solidityProjectRoot: string): ServerOptions | null {
@@ -66,10 +65,8 @@ function developmentServerOptions(solidityProjectRoot: string): ServerOptions | 
     try {
         URL = fs.readFileSync(path.join(__dirname, '../manifest'));
     } catch (ex) {
-        vscode.window.showErrorMessage(
-            'File manifest not found. Read manifest.sample please!',
-        );
-        throw new Error("DEV: Aderyn Local Mannifest Not found");
+        vscode.window.showErrorMessage('File manifest not found. Read manifest.sample please!');
+        throw new Error('DEV: Aderyn Local Mannifest Not found');
     }
     return {
         command: 'cargo',
@@ -87,9 +84,6 @@ function developmentServerOptions(solidityProjectRoot: string): ServerOptions | 
             env: process.env,
         },
     };
-
 }
 
-export {
-    createLanguageClient
-}
+export { createLanguageClient };
