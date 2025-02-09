@@ -3,7 +3,11 @@ import { workspace } from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
+import {
+    LanguageClient,
+    LanguageClientOptions,
+    ServerOptions,
+} from 'vscode-languageclient/node';
 import { findProjectRoot } from '../utils/';
 
 async function createLanguageClient(): Promise<LanguageClient> {
@@ -23,7 +27,9 @@ async function createLanguageClient(): Promise<LanguageClient> {
     }
 
     const projectRootName = workspaceFolders[0].name;
-    let projectRootUri = workspaceFolders[0].uri.toString().substring('file://'.length);
+    let projectRootUri = workspaceFolders[0].uri
+        .toString()
+        .substring('file://'.length);
 
     if (workspaceFolders.length > 1) {
         const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
@@ -59,13 +65,17 @@ function productionServerOptions(solidityProjectRoot: string): ServerOptions {
     };
 }
 
-function developmentServerOptions(solidityProjectRoot: string): ServerOptions | null {
+function developmentServerOptions(
+    solidityProjectRoot: string,
+): ServerOptions | null {
     // Path to cargo manifest file of locally running Aderyn
     let URL: Buffer;
     try {
         URL = fs.readFileSync(path.join(__dirname, '../manifest'));
     } catch (ex) {
-        vscode.window.showErrorMessage('File manifest not found. Read manifest.sample please!');
+        vscode.window.showErrorMessage(
+            'File manifest not found. Read manifest.sample please!',
+        );
         throw new Error('DEV: Aderyn Local Mannifest Not found');
     }
     return {

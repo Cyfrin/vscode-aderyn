@@ -13,6 +13,15 @@
   },
   "icon": "images/icon.png",
   "contributes": {
+    "views": {
+        "explorer": [
+            {
+                "type": "webview",
+                "id": "aderyn.onboardView",
+                "name": "Onboard View"
+            }
+        ]
+    },
     "commands": [
       {
         "command": "aderyn.restartServer",
