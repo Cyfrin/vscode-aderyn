@@ -1,7 +1,6 @@
 "use strict";
 
 const path = require("path");
-const Dotenv = require('dotenv-webpack');
 
 
 /**@type {import('webpack').Configuration}*/
@@ -36,12 +35,6 @@ const config = {
         ],
       },
     ],
-  },
-  plugins: [
-    new Dotenv({
-      path: './.env', 
-      systemvars: true,
-    })
-  ]
+  }
 };
 module.exports = config;
