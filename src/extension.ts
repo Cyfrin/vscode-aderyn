@@ -1,222 +1,155 @@
-import * as vscode from "vscode";
-import { workspace } from "vscode";
-import * as fs from "fs";
-import * as path from "path";
-const { https } = require("follow-redirects");
-import * as tar from "tar";
+import * as vscode from 'vscode';
+import { workspace } from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 // import { exec } from "child_process";
 
-import {
-  LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
-} from "vscode-languageclient/node";
+import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
 
 const enum AderynCommands {
-  RestartServer = "aderyn.restartServer",
+    RestartServer = 'aderyn.restartServer',
 }
 
 let client: LanguageClient | undefined;
-let configureLang: vscode.Disposable | undefined;
 
 export async function activate(context: vscode.ExtensionContext) {
-  const restartCommand = vscode.commands.registerCommand(
-    AderynCommands.RestartServer,
-    async () => {
-      if (!client) {
-        vscode.window.showErrorMessage("aderyn client not found");
-        return;
-      }
+    const restartCommand = vscode.commands.registerCommand(
+        AderynCommands.RestartServer,
+        async () => {
+            if (!client) {
+                vscode.window.showErrorMessage('aderyn client not found');
+                return;
+            }
 
-      try {
-        if (client.isRunning()) {
-          await client.restart();
+            try {
+                if (client.isRunning()) {
+                    await client.restart();
+                    vscode.window.showInformationMessage('aderyn server restarted.');
+                } else {
+                    await client.start();
+                }
+            } catch (err) {
+                client.error('Restarting client failed', err, 'force');
+            }
+        },
+    );
 
-          vscode.window.showInformationMessage("aderyn server restarted.");
-        } else {
-          await client.start();
-        }
-      } catch (err) {
-        client.error("Restarting client failed", err, "force");
-      }
-    }
-  );
-
-  context.subscriptions.push(restartCommand);
-  client = await createLanguageClient();
-  // Start the client. This will also launch the server
-  client?.start();
+    context.subscriptions.push(restartCommand);
+    client = await createLanguageClient();
+    client?.start();
 }
 
 // this method is called when your extension is deactivated
 export function deactivate(): Thenable<void> | undefined {
-  configureLang?.dispose();
-
-  return client?.stop();
+    return client?.stop();
 }
 
 async function createLanguageClient(): Promise<LanguageClient | undefined> {
-  let commandNotFound = false;
-  const command = (await getAderynCommand().catch(() => {
-    const message = `Could not find aderyn on your system. Please ensure it is available
+    let commandNotFound = false;
+    const command = (await getAderynCommand().catch(() => {
+        const message = `Could not find aderyn on your system. Please ensure it is available
       on the PATH used by VS Code. Read installation guide https://github.com/cyfrin/aderyn`;
-    vscode.window.showErrorMessage(message);
-    commandNotFound = true;
-  })) as string;
+        vscode.window.showErrorMessage(message);
+        commandNotFound = true;
+    })) as string;
 
-  vscode.window.showInformationMessage(command);
+    vscode.window.showInformationMessage(command);
 
-  if (commandNotFound) {
-    return;
-  }
-
-  const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ scheme: "file", language: "*" }],
-    synchronize: {
-      fileEvents: [workspace.createFileSystemWatcher("**/*")],
-    },
-  };
-
-  const workspaceFolders = vscode.workspace.workspaceFolders;
-
-  if (!workspaceFolders || workspaceFolders.length == 0) {
-    const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
-    vscode.window.showInformationMessage(message);
-    return;
-  }
-
-  const projectRootName = workspaceFolders[0].name;
-  let projectRootUri = workspaceFolders[0].uri
-    .toString()
-    .substring("file://".length);
-
-  if (workspaceFolders.length > 1) {
-    const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
-    vscode.window.showInformationMessage(message);
-    return;
-  }
-
-  const getServerOptions = (projectRootUri: string) => {
-    let actualProjectRootUri = findProjectRoot(projectRootUri);
-    if (process.env.NODE_ENV === "development") {
-      let URL;
-      try {
-        URL = fs.readFileSync(path.join(__dirname, "../manifest"));
-      } catch (ex) {
-        vscode.window.showErrorMessage(
-          "File manifest not found. Read manifest.sample please!"
-        );
-      }
-      vscode.window.showInformationMessage(
-        `DEBUG MODE: ${actualProjectRootUri}`
-      );
-      return {
-        command: "cargo",
-        args: [
-          "run",
-          "--quiet",
-          "--manifest-path",
-          URL,
-          "--",
-          actualProjectRootUri,
-          "--lsp",
-          "--stdout",
-        ],
-        options: {
-          env: process.env,
-        },
-      };
+    if (commandNotFound) {
+        return;
     }
-    return {
-      command,
-      args: [actualProjectRootUri, "--lsp", "--stdout"],
-      options: {
-        env: process.env,
-      },
-    };
-  };
 
-  return new LanguageClient(
-    "aderyn_language_server",
-    "Aderyn Language Server",
-    getServerOptions(projectRootUri) as ServerOptions,
-    clientOptions
-  );
+    const clientOptions: LanguageClientOptions = {
+        documentSelector: [{ scheme: 'file', language: '*' }],
+        synchronize: {
+            fileEvents: [workspace.createFileSystemWatcher('**/*')],
+        },
+    };
+
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+
+    if (!workspaceFolders || workspaceFolders.length == 0) {
+        const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
+        vscode.window.showInformationMessage(message);
+        return;
+    }
+
+    const projectRootName = workspaceFolders[0].name;
+    let projectRootUri = workspaceFolders[0].uri.toString().substring('file://'.length);
+
+    if (workspaceFolders.length > 1) {
+        const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
+        vscode.window.showInformationMessage(message);
+        return;
+    }
+
+    const getServerOptions = (projectRootUri: string) => {
+        let actualProjectRootUri = findProjectRoot(projectRootUri);
+        if (process.env.NODE_ENV === 'development') {
+            let URL;
+            try {
+                URL = fs.readFileSync(path.join(__dirname, '../manifest'));
+            } catch (ex) {
+                vscode.window.showErrorMessage(
+                    'File manifest not found. Read manifest.sample please!',
+                );
+            }
+            vscode.window.showInformationMessage(`DEBUG MODE: ${actualProjectRootUri}`);
+            return {
+                command: 'cargo',
+                args: [
+                    'run',
+                    '--quiet',
+                    '--manifest-path',
+                    URL,
+                    '--',
+                    actualProjectRootUri,
+                    '--lsp',
+                    '--stdout',
+                ],
+                options: {
+                    env: process.env,
+                },
+            };
+        }
+        return {
+            command,
+            args: [actualProjectRootUri, '--lsp', '--stdout'],
+            options: {
+                env: process.env,
+            },
+        };
+    };
+
+    return new LanguageClient(
+        'aderyn_language_server',
+        'Aderyn Language Server',
+        getServerOptions(projectRootUri) as ServerOptions,
+        clientOptions,
+    );
 }
 
 // This will make sure that even if the user opens a subfolder of the solidity project, the server will still be started
 // succesfully because we use the nearest parent that is a git folder heuristic to know where the project root is.
 function findProjectRoot(projectRootUri: string): string | null {
-  let currentDir = projectRootUri;
-  while (currentDir !== path.parse(currentDir).root) {
-    if (
-      fs.existsSync(path.join(currentDir, ".git")) ||
-      fs.existsSync(path.join(currentDir, "foundry.toml")) ||
-      fs.existsSync(path.join(currentDir, "aderyn.toml")) ||
-      fs.existsSync(path.join(currentDir, "hardhat.config.ts")) ||
-      fs.existsSync(path.join(currentDir, "hardhat.config.js"))
-    ) {
-      return currentDir;
+    let currentDir = projectRootUri;
+    while (currentDir !== path.parse(currentDir).root) {
+        if (
+            fs.existsSync(path.join(currentDir, '.git')) ||
+            fs.existsSync(path.join(currentDir, 'foundry.toml')) ||
+            fs.existsSync(path.join(currentDir, 'aderyn.toml')) ||
+            fs.existsSync(path.join(currentDir, 'hardhat.config.ts')) ||
+            fs.existsSync(path.join(currentDir, 'hardhat.config.js'))
+        ) {
+            return currentDir;
+        }
+        currentDir = path.dirname(currentDir);
     }
-    currentDir = path.dirname(currentDir);
-  }
-  return projectRootUri;
+    return projectRootUri;
 }
 
 async function getAderynCommand(): Promise<string> {
-  const url = "https://github.com/Cyfrin/aderyn/releases/latest";
-  const targetDir = path.join(process.env.HOME || "", ".cyfrin", "bin");
-  const aderynFinalPath = path.join(targetDir, "aderyn");
-
-  if (fs.existsSync(aderynFinalPath)) {
-    // TODO: Check if it's the latest version, only then return.
-    // Otherwise, continue with the download and extraction.
-    return aderynFinalPath;
-  }
-
-  // const sysinfo = await getSystemInfo().catch((err) => {
-  //   vscode.window.showErrorMessage(err);
-  //   return;
-  // });
-  // sysinfo will contain the system name and machine name - Ex: Darwin & arm64
-
-  const tarFilePath = path.join(targetDir, "aderyn-macos-arm64.tar.gz");
-
-  // Check if the target directory already exists
-  if (!fs.existsSync(targetDir)) {
-    // Create the target directory
-    fs.mkdirSync(targetDir, { recursive: true });
-  }
-
-  // Download the file from the URL
-  await new Promise<void>((resolve, reject) => {
-    https
-      .get(url, (response: any) => {
-        if (response.statusCode !== 200) {
-          console.error(`Failed to get '${url}' (${response.statusCode})`);
-          reject(new Error(`Failed to get '${url}' (${response.statusCode})`));
-          return;
-        }
-
-        // Save the file to the target directory
-        const file = fs.createWriteStream(tarFilePath);
-        response.pipe(file);
-
-        file.on("finish", () => {
-          file.close(() => {
-            fs.createReadStream(tarFilePath)
-              .pipe(tar.x({ C: targetDir })) // Extract it
-              .on("close", resolve)
-              .on("error", (err) => reject(err));
-          });
-        });
-        file.on("error", (err) => reject(err));
-      })
-      .on("error", (err: any) => reject(err));
-  });
-
-  // Return the path to the aderyn binary
-  return aderynFinalPath;
+    return 'aderyn';
 }
 
 // interface SystemInfo {
