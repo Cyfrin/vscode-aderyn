@@ -65,6 +65,8 @@ class OnboardPanel {
             switch (data.command) {
                 case 'ping':
                     vscode.window.showInformationMessage(data.value);
+                    let uri = vscode.Uri.parse('https://code.visualstudio.com');
+                    vscode.commands.executeCommand('vscode.open', uri);
                     break;
             }
         });
