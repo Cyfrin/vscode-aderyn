@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Support for the Solidity programming language",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "publisher": "cyfrin",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   "engines": {
     "vscode": "^1.52.0"
   },
-  "icon": "images/icon.png",
+  "icon": "icon.png",
   "contributes": {
     "views": {
       "explorer": [
@@ -51,11 +51,11 @@
     "//": "Extension build (Watch mode)",
     "ext:watch": "webpack --mode development --watch",
 
-    "//" : "Tailwind class extraction (One time)",
+    "//": "Tailwind class extraction (One time)",
     "tw:": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css",
     "tw:all": "npm run tw --file=tailwind",
 
-    "//" : "Tailwind class extraction (Watch mode)",
+    "//": "Tailwind class extraction (Watch mode)",
     "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css --watch",
     "tw:watch:all": "npm run tw:watch --file=tailwind",
 
