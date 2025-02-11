@@ -52,14 +52,12 @@
     "ext:watch": "webpack --mode development --watch",
 
     "//" : "Tailwind class extraction (One time)",
-    "tw": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css",
-    "tw:onboard-panel": "npm run tw --file=onboard-panel",
-    "tw:all": "npm run tw:onboard-panel",
+    "tw:": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css",
+    "tw:all": "npm run tw --file=tailwind",
 
     "//" : "Tailwind class extraction (Watch mode)",
     "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css --watch",
-    "tw:watch:onboard-panel": "npm run tw:watch --file=onboard-panel",
-    "tw:watch:all": "npm run tw:watch:onboard-panel",
+    "tw:watch:all": "npm run tw:watch --file=tailwind",
 
     "//": "Svelte compile (One time)",
     "svelte:all": "rollup -c",

@@ -72,7 +72,7 @@ class OnboardPanel {
 
     protected _getHtmlForWebview(webview: vscode.Webview): string {
         const scriptUri = this.getRolledUpAssetUri('onboard-panel.js');
-        const styleUri = this.getRolledUpAssetUri('onboard-panel.css');
+        const tailwindStyleUri = this.getRolledUpAssetUri('tailwind.css');
         const svelteStyleUri = this.getRolledUpAssetUri('onboard-panel.svelte.css');
         const commonStyleUri = this.getCommonAssetUri('vscode.css');
 
@@ -91,7 +91,7 @@ class OnboardPanel {
 
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="${commonStyleUri}" rel="stylesheet">
-            <link href="${styleUri}" rel="stylesheet">
+            <link href="${tailwindStyleUri}" rel="stylesheet">
             <link href="${svelteStyleUri}" rel="stylesheet">
 
             <title>${this._panel.title}</title>
