@@ -58,16 +58,23 @@ class OnboardPanel {
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
     }
 
+    getRolledUpAssetUri(assetName: string): vscode.Uri {
+        return this._panel.webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, 'media/rolled-up', assetName),
+        );
+    }
+
+    getCommonAssetUri(assetName: string): vscode.Uri {
+        return this._panel.webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, 'media/common', assetName),
+        );
+    }
+
     protected _getHtmlForWebview(webview: vscode.Webview): string {
-        const scriptUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, 'media', 'main-onboardView.js'),
-        );
-        const stylesResetUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css'),
-        );
-        const stylesVscodeUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'),
-        );
+        const scriptUri = this.getRolledUpAssetUri('onboard-panel.js');
+        const styleUri = this.getRolledUpAssetUri('onboard-panel.css');
+        const svelteStyleUri = this.getRolledUpAssetUri('onboard-panel.svelte.css');
+        const commonStyleUri = this.getCommonAssetUri('vscode.css');
 
         const nonce = getNonce();
 
@@ -83,16 +90,34 @@ class OnboardPanel {
             <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
 
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-            <link href="${stylesResetUri}" rel="stylesheet">
-            <link href="${stylesVscodeUri}" rel="stylesheet">
+            <link href="${commonStyleUri}" rel="stylesheet">
+            <link href="${styleUri}" rel="stylesheet">
+            <link href="${svelteStyleUri}" rel="stylesheet">
 
             <title>${this._panel.title}</title>
         </head>
         <body>
-            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
 
-            <script nonce="${nonce}" src="${scriptUri}"></script>
+            <div id="app"></div>
+    
+            <h1>Congratulations !</h1>
+            <h3 class="text-green-400 underline">You have completed the <b>Step 1</b> in installation!</h3>
+            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
+            
+            <h3>Step 2 - You need to install aderyn CLI in your system!</h3>
+<p class="space-below">It helps the extension by supplying it with diagnostics</p>
+
+            <button style="max-width:3rem;"> Attempt auto-install </button>
+Based on the tools, existing in your system we will try downloading the binary in the following order - npm, brew, cargo binstall, curl
+
+<div></div>
+
+            <button style="max-width:3rem;margin:2rem;"> No, I'll do it manually</button>
+We will take you to a website that has all the commands documented! You can try manually 
+
+<div></div>
+
+            <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
         </html>`;
     }

@@ -1,5 +1,5 @@
 const enum WebviewProviders {
-    Onboard = 'aderyn.onboardView',
+    Onboard = 'aderyn.webview-providers.onboard-panel',
 }
 
 export { WebviewProviders };

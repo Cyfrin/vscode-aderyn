@@ -6,6 +6,41 @@
 	--input-margin-horizontal: 0;
 }
 
+/* Start of reset */
+
+html {
+	box-sizing: border-box;
+	font-size: 13px;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+/*End of reset*/
+
 body {
 	padding: 0 var(--container-paddding);
 	color: var(--vscode-foreground);
@@ -47,7 +82,6 @@ code {
 button {
 	border: none;
 	padding: var(--input-padding-vertical) var(--input-padding-horizontal);
-	width: 100%;
 	text-align: center;
 	outline: 1px solid transparent;
 	outline-offset: 2px !important;
@@ -89,3 +123,8 @@ input::placeholder,
 textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
 }
+
+.space-below {
+	margin-bottom: 3rem;
+}
+

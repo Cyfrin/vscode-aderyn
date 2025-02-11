@@ -1,5 +1,5 @@
 const enum EditorCmd {
-    RestartServer = 'aderyn.restartServer',
+    RestartServer = 'aderyn.commands.restartServer',
 }
 
 export { EditorCmd };
