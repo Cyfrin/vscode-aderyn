@@ -100,23 +100,7 @@ class OnboardPanel {
 
             <div id="app"></div>
     
-            <h1>Congratulations !</h1>
-            <h3 class="text-green-400 underline">You have completed the <b>Step 1</b> in installation!</h3>
-            <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
             
-            <h3>Step 2 - You need to install aderyn CLI in your system!</h3>
-<p class="space-below">It helps the extension by supplying it with diagnostics</p>
-
-            <button style="max-width:3rem;"> Attempt auto-install </button>
-Based on the tools, existing in your system we will try downloading the binary in the following order - npm, brew, cargo binstall, curl
-
-<div></div>
-
-            <button style="max-width:3rem;margin:2rem;"> No, I'll do it manually</button>
-We will take you to a website that has all the commands documented! You can try manually 
-
-<div></div>
-
             <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
         </html>`;
