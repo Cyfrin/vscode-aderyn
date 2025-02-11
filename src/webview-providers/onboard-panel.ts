@@ -56,6 +56,18 @@ class OnboardPanel {
         this._extensionUri = extensionUri;
         this._panel.title = title;
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
+        this.setupMessageListener();
+    }
+
+    setupMessageListener() {
+        this._panel.webview.onDidReceiveMessage(async (data) => {
+            console.log(data);
+            switch (data.command) {
+                case 'ping':
+                    vscode.window.showInformationMessage(data.value);
+                    break;
+            }
+        });
     }
 
     getRolledUpAssetUri(assetName: string): vscode.Uri {
@@ -97,10 +109,7 @@ class OnboardPanel {
             <title>${this._panel.title}</title>
         </head>
         <body>
-
             <div id="app"></div>
-    
-            
             <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
         </html>`;

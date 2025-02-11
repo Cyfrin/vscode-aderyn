@@ -1,9 +1,13 @@
+<script module>
+    // @ts-ignore
+    let clientVscode = acquireVsCodeApi();
+</script>
+
 <script lang="ts">
     let s: string = 'Inside Another Svelte';
 </script>
 
 <h3 class="happy text-orange-400">{s}</h3>
-
 <h1>Congratulations !</h1>
 <h3 class="text-teal-600 font-sans text-3xl">
     You have completed the <b>Step 1</b> in installation!
@@ -23,7 +27,16 @@ order - npm, brew, cargo binstall, curl
 
 <div></div>
 
-<button> No, I'll do it manually</button>
+<button
+    onclick={() => {
+        clientVscode.postMessage({
+            command: 'ping',
+            value: 'Hello there! How are you?',
+        });
+    }}
+>
+    No, I'll do it manually</button
+>
 We will take you to a website that has all the commands documented! You can try manually
 
 <div></div>
