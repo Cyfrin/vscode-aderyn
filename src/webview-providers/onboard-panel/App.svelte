@@ -3,46 +3,81 @@
     let clientVscode = acquireVsCodeApi();
 </script>
 
-<script lang="ts">
-    let s: string = 'Inside Another Svelte';
-</script>
-
-<h3 class="happy text-orange-400">{s}</h3>
-<h1>Congratulations !</h1>
-<h3 class="text-teal-600 font-sans text-3xl">
-    You have completed the <b>Step 1</b> in installation!
-</h3>
-<img
-    src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
-    width="300"
-    alt="cat typing aggressively meme"
-/>
-
-<h3>Step 2 - You need to install aderyn CLI in your system!</h3>
-<p class="space-below">It helps the extension by supplying it with diagnostics</p>
-
-<button> Attempt auto-install </button>
-Based on the tools, existing in your system we will try downloading the binary in the following
-order - npm, brew, cargo binstall, curl
-
-<div></div>
-
-<button
-    onclick={() => {
-        clientVscode.postMessage({
-            command: 'ping',
-            value: 'Hello there! How are you?',
-        });
-    }}
->
-    No, I'll do it manually</button
->
-We will take you to a website that has all the commands documented! You can try manually
-
-<div></div>
-
-<style>
-    .happy {
-        border: 20px solid yellowgreen;
-    }
-</style>
+<div class="flex flex-col justify-between h-svh pb-8">
+    <div class="flex flex-col items-center p-4">
+        <div class="mb-2">
+            <h1 class="m-1 text-2xl font-bold">Congratulations!</h1>
+        </div>
+        <div class="mb-8">
+            <h2 class="m-1 italic">
+                You have indeed made a good call by installing the Aderyn extension.
+            </h2>
+        </div>
+        <img
+            src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+            width="300"
+            alt="cat typing aggressively meme"
+        />
+        <div class="m-2 mt-6">
+            <h1 class="m-1 font-bold">
+                Please wait patiently while we ensure you have the latest Aderyn CLI
+                (unlike the cat above)...
+            </h1>
+            <div class="flex justify-center mt-4">
+                <div
+                    class="w-8 h-8 animate-spin border-4 border-[var(--vscode-button-background)] border-l-[var(--vscode-button-foreground)] rounded-full"
+                ></div>
+            </div>
+        </div>
+        <div class="m-2 mt-6">
+            <div class="mb-2">
+                <h1 class="flex justify-center text-2xl font-bold">Guide</h1>
+            </div>
+            <div class="mb-8">
+                <h2 class="font-light mt-4">
+                    Remember, to press
+                    <kbd>Cmd</kbd>
+                    <kbd>Shift</kbd>
+                    <kbd>P</kbd>
+                    <b> "Aderyn: Welcome Onboard" </b> to return to this guide
+                </h2>
+            </div>
+            <div class="mt-4 flex flex-col items-center">
+                <table class="table-fixed">
+                    <tbody>
+                        <tr>
+                            <td>Aderyn: Welcome Onboard</td>
+                            <th>&nbsp;&nbsp;</th>
+                            <td>Opens this page</td>
+                        </tr>
+                        <tr>
+                            <td>Aderyn: Start Server</td>
+                            <th>&nbsp;&nbsp;</th>
+                            <td>Start the diagnostics server</td>
+                        </tr>
+                        <tr>
+                            <td>Aderyn: Stop Server</td>
+                            <th>&nbsp;&nbsp;</th>
+                            <td>Stop the diagnostics server</td>
+                        </tr>
+                        <tr>
+                            <td>Aderyn: Restart Server</td>
+                            <th>&nbsp;&nbsp;</th>
+                            <td>Restart the diagnostics server</td>
+                        </tr>
+                        <tr>
+                            <td>Aderyn: Initialize Config file</td>
+                            <th>&nbsp;&nbsp;</th>
+                            <td>For advanced use, create <b>aderyn.toml</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        If the installation does not work, please consider opening an issue on &nbsp;
+        <a href="http://github.com/cyfrin/aderyn"> Github </a>. You can also try
+        installing manually.
+    </div>
+</div>

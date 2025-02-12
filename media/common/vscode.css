@@ -50,6 +50,10 @@ body {
 	background-color: var(--vscode-editor-background);
 }
 
+html,body {
+	height: 100%;
+}
+
 ol,
 ul {
 	padding-left: var(--container-paddding);
@@ -124,7 +128,4 @@ textarea::placeholder {
 	color: var(--vscode-input-placeholderForeground);
 }
 
-.space-below {
-	margin-bottom: 3rem;
-}
 

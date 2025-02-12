@@ -27,6 +27,11 @@
         "command": "aderyn.commands.restartServer",
         "title": "Restart Aderyn Server",
         "category": "Aderyn"
+      },
+      {
+        "command": "aderyn.commands.showOnboardPanel",
+        "title": "Welcome Onboard",
+        "category": "Aderyn"
       }
     ]
   },
