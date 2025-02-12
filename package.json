@@ -40,34 +40,34 @@
   ],
   "main": "./out/extension.js",
   "scripts": {
-    "//": "Production",
+    "// Production": "-----------------------",
     "vscode:prepublish": "webpack --mode production",
     "vscode:package": "vsce package",
 
-    "//": "Dev Build (One time)",
+    "// Dev Build (One time)": "-----------------------",
     "compile": "concurrently \"npm run ext\" \"npm run tw:all\" \"npm run svelte:all\" ",
 
-    "//": "Dev Iterative Build (Watch mode)",
+    "// Dev Iterative Build (Watch mode)": "-----------------------",
     "compile-watch": "concurrently \"npm run ext:watch\" \"npm run tw:watch:all\" \"npm run svelte:watch:all\" ",
 
-    "//": "Extension build (One time)",
+    "// Extension build (One time)": "-----------------------",
     "ext": "webpack --mode development",
 
-    "//": "Extension build (Watch mode)",
+    "// Extension build (Watch mode)": "-----------------------",
     "ext:watch": "webpack --mode development --watch",
 
-    "//": "Tailwind class extraction (One time)",
+    "// Tailwind class extraction (One time)": "-----------------------",
     "tw:": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css",
     "tw:all": "npm run tw --file=tailwind",
 
-    "//": "Tailwind class extraction (Watch mode)",
+    "// Tailwind class extraction (Watch mode)": "-----------------------",
     "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css --watch",
     "tw:watch:all": "npm run tw:watch --file=tailwind",
 
-    "//": "Svelte compile (One time)",
+    "// Svelte compile (One time)": "-----------------------",
     "svelte:all": "rollup -c",
 
-    "//": "Svelte compile (Watch mode)",
+    "// Svelte compile (Watch mode)": "-----------------------",
     "svelte:watch:all": "rollup -c -w",
 
     "//": "Formatting + Testing utils",
