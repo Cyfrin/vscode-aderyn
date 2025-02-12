@@ -45,10 +45,10 @@
     "vscode:package": "vsce package",
 
     "// Dev Build (One time)": "-----------------------",
-    "compile": "concurrently \"npm run ext\" \"npm run tw:all\" \"npm run svelte:all\" ",
+    "compile": "concurrently \"npm run ext\" \"npm run tw\" \"npm run svelte\" ",
 
     "// Dev Iterative Build (Watch mode)": "-----------------------",
-    "compile-watch": "concurrently \"npm run ext:watch\" \"npm run tw:watch:all\" \"npm run svelte:watch:all\" ",
+    "compile-watch": "concurrently \"npm run ext:watch\" \"npm run tw:watch\" \"npm run svelte:watch\" ",
 
     "// Extension build (One time)": "-----------------------",
     "ext": "webpack --mode development",
@@ -57,18 +57,16 @@
     "ext:watch": "webpack --mode development --watch",
 
     "// Tailwind class extraction (One time)": "-----------------------",
-    "tw:": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css",
-    "tw:all": "npm run tw --file=tailwind",
+    "tw": "npx @tailwindcss/cli -i media/unprocessed/tailwind.css -o media/rolled-up/tailwind.css",
 
     "// Tailwind class extraction (Watch mode)": "-----------------------",
-    "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/$npm_config_file.css -o media/rolled-up/$npm_config_file.css --watch",
-    "tw:watch:all": "npm run tw:watch --file=tailwind",
+    "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/tailwind.css -o media/rolled-up/tailwind.css --watch",
 
     "// Svelte compile (One time)": "-----------------------",
-    "svelte:all": "rollup -c",
+    "svelte": "rollup -c",
 
     "// Svelte compile (Watch mode)": "-----------------------",
-    "svelte:watch:all": "rollup -c -w",
+    "svelte:watch": "rollup -c -w",
 
     "//": "Formatting + Testing utils",
     "test-compile": "tsc -p ./",
@@ -86,6 +84,8 @@
     "@types/vscode": "^1.52.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^2.29.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.2",
