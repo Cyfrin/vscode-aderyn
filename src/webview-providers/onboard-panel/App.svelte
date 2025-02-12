@@ -1,6 +1,14 @@
 <script module>
     // @ts-ignore
     let clientVscode = acquireVsCodeApi();
+
+    const COMMANDS_GUIDE = {
+        'Welcome Onboard': 'Opens this page',
+        'Start Server': 'Start the diagnostics server',
+        'Stop Server': 'Stop the diagnostics server',
+        'Restart Server': 'Restart the diagnostics server',
+        'Initialize Config file': 'For advanced use, create <b>aderyn.toml</b>',
+    };
 </script>
 
 <div class="flex flex-col justify-between h-svh pb-8">
@@ -45,31 +53,13 @@
             <div class="mt-4 flex flex-col items-center">
                 <table class="table-fixed">
                     <tbody>
-                        <tr>
-                            <td>Aderyn: Welcome Onboard</td>
-                            <th>&nbsp;&nbsp;</th>
-                            <td>Opens this page</td>
-                        </tr>
-                        <tr>
-                            <td>Aderyn: Start Server</td>
-                            <th>&nbsp;&nbsp;</th>
-                            <td>Start the diagnostics server</td>
-                        </tr>
-                        <tr>
-                            <td>Aderyn: Stop Server</td>
-                            <th>&nbsp;&nbsp;</th>
-                            <td>Stop the diagnostics server</td>
-                        </tr>
-                        <tr>
-                            <td>Aderyn: Restart Server</td>
-                            <th>&nbsp;&nbsp;</th>
-                            <td>Restart the diagnostics server</td>
-                        </tr>
-                        <tr>
-                            <td>Aderyn: Initialize Config file</td>
-                            <th>&nbsp;&nbsp;</th>
-                            <td>For advanced use, create <b>aderyn.toml</b></td>
-                        </tr>
+                        {#each Object.entries(COMMANDS_GUIDE) as [command, purpose]}
+                            <tr>
+                                <td>Aderyn: {command}</td>
+                                <th>&nbsp;&nbsp;</th>
+                                <td>{@html purpose}</td>
+                            </tr>
+                        {/each}
                     </tbody>
                 </table>
             </div>
