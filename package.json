@@ -101,6 +101,7 @@
     "rollup-plugin-import-css": "^3.5.8",
     "rollup-plugin-svelte": "^7.2.2",
     "svelte": "^5.19.9",
+    "ts-jest": "^29.2.5",
     "ts-loader": "^8.0.13",
     "typescript": "^4.1.2",
     "typescript-eslint": "^8.5.0",
