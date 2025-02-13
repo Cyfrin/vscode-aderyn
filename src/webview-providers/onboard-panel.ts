@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { ensureAderynIsInstalled } from '../utils';
 
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
@@ -57,6 +58,9 @@ class OnboardPanel {
         this._panel.title = title;
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
         this.setupMessageListener();
+
+        // TODO: Pass a callback function that will post a message to vscode
+        ensureAderynIsInstalled();
     }
 
     setupMessageListener() {

@@ -12,17 +12,39 @@ async function getSystemInfo(): Promise<SystemInfo> {
     return { systemName, machineName };
 }
 
+const enum ExecuteCommandErrorType {
+    BadCommandExitStatus,
+    Timeout,
+}
+
+type ExecuteCommandError = {
+    errorType: ExecuteCommandErrorType;
+    payload?: string;
+};
+
 //Function to execute a shell command and return it as a promise
-function executeCommand(command: string): Promise<string> {
+async function executeCommand(command: string, timeoutMilli?: number): Promise<string> {
     return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
+        const controller = new AbortController();
+        const { signal } = controller;
+        exec(command, { signal }, (error, stdout, stderr) => {
             if (error) {
-                reject(`Error: ${stderr}`);
+                const E: ExecuteCommandError = {
+                    errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                    payload: stderr,
+                };
+                reject(E);
             } else {
                 resolve(stdout.trim());
             }
         });
+        if (timeoutMilli) {
+            const E: ExecuteCommandError = {
+                errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+            };
+            setTimeout(() => reject(E), timeoutMilli);
+        }
     });
 }
 
-export { getSystemInfo, executeCommand };
+export { getSystemInfo, executeCommand, ExecuteCommandError, ExecuteCommandErrorType };
