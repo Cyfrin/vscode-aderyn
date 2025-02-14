@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { ensureAderynIsInstalled } from '../utils';
+import { MessageType, postMessageTo } from './onboard-panel/messages';
 
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
@@ -60,12 +61,13 @@ class OnboardPanel {
         this.setupMessageListener();
 
         // TODO: Pass a callback function that will post a message to vscode
-        ensureAderynIsInstalled();
+        ensureAderynIsInstalled().catch((err) => {
+            postMessageTo(this._panel.webview, MessageType.Error, err);
+        });
     }
 
     setupMessageListener() {
         this._panel.webview.onDidReceiveMessage(async (data) => {
-            console.log(data);
             switch (data.command) {
                 case 'ping':
                     vscode.window.showInformationMessage(data.value);

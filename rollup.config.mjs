@@ -27,7 +27,7 @@ function webviewRollupConfig(name) {
                 minify: true,
             }),
             svelte({
-                include: `src/webview-providers/${name}/**/*.svelte`,
+                include: `src/webview-providers/${name}/**/*.{svelte,ts}`,
                 preprocess: {
                     style: async ({ content }) => {
                         return transformStyles(content);
@@ -48,9 +48,9 @@ function webviewRollupConfig(name) {
             }),
             resolve({
                 browser: true,
-                exportConditions: ['svelte'],
-                extensions: ['.svelte'],
-                dedupe: ['svelte'],
+                exportConditions: ['svelte', '.ts'],
+                extensions: ['.svelte', '.ts'],
+                dedupe: ['svelte', '.ts'],
             }),
         ],
     };
