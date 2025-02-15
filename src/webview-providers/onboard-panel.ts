@@ -61,9 +61,9 @@ class OnboardPanel {
         this.setupMessageListener();
 
         // TODO: Pass a callback function that will post a message to vscode
-        ensureAderynIsInstalled().catch((err) => {
-            postMessageTo(this._panel.webview, MessageType.Error, err);
-        });
+        //ensureAderynIsInstalled().catch((err) => {
+        //    postMessageTo(this._panel.webview, MessageType.Error, err);
+        //});
     }
 
     setupMessageListener() {

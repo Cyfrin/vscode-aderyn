@@ -2,7 +2,8 @@ class Logger {
     enabled: boolean;
 
     constructor() {
-        this.enabled = process.env.NODE_ENV === 'development';
+        this.enabled =
+            process.env.NODE_ENV === 'development' || process.env.NODE_ENV == 'test';
     }
 
     info(message: string | object) {

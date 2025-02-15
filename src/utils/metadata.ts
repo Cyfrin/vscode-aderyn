@@ -15,10 +15,19 @@ interface Command {
     category: string;
 }
 
+/*
+ * The expectation is that the extension will handle all the new patched versions 
+ * without requiring an update.
+ */
+interface SupportedAderynVersions {
+    major: number;
+    minor: number;
+}
+
 interface ExtensionInfo {
     name: string;
     version: string;
-    minAderynVersion: string;
+    supportedAderynVersions: SupportedAderynVersions;
     contributes: {
         views: {
             explorer: Explorer[];
@@ -66,6 +75,7 @@ async function readPackageJson(logger: Logger): Promise<ExtensionInfo> {
 
 export {
     readPackageJson,
+    SupportedAderynVersions,
     ExtensionInfoErrorType,
     ExtensionInfoError,
     ExtensionInfo,

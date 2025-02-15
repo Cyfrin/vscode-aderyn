@@ -1,5 +1,4 @@
-import { findProjectRoot } from './find-project-root';
-import { getSystemInfo, executeCommand } from './system-info';
-import { ensureAderynIsInstalled } from './installation';
+import { findProjectRoot, getSystemInfo, executeCommand } from './runtime';
+import { ensureAderynIsInstalled } from './install';
 
 export { findProjectRoot, getSystemInfo, executeCommand, ensureAderynIsInstalled };
