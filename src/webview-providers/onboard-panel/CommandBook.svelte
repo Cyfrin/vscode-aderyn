@@ -4,7 +4,7 @@
         'Start server': 'Start the diagnostics server',
         'Stop server': 'Stop the diagnostics server',
         'Restart server': 'Restart the diagnostics server',
-        'Initialize sonfig file': 'For advanced use, create <b>aderyn.toml</b>',
+        'Initialize config file': 'For advanced use, create <b>aderyn.toml</b>',
     };
 </script>
 

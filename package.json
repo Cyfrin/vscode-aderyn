@@ -28,13 +28,14 @@
     },
     "commands": [
       {
-        "command": "aderyn.commands.restartServer",
-        "title": "Restart Aderyn Server",
-        "category": "Aderyn"
+        "command": "aderyn.commands.showOnboardPanel",
+        "title": "Welcome on board",
+        "category": "Aderyn",
+        "description": "Opens this page"
       },
       {
-        "command": "aderyn.commands.showOnboardPanel",
-        "title": "Welcome Onboard",
+        "command": "aderyn.commands.restartServer",
+        "title": "Restart Aderyn Server",
         "category": "Aderyn"
       }
     ]
