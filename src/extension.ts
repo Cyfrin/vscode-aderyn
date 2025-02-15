@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import {
-    createOrInitClient,
+    createOrInitLspClient,
     // startServing,
     stopServingIfOn,
     createOrInitOnboardProvider,
@@ -10,7 +10,7 @@ import { registerWebviewPanels } from './webview-providers';
 import { isKeyUsed, Keys, Logger } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
-    createOrInitClient()
+    createOrInitLspClient()
         .then(() => showOnboardWebviewOnce(context))
         .then(() => registerWebviewPanels(context))
         .then(() => registerEditorCommands(context));

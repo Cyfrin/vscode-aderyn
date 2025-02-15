@@ -18,7 +18,7 @@ import { createNewOrShowOnboardProvider, showPanel, hidePanel } from './onboard-
  */
 let client: LanguageClient | undefined;
 
-async function createOrInitClient() {
+async function createOrInitLspClient() {
     if (!client) client = await createLanguageClient();
 }
 
@@ -29,7 +29,7 @@ async function createOrInitOnboardProvider(uri: Uri) {
 export {
     // Language client
     client,
-    createOrInitClient,
+    createOrInitLspClient,
     startServing,
     stopServingIfOn,
     stopServing,
