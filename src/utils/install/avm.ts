@@ -127,6 +127,7 @@ async function reinstallAderynWithAppropriateCmd(
  * @returns {Promise<void>} resolves when fail-safe removal is succcessful (even if the file doesn't exist)
  */
 async function removeAderynFromLegacyLocationIfPresent(logger: Logger): Promise<void> {
+    // TODO: Check if ~/ is actually $HOME
     return executeCommand('rm -f ~/.cyfrin/bin/aderyn')
         .then(() => {
             return Promise.resolve();
