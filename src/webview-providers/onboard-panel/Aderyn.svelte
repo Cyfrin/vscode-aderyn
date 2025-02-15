@@ -1,43 +1,52 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    // @ts-ignore
-    const vscode = acquireVsCodeApi();
-
-    // NOTE - Redifining subset of types as relevant here in message.ts
-    type PostMessage = {
-        type: 'Error' | 'Success' | null;
+    type ExtensionMessage = {
+        type: 'Error' | 'Success' | 'CommandGuide' | null;
         msg: string;
     };
 
-    let message = $state<PostMessage | null>(null);
+    /**
+     * Loading state is represented by a null message
+     */
+    let message = $state<ExtensionMessage | null>(null);
 
-    let red = $derived(message?.type == 'Error' ? 'text-red-500' : 'text-green-500');
-
+    /**
+     *  @description Report progress in the installation process to the frontend
+     */
     onMount(() => {
         return window.addEventListener('message', ({ data }) => {
-            switch (data.type) {
-                case 'Error':
-                case 'Success':
-                    message = data;
-                    break;
+            if (data.type == 'Error' || data.type == 'Success') {
+                message = data;
             }
         });
     });
 
+    /**
+     *
+     * @description Backend will be requested to retry installation process
+     * when `Try Again` button is clicked
+     *
+     */
     function tryAgainClicked() {
+        // @ts-ignore
+        const vscode = acquireVsCodeApi();
+
         message = null;
-        setTimeout(() => {
-            vscode.postMessage({
-                command: 'retry',
-                value: 'Retrying Aderyn CLI installation',
-            });
-        }, 1000); // 1 second for breathing-space
+        vscode.postMessage({
+            command: 'retry',
+            value: 'Retrying Aderyn CLI installation',
+        });
     }
 </script>
 
 <div class="m-2 mt-6">
-    <h1 class={['m-1 font-bold', red]}>
+    <h1
+        class={[
+            'm-1 font-bold',
+            message?.type == 'Error' ? 'text-red-500' : 'text-green-500',
+        ]}
+    >
         {#if !message}
             Please wait patiently while we ensure you have the latest Aderyn CLI (unlike
             the cat above)...
