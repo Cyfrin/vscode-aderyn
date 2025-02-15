@@ -3,7 +3,7 @@
   "displayName": "Aderyn",
   "description": "Support for the Solidity programming language",
   "version": "0.1.0",
-  "supportsAderynVersion": {
+  "supportedAderynVersions": {
     "major": 0,
     "minor": 4
   },

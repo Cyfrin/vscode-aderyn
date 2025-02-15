@@ -3,13 +3,13 @@
 
     // NOTE - Redifining types as found in message.ts
     type PostMessage = {
-        type: 'Error' | null;
+        type: 'Error' | 'Success' | null;
         msg: string;
     };
 
     let message = $state<PostMessage | null>(null);
 
-    let red = $derived(message?.type == 'Error' ? 'text-red-500' : null);
+    let red = $derived(message?.type == 'Error' ? 'text-red-500' : 'text-green-500');
 
     onMount(() => {
         return window.addEventListener('message', ({ data }) => {

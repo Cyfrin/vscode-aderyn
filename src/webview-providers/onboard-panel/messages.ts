@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 
 enum MessageType {
     Error = 'Error',
+    Success = 'Success',
 }
 
 type PostMessage = {

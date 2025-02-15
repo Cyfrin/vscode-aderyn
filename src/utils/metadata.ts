@@ -16,7 +16,7 @@ interface Command {
 }
 
 /*
- * The expectation is that the extension will handle all the new patched versions 
+ * The expectation is that the extension will handle all the new patched versions
  * without requiring an update.
  */
 interface SupportedAderynVersions {
@@ -62,6 +62,7 @@ async function readPackageJson(logger: Logger): Promise<ExtensionInfo> {
         const packageJsonPath = path.join(extensionPath, 'package.json');
         const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8');
         const packageJson: ExtensionInfo = JSON.parse(packageJsonContent);
+        logger.info(`Package json ${JSON.stringify(packageJson)}`);
         return Promise.resolve(packageJson);
     } catch (error) {
         logger.err(`Error reading package.json: ${error}`);

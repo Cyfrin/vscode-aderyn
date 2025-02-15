@@ -142,9 +142,9 @@ async function ensureAderynIsInstalled(): Promise<void> {
             if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
                 // NOTE: OK - no need to do anything more
                 return Promise.resolve();
-            } else {
-                throw new Error(AderynInstallationErrorType.UknownReason);
             }
+
+            throw new Error(AderynInstallationErrorType.UknownReason);
         } else {
             throw new Error(AderynInstallationErrorType.ExtensionIsTooOld);
         }
