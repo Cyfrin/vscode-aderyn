@@ -1,6 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
+    // @ts-ignore
+    const vscode = acquireVsCodeApi();
+
     // NOTE - Redifining types as found in message.ts
     type PostMessage = {
         type: 'Error' | 'Success' | null;
@@ -16,6 +19,16 @@
             message = data;
         });
     });
+
+    function tryAgainClicked() {
+        message = null;
+        setTimeout(() => {
+            vscode.postMessage({
+                command: 'retry',
+                value: 'Retrying Aderyn CLI installation',
+            });
+        }, 1000); // 1 second for breathing-space
+    }
 </script>
 
 <div class="m-2 mt-6">
@@ -33,7 +46,7 @@
                 class="w-8 h-8 animate-spin border-4 border-[var(--vscode-button-background)] border-l-[var(--vscode-button-foreground)] rounded-full"
             ></div>
         {:else if message.type == 'Error'}
-            <button>Try again</button>
+            <button onclick={tryAgainClicked}>Try again</button>
         {/if}
     </div>
 </div>

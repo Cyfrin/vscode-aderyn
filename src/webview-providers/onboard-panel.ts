@@ -59,7 +59,10 @@ class OnboardPanel {
         this._panel.title = title;
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
         this.setupMessageListener();
+        this.attemptAderynCliSetup();
+    }
 
+    attemptAderynCliSetup() {
         ensureAderynIsInstalled()
             .then(() => {
                 postMessageTo(
@@ -76,10 +79,9 @@ class OnboardPanel {
     setupMessageListener() {
         this._panel.webview.onDidReceiveMessage(async (data) => {
             switch (data.command) {
-                case 'ping':
+                case 'retry':
                     vscode.window.showInformationMessage(data.value);
-                    let uri = vscode.Uri.parse('https://code.visualstudio.com');
-                    vscode.commands.executeCommand('vscode.open', uri);
+                    this.attemptAderynCliSetup();
                     break;
             }
         });
