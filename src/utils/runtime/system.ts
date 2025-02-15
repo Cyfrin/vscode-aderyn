@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import * as https from 'https';
+import * as os from 'os';
 import { Logger } from '../logger';
 
 interface SystemInfo {
@@ -71,10 +72,17 @@ async function hasReliableInternet(logger: Logger): Promise<boolean> {
     });
 }
 
+function isWindowsNotWSL() {
+    const isWindows = process.platform === 'win32';
+    const isWSL = os.release().toLowerCase().includes('microsoft');
+    return isWindows && !isWSL;
+}
+
 export {
     getSystemInfo,
     executeCommand,
     hasReliableInternet,
+    isWindowsNotWSL,
     SystemInfo,
     ExecuteCommandError,
     ExecuteCommandErrorType,

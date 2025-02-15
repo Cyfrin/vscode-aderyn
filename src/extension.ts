@@ -7,9 +7,16 @@ import {
 } from './state';
 import { registerEditorCommands } from './commands';
 import { registerWebviewPanels } from './webview-providers';
-import { isKeyUsed, Keys, Logger } from './utils';
+import { isKeyUsed, isWindowsNotWSL, Keys, Logger } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
+    if (isWindowsNotWSL()) {
+        vscode.window.showErrorMessage(
+            'Aderyn is only supported in WSL when using Windows!',
+        );
+        throw new Error('Unsupported platform!');
+    }
+
     createOrInitLspClient()
         .then(() => showOnboardWebviewOnce(context))
         .then(() => registerWebviewPanels(context))
