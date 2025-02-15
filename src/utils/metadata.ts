@@ -13,6 +13,7 @@ interface Command {
     command: string;
     title: string;
     category: string;
+    description: string;
 }
 
 /*

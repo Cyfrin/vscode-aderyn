@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import { ensureAderynIsInstalled } from '../utils';
+import { ensureAderynIsInstalled, Logger } from '../utils';
 import { MessageType, postMessageTo } from './onboard-panel/messages';
+import { readPackageJson } from '../utils/metadata';
 
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
@@ -60,6 +61,7 @@ class OnboardPanel {
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
         this.setupMessageListener();
         this.attemptAderynCliSetup();
+        this.sendCommandGuide();
     }
 
     attemptAderynCliSetup() {
@@ -67,13 +69,27 @@ class OnboardPanel {
             .then(() => {
                 postMessageTo(
                     this._panel.webview,
-                    MessageType.Success,
+                    MessageType.InstallationSuccess,
                     'All good to go 🫡',
                 );
             })
             .catch((err) => {
-                postMessageTo(this._panel.webview, MessageType.Error, err);
+                postMessageTo(this._panel.webview, MessageType.InstallationError, err);
             });
+    }
+
+    sendCommandGuide() {
+        readPackageJson(new Logger()).then((packageJson) => {
+            let guide: Record<string, string> = {};
+            for (const command of packageJson.contributes.commands) {
+                guide[command.title] = command.description;
+            }
+            postMessageTo(
+                this._panel.webview,
+                MessageType.CommandGuide,
+                JSON.stringify(guide),
+            );
+        });
     }
 
     setupMessageListener() {

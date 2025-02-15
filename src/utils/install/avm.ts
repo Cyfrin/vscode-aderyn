@@ -212,7 +212,7 @@ async function installAderynWithAppropriateCmd(
     logger.info(`running command for re-installation - ${command}`);
     return executeCommand(command, env)
         .then((stdout) => {
-            logger.err(`output of aderyn installation - ${JSON.stringify(stdout)}`);
+            logger.info(`output of aderyn installation - ${JSON.stringify(stdout)}`);
             return Promise.resolve();
         })
         .catch((err) => {

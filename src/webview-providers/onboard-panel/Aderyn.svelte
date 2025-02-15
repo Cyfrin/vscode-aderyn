@@ -4,7 +4,7 @@
     // @ts-ignore
     const vscode = acquireVsCodeApi();
 
-    // NOTE - Redifining types as found in message.ts
+    // NOTE - Redifining subset of types as relevant here in message.ts
     type PostMessage = {
         type: 'Error' | 'Success' | null;
         msg: string;
@@ -16,7 +16,12 @@
 
     onMount(() => {
         return window.addEventListener('message', ({ data }) => {
-            message = data;
+            switch (data.type) {
+                case 'Error':
+                case 'Success':
+                    message = data;
+                    break;
+            }
         });
     });
 

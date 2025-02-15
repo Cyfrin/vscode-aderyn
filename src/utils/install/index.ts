@@ -58,6 +58,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
         });
 
         if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
+            logger.info('Resolving promise for ensuring aderyn installation');
             // NOTE: OK - no need to do anything more
             return Promise.resolve();
         }
@@ -85,6 +86,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
             );
 
             if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
+                logger.info('Resolving promise for ensuring aderyn installation');
                 // NOTE: OK - no need to do anything more
                 return Promise.resolve();
             } else {
@@ -103,6 +105,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
                 );
 
                 if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
+                    logger.info('Resolving promise for ensuring aderyn installation');
                     // NOTE: OK - no need to do anything more
                     return Promise.resolve();
                 }
@@ -140,6 +143,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
             );
 
             if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
+                logger.info('Resolving promise for ensuring aderyn installation');
                 // NOTE: OK - no need to do anything more
                 return Promise.resolve();
             }

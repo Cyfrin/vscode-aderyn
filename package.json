@@ -34,9 +34,28 @@
         "description": "Opens this page"
       },
       {
+        "command": "aderyn.commands.startServer",
+        "title": "Start server",
+        "category": "Aderyn",
+        "description": "Start the diagnostics server"
+      },
+      {
+        "command": "aderyn.commands.stopServer",
+        "title": "Stop server",
+        "category": "Aderyn",
+        "description": "Stop the diagnostics server"
+      },
+      {
         "command": "aderyn.commands.restartServer",
-        "title": "Restart Aderyn Server",
-        "category": "Aderyn"
+        "title": "Restart Server",
+        "category": "Aderyn",
+        "description": "Restart the diagnostics server"
+      },
+      {
+        "command": "aderyn.commands.initConfigFile",
+        "title": "Initialize Config file",
+        "category": "Aderyn",
+        "description": "For advanced use, create <b>aderyn.toml</b>"
       }
     ]
   },

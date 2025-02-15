@@ -1,11 +1,15 @@
-<script>
-    const COMMANDS_GUIDE = {
-        'Welcome on board': 'Opens this page',
-        'Start server': 'Start the diagnostics server',
-        'Stop server': 'Stop the diagnostics server',
-        'Restart server': 'Restart the diagnostics server',
-        'Initialize config file': 'For advanced use, create <b>aderyn.toml</b>',
-    };
+<script lang="ts">
+    import { onMount } from 'svelte';
+
+    let commandGuide = $state({});
+
+    onMount(() => {
+        return window.addEventListener('message', ({ data }) => {
+            if (data.type == 'CommandGuide') {
+                commandGuide = JSON.parse(data.msg);
+            }
+        });
+    });
 </script>
 
 <div class="m-2 mt-6">
@@ -24,7 +28,7 @@
     <div class="mt-4 flex flex-col items-center">
         <table class="table-fixed">
             <tbody>
-                {#each Object.entries(COMMANDS_GUIDE) as [command, purpose]}
+                {#each Object.entries(commandGuide) as [command, purpose]}
                     <tr>
                         <td>Aderyn: {command}</td>
                         <th>&nbsp;&nbsp;</th>

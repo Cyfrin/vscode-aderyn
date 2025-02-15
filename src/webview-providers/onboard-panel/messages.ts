@@ -1,8 +1,12 @@
 import * as vscode from 'vscode';
 
 enum MessageType {
-    Error = 'Error',
-    Success = 'Success',
+    // Aderyn
+    InstallationError = 'Error',
+    InstallationSuccess = 'Success',
+
+    // Command Book
+    CommandGuide = 'CommandGuide',
 }
 
 type PostMessage = {
