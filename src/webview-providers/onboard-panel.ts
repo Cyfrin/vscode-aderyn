@@ -60,7 +60,6 @@ class OnboardPanel {
         this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
         this.setupMessageListener();
 
-        // TODO: Pass a callback function that will post a message to vscode
         ensureAderynIsInstalled()
             .then(() => {
                 postMessageTo(
