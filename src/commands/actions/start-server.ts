@@ -8,18 +8,13 @@ async function action() {
     }
     try {
         if (client.isRunning()) {
-            await client.restart();
-            vscode.window.showInformationMessage(
-                'Aderyn diagnostics server is being restarted',
-            );
+            vscode.window.showWarningMessage('Aderyn diagnostics server is running');
         } else {
             await client.start();
-            vscode.window.showInformationMessage(
-                'Aderyn diagnostics server has started.',
-            );
+            vscode.window.showInformationMessage('Aderyn diagnostics server started');
         }
     } catch (err) {
-        client.error('Restarting client failed', err, 'force');
+        client.error('Stopping language client failed', err, 'force');
     }
 }
 
