@@ -4,7 +4,7 @@ import * as project from './project';
 import { ExecuteCommandErrorType, ExecuteCommandError, SystemInfo } from './system';
 
 const { getSystemInfo, executeCommand, hasReliableInternet, isWindowsNotWSL } = system;
-const { findProjectRoot } = project;
+const { findProjectRoot, ensureWorkspacePreconditionsMetAndReturnProjectURI } = project;
 
 export {
     findProjectRoot,
@@ -12,6 +12,7 @@ export {
     executeCommand,
     hasReliableInternet,
     isWindowsNotWSL,
+    ensureWorkspacePreconditionsMetAndReturnProjectURI,
     SystemInfo,
     ExecuteCommandError,
     ExecuteCommandErrorType,

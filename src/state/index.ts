@@ -19,7 +19,7 @@ import { createNewOrShowOnboardProvider, showPanel, hidePanel } from './onboard-
 let client: LanguageClient | undefined;
 
 async function createOrInitLspClient() {
-    if (!client) client = await createLanguageClient();
+    client = await createLanguageClient();
 }
 
 async function createOrInitOnboardProvider(uri: Uri) {

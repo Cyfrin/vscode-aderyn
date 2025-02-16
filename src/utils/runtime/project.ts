@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as vscode from 'vscode';
 import * as path from 'path';
 
 // This will make sure that even if the user opens a subfolder of the solidity project, the server will still be started
@@ -20,4 +21,23 @@ function findProjectRoot(projectRootUri: string): string {
     return projectRootUri;
 }
 
-export { findProjectRoot };
+function ensureWorkspacePreconditionsMetAndReturnProjectURI(
+    warn?: boolean,
+): string | null {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+
+    if (!workspaceFolders || workspaceFolders.length == 0) {
+        return null;
+    }
+
+    const { name: projectRootName, uri: projectRootUri } = workspaceFolders[0];
+
+    if (warn && workspaceFolders.length > 1) {
+        const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
+        vscode.window.showWarningMessage(message);
+    }
+
+    return projectRootUri.toString().substring('file://'.length);
+}
+
+export { findProjectRoot, ensureWorkspacePreconditionsMetAndReturnProjectURI };

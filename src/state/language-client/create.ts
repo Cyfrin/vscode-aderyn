@@ -8,32 +8,16 @@ import {
     ServerOptions,
 } from 'vscode-languageclient/node';
 
-import { findProjectRoot } from '../../utils';
+import {
+    findProjectRoot,
+    ensureWorkspacePreconditionsMetAndReturnProjectURI,
+} from '../../utils';
 
-function ensureWorkspacePreconditionsMetAndReturnProjectURI(): string | null {
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-
-    if (!workspaceFolders || workspaceFolders.length == 0) {
-        const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
-        vscode.window.showWarningMessage(message);
-        return null;
-    }
-
-    const { name: projectRootName, uri: projectRootUri } = workspaceFolders[0];
-
-    if (workspaceFolders.length > 1) {
-        const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
-        vscode.window.showWarningMessage(message);
-    }
-
-    return projectRootUri.toString().substring('file://'.length);
-}
-
-async function createLanguageClient(): Promise<LanguageClient> {
+async function createLanguageClient(): Promise<LanguageClient | undefined> {
     const projectRootUri = ensureWorkspacePreconditionsMetAndReturnProjectURI();
 
     if (!projectRootUri) {
-        throw new Error('unable to decide project root uri');
+        return undefined;
     }
 
     const getClientOptions: () => LanguageClientOptions = () => ({
