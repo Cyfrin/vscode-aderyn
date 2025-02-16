@@ -5,7 +5,7 @@
 
     onMount(() => {
         return window.addEventListener('message', ({ data }) => {
-            if (data.type == 'CommandGuide') {
+            if (data.type == 'COMMAND_GUIDE') {
                 commandGuide = JSON.parse(data.msg);
             }
         });

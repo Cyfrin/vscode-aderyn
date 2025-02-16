@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
 
     type ExtensionMessage = {
-        type: 'Error' | 'Success' | 'CommandGuide' | null;
+        type: 'INSTALLATION_ERROR' | 'INSTALLATION_SUCCESS' | 'COMMAND_GUIDE' | null;
         msg: string;
     };
 
@@ -15,11 +15,17 @@
      *  @description Report progress in the installation process to the frontend
      */
     onMount(() => {
-        return window.addEventListener('message', ({ data }) => {
-            if (data.type == 'Error' || data.type == 'Success') {
-                message = data;
-            }
-        });
+        return window.addEventListener(
+            'message',
+            ({ data }: { data: ExtensionMessage }) => {
+                if (
+                    data.type == 'INSTALLATION_ERROR' ||
+                    data.type == 'INSTALLATION_SUCCESS'
+                ) {
+                    message = data;
+                }
+            },
+        );
     });
 
     /**
@@ -44,7 +50,11 @@
     <h1
         class={[
             'm-1 font-bold',
-            message?.type == 'Error' ? 'text-red-500' : 'text-green-500',
+            message?.type == 'INSTALLATION_ERROR'
+                ? 'text-red-500'
+                : message?.type == 'INSTALLATION_SUCCESS'
+                  ? 'text-green-500'
+                  : null,
         ]}
     >
         {#if !message}
@@ -59,7 +69,7 @@
             <div
                 class="w-8 h-8 animate-spin border-4 border-[var(--vscode-button-background)] border-l-[var(--vscode-button-foreground)] rounded-full"
             ></div>
-        {:else if message.type == 'Error'}
+        {:else if message.type == 'INSTALLATION_ERROR'}
             <button onclick={tryAgainClicked}>Try again</button>
         {/if}
     </div>
