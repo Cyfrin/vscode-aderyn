@@ -15,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20 
 
       - name: Install dependencies
         run: npm install
@@ -50,6 +50,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: "*.vsix"
-          asset_name: "${{ env.VERSION }}.vsix"
+          asset_name: "Release ${{ env.VERSION }}.vsix"
           asset_content_type: application/octet-stream
 
