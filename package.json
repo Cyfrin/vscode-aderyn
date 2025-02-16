@@ -7,7 +7,7 @@
     "major": 0,
     "minor": 4
   },
-  "publisher": "cyfrin",
+  "publisher": "cyfrinio",
   "repository": {
     "type": "git",
     "url": "https://github.com/cyfrin/vscode-aderyn"
