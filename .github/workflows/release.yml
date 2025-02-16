@@ -1,4 +1,6 @@
 name: Release VS Code Extension
+permissions:
+  "contents": "write"
 
 on:
   push:
@@ -51,6 +53,8 @@ jobs:
 
       - name: Upload VS Code Extension
         uses: actions/upload-release-asset@v1
+        env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.VSIX_FILE }}
