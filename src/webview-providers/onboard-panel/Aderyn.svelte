@@ -1,6 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
+    // @ts-ignore
+    const vscode = acquireVsCodeApi();
+
     type ExtensionMessage = {
         type: 'INSTALLATION_ERROR' | 'INSTALLATION_SUCCESS' | 'COMMAND_GUIDE' | null;
         msg: string;
@@ -35,9 +38,6 @@
      *
      */
     function tryAgainClicked() {
-        // @ts-ignore
-        const vscode = acquireVsCodeApi();
-
         message = null;
         vscode.postMessage({
             command: 'retry',

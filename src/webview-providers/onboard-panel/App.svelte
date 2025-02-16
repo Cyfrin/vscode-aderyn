@@ -3,6 +3,7 @@
     import CommandBook from './CommandBook.svelte';
     import Header from './Header.svelte';
     import Footer from './Footer.svelte';
+    import HowToUse from './HowToUse.svelte';
 </script>
 
 <div class="flex flex-col justify-between h-svh pb-8">
@@ -10,6 +11,7 @@
         <Header />
         <Aderyn />
         <CommandBook />
+        <HowToUse />
     </div>
     <Footer />
 </div>
