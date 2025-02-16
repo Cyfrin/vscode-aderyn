@@ -45,11 +45,14 @@ jobs:
             console.log(`Upload URL: ${data.upload_url}`);
             core.setOutput('upload_url', data.upload_url);
 
+      - name: Get .vsix filename
+        id: get_vsix
+        run: echo "VSIX_FILE=$(ls *.vsix | head -n 1)" >> $GITHUB_ENV
+
       - name: Upload VS Code Extension
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: "*.vsix"
-          asset_name: "aderyn-${{ env.VERSION }}.vsix"
+          asset_path: ${{ env.VSIX_FILE }}
+          asset_name: ${{ env.VSIX_FILE }}
           asset_content_type: application/octet-stream
-
