@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { workspace } from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -8,36 +7,43 @@ import {
     LanguageClientOptions,
     ServerOptions,
 } from 'vscode-languageclient/node';
+
 import { findProjectRoot } from '../../utils';
 
-async function createLanguageClient(): Promise<LanguageClient> {
-    const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: '*' }],
-        synchronize: {
-            fileEvents: [workspace.createFileSystemWatcher('**/*')],
-        },
-    };
-
+function ensureWorkspacePreconditionsMetAndReturnProjectURI(): string | null {
     const workspaceFolders = vscode.workspace.workspaceFolders;
 
     if (!workspaceFolders || workspaceFolders.length == 0) {
         const message = `No workspace is open yet. Please do that and then \`Restart Aderyn Server\``;
-        vscode.window.showErrorMessage(message);
-        throw new Error(message);
+        vscode.window.showWarningMessage(message);
+        return null;
     }
 
-    const projectRootName = workspaceFolders[0].name;
-    let projectRootUri = workspaceFolders[0].uri.toString().substring('file://'.length);
+    const { name: projectRootName, uri: projectRootUri } = workspaceFolders[0];
 
     if (workspaceFolders.length > 1) {
         const message = `More than 1 open workspace detected. Aderyn will only run on ${projectRootName}`;
-        vscode.window.showErrorMessage(message);
-        throw new Error(message);
+        vscode.window.showWarningMessage(message);
     }
 
-    const getServerOptions = (projectRootUri: string) => {
+    return projectRootUri.toString().substring('file://'.length);
+}
+
+async function createLanguageClient(): Promise<LanguageClient> {
+    const projectRootUri = ensureWorkspacePreconditionsMetAndReturnProjectURI();
+
+    if (!projectRootUri) {
+        throw new Error('unable to decide project root uri');
+    }
+
+    const getClientOptions: () => LanguageClientOptions = () => ({
+        documentSelector: [{ scheme: 'file', language: '*' }],
+    });
+
+    const getServerOptions: (projectRootUri: string) => ServerOptions = (
+        projectRootUri: string,
+    ) => {
         let actualProjectRootUri = findProjectRoot(projectRootUri);
-        // NOTE: NODE_ENV
         if (process.env.NODE_ENV === 'development') {
             return developmentServerOptions(actualProjectRootUri);
         } else {
@@ -46,10 +52,9 @@ async function createLanguageClient(): Promise<LanguageClient> {
     };
 
     return new LanguageClient(
-        'aderyn_language_server',
-        'Aderyn Language Server',
-        getServerOptions(projectRootUri) as ServerOptions,
-        clientOptions,
+        'Aderyn Diagnostics Server',
+        getServerOptions(projectRootUri),
+        getClientOptions(),
     );
 }
 
@@ -63,7 +68,7 @@ function productionServerOptions(solidityProjectRoot: string): ServerOptions {
     };
 }
 
-function developmentServerOptions(solidityProjectRoot: string): ServerOptions | null {
+function developmentServerOptions(solidityProjectRoot: string): ServerOptions {
     // Path to cargo manifest file of locally running Aderyn
     let URL: Buffer;
     try {
