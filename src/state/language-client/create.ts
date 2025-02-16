@@ -14,7 +14,7 @@ import {
 } from '../../utils';
 
 async function createLanguageClient(): Promise<LanguageClient | undefined> {
-    const projectRootUri = ensureWorkspacePreconditionsMetAndReturnProjectURI();
+    const projectRootUri = ensureWorkspacePreconditionsMetAndReturnProjectURI(true);
 
     if (!projectRootUri) {
         return undefined;

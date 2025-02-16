@@ -74,8 +74,39 @@ async function readPackageJson(logger: Logger): Promise<ExtensionInfo> {
     }
 }
 
+async function readAderynConfigTemplate(logger: Logger): Promise<string> {
+    try {
+        const extensionPath =
+            vscode.extensions.getExtension('cyfrin.aderyn')?.extensionPath;
+        if (!extensionPath) {
+            logger.err('Extension path not found');
+            const E: ExtensionInfoError = {
+                errorType: ExtensionInfoErrorType.ExtensionNotFound,
+                payload: 'Extension cyfrin.aderyn not found',
+            };
+            return Promise.reject(E);
+        }
+
+        const aderynTomlTemplatePath = path.join(
+            extensionPath,
+            'templates',
+            'aderyn.toml',
+        );
+        const content = fs.readFileSync(aderynTomlTemplatePath, 'utf-8');
+        return Promise.resolve(content.toString());
+    } catch (error) {
+        logger.err(`Error reading package.json: ${error}`);
+        const E: ExtensionInfoError = {
+            errorType: ExtensionInfoErrorType.ErrorReadingFile,
+            payload: `cyfrin.aderyn package.json file could not be read - ${error}`,
+        };
+        return Promise.reject(E);
+    }
+}
+
 export {
     readPackageJson,
+    readAderynConfigTemplate,
     SupportedAderynVersions,
     ExtensionInfoErrorType,
     ExtensionInfoError,
