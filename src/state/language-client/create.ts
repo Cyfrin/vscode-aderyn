@@ -67,6 +67,7 @@ function developmentServerOptions(solidityProjectRoot: string): ServerOptions {
         command: 'cargo',
         args: [
             'run',
+            '--profile=lspdev',
             '--quiet',
             '--manifest-path',
             URL.toString(),
