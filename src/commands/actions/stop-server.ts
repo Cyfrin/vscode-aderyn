@@ -9,12 +9,12 @@ async function action() {
     try {
         if (client.isRunning()) {
             await client.stop();
-            vscode.window.showInformationMessage('Aderyn diagnostics server is stopped');
+            vscode.window.showInformationMessage('Stopping Aderyn diagnostics server.');
         } else {
-            vscode.window.showWarningMessage('Aderyn diagnostics server is not running');
+            vscode.window.showWarningMessage('Aderyn diagnostics server is not running.');
         }
     } catch (err) {
-        client.error('Stopping language client failed', err, 'force');
+        client.error('Stopping Aderyn failed', err, 'force');
     }
 }
 

@@ -8,13 +8,13 @@ async function action() {
     }
     try {
         if (client.isRunning()) {
-            vscode.window.showWarningMessage('Aderyn diagnostics server is running');
+            vscode.window.showWarningMessage('Aderyn diagnostics server is running.');
         } else {
             await client.start();
-            vscode.window.showInformationMessage('Aderyn diagnostics server started');
+            vscode.window.showInformationMessage('Starting Aderyn diagnostics server.');
         }
     } catch (err) {
-        client.error('Stopping language client failed', err, 'force');
+        client.error('Starting Aderyn failed', err, 'force');
     }
 }
 

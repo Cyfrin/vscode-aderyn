@@ -9,17 +9,13 @@ async function action() {
     try {
         if (client.isRunning()) {
             await client.restart();
-            vscode.window.showInformationMessage(
-                'Aderyn diagnostics server is being restarted',
-            );
+            vscode.window.showInformationMessage('Restarting Aderyn diagnostics server.');
         } else {
             await client.start();
-            vscode.window.showInformationMessage(
-                'Aderyn diagnostics server has started.',
-            );
+            vscode.window.showInformationMessage('Starting Aderyn diagnostics server.');
         }
     } catch (err) {
-        client.error('Restarting client failed', err, 'force');
+        client.error('Restarting Aderyn failed', err, 'force');
     }
 }
 

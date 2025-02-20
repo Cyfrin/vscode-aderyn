@@ -25,8 +25,17 @@ async function action() {
         vscode.window.showErrorMessage(`template not found :( ${err}`);
     })) as string;
 
-    fs.writeFileSync(filePath, templateContent); // Initialize with an empty aderyn.toml
+    fs.writeFileSync(filePath, templateContent);
     vscode.window.showInformationMessage(`Created aderyn.toml at ${filePath}`);
+
+    vscode.workspace.openTextDocument(filePath).then(
+        (document) => {
+            vscode.window.showTextDocument(document);
+        },
+        (err) => {
+            vscode.window.showErrorMessage(`Error opening file: ${err}`);
+        },
+    );
 }
 
 export { action };
