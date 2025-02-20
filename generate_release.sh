@@ -9,8 +9,8 @@ fi
 VERSION=$1
 
 # Create the vsix package
-# npm install
-# npx vsce package
+npm install
+npx vsce package
 
 # Find the `.vsix` file (adjust to your actual file path or naming convention)
 VSIX_FILE=$(ls *.vsix | head -n 1)
