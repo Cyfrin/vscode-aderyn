@@ -34,9 +34,22 @@ minor-release: check-main-branch
 	@git push origin $(TARGET_BRANCH) --tags
 	@echo "Minor release completed and pushed."
 
+dev:
+	npm run compile-watch
+
+pretty:
+	npm run prettier:fix
+
+test:
+	npm run test
+
 # Default help command
 help:
 	@echo "Usage:"
 	@echo "  make patch-release   # Creates a patch release (increments patch version)"
 	@echo "  make minor-release   # Creates a minor release (increments minor version)"
+	@echo "  make install         # Install necessary npm packages for development"
+	@echo "  make dev             # Start development server" 
+	@echo "  make pretty          # Prettify the typescript" 
+	@echo "  make test            # Run jest tests"
 
