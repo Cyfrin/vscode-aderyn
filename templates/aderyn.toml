@@ -24,16 +24,16 @@ root = "."
 # Or it can be a full match like "counters/Counter.sol", which will include only the file with the exact file.
 # If not specified, all contract files in the source directory will be included.
 # Example:
-# include = ["counters/Counter.sol"]
-# include = []
+# include = ["src/counters/Counter.sol", "interfaces/"]
+# include = ["counters/"]
 
 # Path segments of contract files to exclude in the analysis.
 # It can be a partial match like "/interfaces/", which will exclude all files with "/interfaces/" in the file path.
 # Or it can be a full match like "Counter.sol", which will exclude only the file with the exact file.
 # If not specified, no contract files will be excluded.
 # Example:
-# exclude = ["/interfaces/"]
-# exclude = []
+# exclude = ["interfaces/Counter.sol"]
+# exclude = ["preiphery-contracts/"]
 
 # Remappings used for compiling the contracts.
 # If not specified, Aderyn will try to derive the values from foundry's config file (if present.) 
