@@ -40,5 +40,5 @@ curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
   --data-binary @"$VSIX_FILE" \
   "$UPLOAD_URL?name=$VSIX_FILE"
 
-echo "Release created and .vsix asset uploaded for v$VERSION."
+echo "Release created and .vsix asset uploaded for $VERSION."
 
