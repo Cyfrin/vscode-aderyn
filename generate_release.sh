@@ -28,7 +28,7 @@ RELEASE_BODY="## $VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n###
 
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
+  -d "{\"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 # Extract the upload URL from the response
