@@ -4,7 +4,7 @@ TARGET_BRANCH := main
 create-change-log:
 	@echo "# Changelog" > CHANGELOG.md
 	@echo "\nAll notable changes to this project will be documented in this file." >> CHANGELOG.md
-	@echo "\n## [$(shell git describe --tags --abbrev=0)] - $(shell date +'%Y-%m-%d')\n" >> CHANGELOG.md
+	@echo "\n## $(shell date +'%Y-%m-%d')\n" >> CHANGELOG.md
 	@echo "$$(git log $(shell git describe --tags --abbrev=0)..HEAD --pretty=format:'* %s (by %an)' --abbrev-commit --date=short)" >> CHANGELOG.md
 
 # Check if the current branch is 'main'

@@ -24,7 +24,8 @@ fi
 CHANGELOG=$(cat CHANGELOG.md)
 
 # Create a release note body
-RELEASE_BODY="## $VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n### Installation\n- Download the `.vsix` file and install it manually in VS Code."
+RELEASE_BODY="## $VERSION - Release Notes \
+  $CHANGELOG"
 
 # Escape the release body properly for JSON
 ESCAPED_BODY=$(echo "$RELEASE_BODY" | jq -Rs .)
