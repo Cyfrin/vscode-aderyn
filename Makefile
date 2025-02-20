@@ -43,6 +43,9 @@ pretty:
 test:
 	npm run test
 
+install:
+	npm install
+
 # Default help command
 help:
 	@echo "Usage:"
