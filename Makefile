@@ -4,7 +4,7 @@ TARGET_BRANCH := main
 create-change-log:
 	@latest_tag=$(git describe --tags --abbrev=0) && \
 	CHANGELOG=$(git log --oneline --no-merges $$latest_tag..HEAD) && \
-	release_body="### Changelog (since $$latest_tag)\n\n$$CHANGELOG" 
+	release_body="### Changelog (since $$latest_tag)\n\n$$CHANGELOG" && \
 	echo "$$release_body" > CHANGELOG.md
 
 # Check if the current branch is 'main'
