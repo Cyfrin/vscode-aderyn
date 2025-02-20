@@ -1,8 +1,14 @@
 # Define the target branch
 TARGET_BRANCH := main
 
+create-change-log:
+	latest_tag=$(git describe --tags --abbrev=0)
+	CHANGELOG=$(git log --oneline --no-merges $latest_tag..HEAD)
+	release_body="### Changelog (since $latest_tag)\n\n$CHANGELOG"
+	echo -e "$release_body" > CHANGELOG.md
+
 # Check if the current branch is 'main'
-check-main-branch:
+check-main-branch: create-change-log
 	@branch=$(shell git rev-parse --abbrev-ref HEAD) && \
 	if [ "$$branch" != "$(TARGET_BRANCH)" ]; then \
 		echo "Error: You must be on the $(TARGET_BRANCH) branch to create a release."; \
