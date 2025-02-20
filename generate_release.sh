@@ -24,11 +24,11 @@ VERSION=$1
 CHANGELOG=$(git log --oneline --no-merges $(git describe --tags --abbrev=0)..HEAD)
 
 # Create a release note body
-RELEASE_BODY="## v$VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n### Installation\n- Download the `.vsix` file and install it manually in VS Code."
+RELEASE_BODY="## $VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n### Installation\n- Download the `.vsix` file and install it manually in VS Code."
 
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-  -d "{\"tag_name\":\"v$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
+  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 # Extract the upload URL from the response
