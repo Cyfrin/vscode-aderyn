@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Support for the Solidity programming language",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 4
