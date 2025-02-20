@@ -9,8 +9,8 @@ fi
 VERSION=$1
 
 # Create the vsix package
-npm install
-npx vsce package
+# npm install
+# npx vsce package
 
 # Find the `.vsix` file (adjust to your actual file path or naming convention)
 VSIX_FILE=$(ls *.vsix | head -n 1)
@@ -31,7 +31,7 @@ ESCAPED_BODY=$(echo "$RELEASE_BODY" | jq -Rs .)
 
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$ESCAPED_BODY\", \"draft\":false, \"prerelease\":false}" \
+  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":$ESCAPED_BODY, \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 echo "Create release reponse: $RESPONSE"
