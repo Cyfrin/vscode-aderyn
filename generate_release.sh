@@ -26,9 +26,12 @@ CHANGELOG=$(cat CHANGELOG.md)
 # Create a release note body
 RELEASE_BODY="## $VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n### Installation\n- Download the `.vsix` file and install it manually in VS Code."
 
+# Escape the release body properly for JSON
+ESCAPED_BODY=$(echo "$RELEASE_BODY" | jq -Rs .)
+
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
+  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$ESCAPED_BODY\", \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 echo "Create release reponse: $RESPONSE"
