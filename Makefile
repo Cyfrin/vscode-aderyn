@@ -2,20 +2,10 @@
 TARGET_BRANCH := main
 
 create-change-log:
-	@latest_tag=$(shell git describe --tags --abbrev=0 2>/dev/null) && \
-	if [ -z "$$latest_tag" ]; then \
-		echo "No tags found in this repository. Creating changelog from the beginning."; \
-		latest_tag="v0.0.0"; \
-	fi && \
-	echo "Latest Tag: $$latest_tag" && \
-	change=$(shell git log --oneline --no-merges $$latest_tag..HEAD) && \
-	if [ -z "$$change" ]; then \
-		change="No new changes since $$latest_tag."; \
-	fi && \
-	release_body="### Changelog (since $$latest_tag)\n\n$$change" && \
-	echo "$$release_body" && \
-	echo "$$release_body" > CHANGELOG.md
-
+	@echo "# Changelog" > CHANGELOG.md
+	@echo "\nAll notable changes to this project will be documented in this file." >> CHANGELOG.md
+	@echo "\n## [$(shell git describe --tags --abbrev=0)] - $(shell date +'%Y-%m-%d')\n" >> CHANGELOG.md
+	@echo "$$(git log $(shell git describe --tags --abbrev=0)..HEAD --pretty=format:'* %s (by %an)' --abbrev-commit --date=short)" >> CHANGELOG.md
 
 # Check if the current branch is 'main'
 check-main-branch: create-change-log
