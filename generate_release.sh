@@ -8,10 +8,6 @@ fi
 
 VERSION=$1
 
-# Create a new tag for the release
-git tag "v$VERSION"
-git push origin "v$VERSION"
-
 # Generate the changelog from the last release tag to the current commit
 CHANGELOG=$(git log --oneline --no-merges $(git describe --tags --abbrev=0)..HEAD)
 
@@ -21,7 +17,7 @@ RELEASE_BODY="## v$VERSION - Release Notes\n\n### What's New\n\n$CHANGELOG\n\n##
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
   -d "{\"tag_name\":\"v$VERSION\", \"name\":\"Release v$VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
-  https://api.github.com/repos/Cyfrin/vscode-adeyn/releases)
+  https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 # Extract the upload URL from the response
 UPLOAD_URL=$(echo $RESPONSE | jq -r .upload_url | sed -e "s/{?name,label}//")
