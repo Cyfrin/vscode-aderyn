@@ -25,8 +25,10 @@ patch-release: check-main-branch
 # Minor release: Increment the minor version and push
 minor-release: check-main-branch
 	@echo "Creating minor release..."
-	# @npm version minor -m "Release v%s"
-	# @git push origin $(TARGET_BRANCH) --tags
+	@git add CHANGELOG.md
+	@git commit -am "Added change log"
+	@npm version minor -m "Release v%s"
+	@git push origin $(TARGET_BRANCH) --tags
 	@echo "Minor release completed and pushed."
 
 # Default help command
