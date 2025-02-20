@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Support for the Solidity programming language",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 4
@@ -67,31 +67,22 @@
     "// Production": "-----------------------",
     "vscode:prepublish": "webpack --mode production",
     "vscode:package": "vsce package",
-
     "// Dev Build (One time)": "-----------------------",
     "compile": "concurrently \"npm run ext\" \"npm run tw\" \"npm run svelte\" ",
-
     "// Dev Iterative Build (Watch mode)": "-----------------------",
     "compile-watch": "concurrently \"npm run ext:watch\" \"npm run tw:watch\" \"npm run svelte:watch\" ",
-
     "// Extension build (One time)": "-----------------------",
     "ext": "webpack --mode development",
-
     "// Extension build (Watch mode)": "-----------------------",
     "ext:watch": "webpack --mode development --watch",
-
     "// Tailwind class extraction (One time)": "-----------------------",
     "tw": "npx @tailwindcss/cli -i media/unprocessed/tailwind.css -o media/rolled-up/tailwind.css",
-
     "// Tailwind class extraction (Watch mode)": "-----------------------",
     "tw:watch": "npx @tailwindcss/cli -i media/unprocessed/tailwind.css -o media/rolled-up/tailwind.css --watch",
-
     "// Svelte compile (One time)": "-----------------------",
     "svelte": "rollup -c",
-
     "// Svelte compile (Watch mode)": "-----------------------",
     "svelte:watch": "rollup -c -w",
-
     "//": "Formatting + Testing utils",
     "test": "jest",
     "test-compile": "tsc -p ./",
