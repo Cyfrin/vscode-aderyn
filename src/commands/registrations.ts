@@ -5,6 +5,7 @@ import {
     stopServer,
     startServer,
     initConfigFile,
+    openSettings,
 } from './actions';
 import { EditorCmd } from './variants';
 
@@ -31,11 +32,17 @@ function registerEditorCommands(context: vscode.ExtensionContext) {
         initConfigFile,
     );
 
+    const openSettingsCommand = vscode.commands.registerCommand(
+        EditorCmd.OpenSettings,
+        openSettings,
+    );
+
     context.subscriptions.push(startCommand);
     context.subscriptions.push(stopCommand);
     context.subscriptions.push(restartCommand);
     context.subscriptions.push(showOnboardCommand);
     context.subscriptions.push(initConfigFileCommand);
+    context.subscriptions.push(openSettingsCommand);
 }
 
 export { registerEditorCommands };
