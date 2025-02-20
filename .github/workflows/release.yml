@@ -40,3 +40,11 @@ jobs:
 
       - name: Check .vsix file existence
         run: test -f ${{ env.VSIX_FILE }} || (echo ".vsix file not found!" && exit 1)
+
+      - name: Set up GitHub token
+        run: echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Run release script
+        run: |
+          chmod +x ./generate_release.sh
+          ./generate_release.sh $(echo $GITHUB_REF | sed 's/refs\/tags\///')
