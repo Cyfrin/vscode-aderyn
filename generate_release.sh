@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Ensure the script is run with a version argument
+if [ -z "$1" ]; then
+  echo "Please provide a version (e.g., 1.0.1)"
+  exit 1
+fi
+
+VERSION=$1
+
 # Create the vsix package
 npm install
 npx vsce package
@@ -12,14 +20,6 @@ if [ -z "$VSIX_FILE" ]; then
   exit 1
 fi
 
-# Ensure the script is run with a version argument
-if [ -z "$1" ]; then
-  echo "Please provide a version (e.g., 1.0.1)"
-  exit 1
-fi
-
-VERSION=$1
-
 # Generate the changelog from the last release tag to the current commit
 CHANGELOG=$(cat CHANGELOG.md)
 
@@ -31,8 +31,12 @@ RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
   -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":\"$RELEASE_BODY\", \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
+echo "Create release reponse: $RESPONSE"
+
 # Extract the upload URL from the response
 UPLOAD_URL=$(echo $RESPONSE | jq -r .upload_url | sed -e "s/{?name,label}//")
+
+echo "Upload url: $UPLOAD_URL"
 
 # Upload the .vsix file to the release
 curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
