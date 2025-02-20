@@ -19,28 +19,6 @@ jobs:
         with:
           node-version: 20 
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Package VS Code Extension
-        run: npx vsce package
-
-      - name: Get version
-        id: get_version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
-      - name: Get .vsix filename
-        id: get_vsix
-        run: echo "VSIX_FILE=$(ls *.vsix | head -n 1)" >> $GITHUB_ENV
-
-      - name: Debug VSIX path
-        run: |
-          echo "VSIX file is located at ${{ env.VSIX_FILE }}"
-          echo "VSCode extension version is ${{ env.VSIX_FILE }}"
-
-      - name: Check .vsix file existence
-        run: test -f ${{ env.VSIX_FILE }} || (echo ".vsix file not found!" && exit 1)
-
       - name: Set up GitHub token
         run: echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
 
