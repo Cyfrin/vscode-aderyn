@@ -23,16 +23,12 @@ fi
 # Generate the changelog from the last release tag to the current commit
 CHANGELOG=$(cat CHANGELOG.md)
 
-# Create a release note body
-RELEASE_BODY="## $VERSION - Release Notes \
-  $CHANGELOG"
-
 # Escape the release body properly for JSON
-ESCAPED_BODY=$(echo "$RELEASE_BODY" | jq -Rs .)
+RELEASE_BODY=$(echo "$CHANGELOG" | jq -Rs .)
 
 # Create the release using GitHub API
 RESPONSE=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":$ESCAPED_BODY, \"draft\":false, \"prerelease\":false}" \
+  -d "{\"tag_name\":\"$VERSION\", \"name\":\"Release $VERSION\", \"body\":$RELEASE_BODY, \"draft\":false, \"prerelease\":false}" \
   https://api.github.com/repos/Cyfrin/vscode-aderyn/releases)
 
 echo "Create release reponse: $RESPONSE"
