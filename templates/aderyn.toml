@@ -24,7 +24,7 @@ root = "."
 # Or it can be a full match like "src/counters/Counter.sol", which will include only the file with the exact path.
 # If not specified, all contract files in the source directory will be included.
 # Example:
-# include = ["src/counters/Counter.sol", "interfaces/"]
+# include = ["src/counters/Counter.sol", "src/others/"]
 # include = ["/interfaces/"]
 
 # Path segments of contract files to exclude in the analysis.
@@ -32,7 +32,7 @@ root = "."
 # Or it can be a full match like "src/counters/Counter.sol", which will exclude only the file with the exact path.
 # If not specified, no contract files will be excluded.
 # Example:
-# exclude = ["src/counters/Counter.sol", "interfaces/"]
+# exclude = ["src/counters/Counter.sol", "src/others/"]
 # exclude = ["/interfaces/"]
 
 # Remappings used for compiling the contracts.
