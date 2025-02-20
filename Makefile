@@ -21,6 +21,7 @@ patch-release: check-main-branch
 	@git add CHANGELOG.md
 	@git commit -am "Added change log"
 	@npm version patch -m "Release v%s"
+	@git push origin $(TARGET_BRANCH)
 	@git push origin $(TARGET_BRANCH) --tags
 	@echo "Patch release completed and pushed."
 
