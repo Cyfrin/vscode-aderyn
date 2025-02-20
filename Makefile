@@ -18,8 +18,10 @@ check-main-branch: create-change-log
 # Patch release: Increment the patch version and push
 patch-release: check-main-branch
 	@echo "Creating patch release..."
-	# @npm version patch -m "Release v%s"
-	# @git push origin $(TARGET_BRANCH) --tags
+	@git add CHANGELOG.md
+	@git commit -am "Added change log"
+	@npm version patch -m "Release v%s"
+	@git push origin $(TARGET_BRANCH) --tags
 	@echo "Patch release completed and pushed."
 
 # Minor release: Increment the minor version and push
