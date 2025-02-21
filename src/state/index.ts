@@ -1,4 +1,4 @@
-import { Uri } from 'vscode';
+import { StatusBarItem, Uri } from 'vscode';
 
 import { LanguageClient } from 'vscode-languageclient/node';
 
@@ -11,12 +11,26 @@ import {
 
 import { createNewOrShowOnboardProvider, showPanel, hidePanel } from './onboard-provider';
 
+import {
+    createStatusBarItem,
+    StatusIcon,
+    registerStatusBarItems,
+    showAderynStatusOn,
+    showAderynStatusOff,
+    hideAderynStatus,
+} from './statusbar';
+
 /*
  *
  * State variables
  *
  */
 let client: LanguageClient | undefined;
+let aderynStatusItem: StatusBarItem | undefined;
+
+async function createAderynStatusItem() {
+    aderynStatusItem = createStatusBarItem(StatusIcon.AderynServer);
+}
 
 async function createOrInitLspClient() {
     client = await createLanguageClient();
@@ -38,4 +52,14 @@ export {
     createOrInitOnboardProvider,
     showPanel,
     hidePanel,
+
+    // Status Bar
+    StatusIcon,
+    aderynStatusItem,
+    createAderynStatusItem,
+    createStatusBarItem,
+    registerStatusBarItems,
+    showAderynStatusOn,
+    showAderynStatusOff,
+    hideAderynStatus,
 };

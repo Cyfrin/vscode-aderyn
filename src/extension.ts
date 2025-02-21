@@ -4,10 +4,12 @@ import {
     startServing,
     stopServingIfOn,
     createOrInitOnboardProvider,
+    createAderynStatusItem,
 } from './state';
 import { registerEditorCommands } from './commands';
 import { registerWebviewPanels } from './webview-providers';
 import { isKeyUsed, isWindowsNotWSL, Keys, Logger } from './utils';
+import { registerStatusBarItems } from './state/statusbar/registrations';
 
 export function activate(context: vscode.ExtensionContext) {
     if (isWindowsNotWSL()) {
@@ -18,9 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     createOrInitLspClient()
+        .then(createAderynStatusItem)
         .then(() => showOnboardWebviewOnce(context))
         .then(() => registerWebviewPanels(context))
         .then(() => registerEditorCommands(context))
+        .then(() => registerStatusBarItems(context))
         .then(autoStartLspClientIfRequested);
 }
 
