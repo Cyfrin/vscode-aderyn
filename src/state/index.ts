@@ -18,7 +18,7 @@ import {
     showAderynStatusOn,
     showAderynStatusOff,
     hideAderynStatus,
-} from './statusbar';
+} from './statusbar/index';
 
 /*
  *
