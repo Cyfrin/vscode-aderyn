@@ -10,6 +10,7 @@ VERSION=$1
 
 # Create the vsix package
 npm install
+npm run compile
 npm run vscode:package
 
 # Find the `.vsix` file (adjust to your actual file path or naming convention)
