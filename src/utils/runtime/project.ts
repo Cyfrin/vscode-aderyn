@@ -8,11 +8,11 @@ function findProjectRoot(projectRootUri: string): string {
     let currentDir = projectRootUri;
     while (currentDir !== path.parse(currentDir).root) {
         if (
-            fs.existsSync(path.join(currentDir, '.git')) ||
-            fs.existsSync(path.join(currentDir, 'foundry.toml')) ||
             fs.existsSync(path.join(currentDir, 'aderyn.toml')) ||
+            fs.existsSync(path.join(currentDir, 'foundry.toml')) ||
             fs.existsSync(path.join(currentDir, 'hardhat.config.ts')) ||
-            fs.existsSync(path.join(currentDir, 'hardhat.config.js'))
+            fs.existsSync(path.join(currentDir, 'hardhat.config.js')) ||
+            fs.existsSync(path.join(currentDir, '.git'))
         ) {
             return currentDir;
         }

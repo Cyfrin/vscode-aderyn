@@ -56,8 +56,24 @@
         "title": "Initialize Config file",
         "category": "Aderyn",
         "description": "For advanced use, create <b>aderyn.toml</b>"
+      },
+      {
+        "command": "aderyn.commands.openSettings",
+        "title": "Open Settings",
+        "category": "Aderyn",
+        "description": "Set preferences in settings"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Aderyn Extension Settings",
+      "properties": {
+        "aderyn.config.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto start Aderyn on Foundry/Hardhat projects"
+        }
+      }
+    }
   },
   "activationEvents": [
     "onLanguage"
