@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import {
     createOrInitLspClient,
-    // startServing,
+    startServing,
     stopServingIfOn,
     createOrInitOnboardProvider,
 } from './state';
@@ -20,7 +20,25 @@ export function activate(context: vscode.ExtensionContext) {
     createOrInitLspClient()
         .then(() => showOnboardWebviewOnce(context))
         .then(() => registerWebviewPanels(context))
-        .then(() => registerEditorCommands(context));
+        .then(() => registerEditorCommands(context))
+        .then(autoStartLspClientIfRequested);
+}
+
+async function autoStartLspClientIfRequested() {
+    const config = vscode.workspace.getConfiguration('aderyn.config');
+    const userPrefersAutoStart = config.get<boolean>('autoStart');
+    if (userPrefersAutoStart) {
+        try {
+            startServing();
+        } catch (_ex) {
+            // no-op
+            // In case of failure at auto start, do not throw an exception.
+            // This is because, maybe the user is still onboarding, or aderyn.toml is not set,
+            // or foundry project is not yet initialized, etc.
+            // Of course, if on the other hand, user explicitly requests to start Aderyn and
+            // then it fails, we must throw an exception.
+        }
+    }
 }
 
 async function showOnboardWebviewOnce(context: vscode.ExtensionContext) {
