@@ -1,5 +1,5 @@
 import { client } from '..';
-import { showAderynStatusOff, showAderynStatusOn } from '../statusbar/mechanics';
+import { showAderynStatusOff, showAderynStatusOn } from '../statusbar/index';
 
 async function startServing() {
     if (!client) {
