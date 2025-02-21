@@ -13,8 +13,8 @@ root = "."
 # Path of source directory containing the contracts, relative to root (above)
 # Aderyn traverse all the nested files inside scanning for vulnerabilities
 # If not specified, Aderyn will try to extract it from the framework that is being used. (Foundry / Hardhat)
-# That would be "contracts/" in case of Hardhat and in case of Foundry, it depends on foundry's config file and
-# many other factors like FOUNDRY_PROFILE environment variable, etc. used.
+# That would be "contracts/" in case of Hardhat and in case of Foundry, it depends on foundry.toml and
+# many other factors like FOUNDRY_PROFILE environment variable used when starting VS Code, etc.
 # Please specify explicitly in case it's not Foundry / Hardhat project.
 # Example:
 # src = "src/"
@@ -36,7 +36,7 @@ root = "."
 # exclude = ["/interfaces/"]
 
 # Remappings used for compiling the contracts.
-# If not specified, Aderyn will try to derive the values from foundry's config file (if present.) 
+# If not specified, Aderyn will try to derive the values from foundry.toml (if present.) 
 # That would be the result of calling `foundry remappings` 
 # Example:
 # remappings = ["@oz/contracts=lib/openzeppelin-contracts/contracts"]
