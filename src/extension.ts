@@ -9,7 +9,7 @@ import {
 import { registerEditorCommands } from './commands';
 import { registerWebviewPanels } from './webview-providers';
 import { isKeyUsed, isWindowsNotWSL, Keys, Logger } from './utils';
-import { registerStatusBarItems } from './state/statusbar/registrations';
+import { registerStatusBarItems } from './state/statusbar/index';
 
 export function activate(context: vscode.ExtensionContext) {
     if (isWindowsNotWSL()) {
