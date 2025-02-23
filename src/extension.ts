@@ -1,15 +1,24 @@
 import * as vscode from 'vscode';
 import {
+    hasRecognizedProjectStructureAtWorkspaceRoot,
+    isKeyUsed,
+    isWindowsNotWSL,
+    Keys,
+    Logger,
+} from './utils';
+
+import {
     createOrInitLspClient,
     startServing,
     stopServingIfOn,
     createOrInitOnboardProvider,
     createAderynStatusItem,
 } from './state';
+
 import { registerEditorCommands } from './commands';
 import { registerWebviewPanels } from './webview-providers';
-import { isKeyUsed, isWindowsNotWSL, Keys, Logger } from './utils';
 import { registerStatusBarItems } from './state/statusbar/index';
+import { registerDataProviders } from './panel-providers';
 
 export function activate(context: vscode.ExtensionContext) {
     if (isWindowsNotWSL()) {
@@ -25,13 +34,14 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerWebviewPanels(context))
         .then(() => registerEditorCommands(context))
         .then(() => registerStatusBarItems(context))
+        .then(() => registerDataProviders(context))
         .then(autoStartLspClientIfRequested);
 }
 
 async function autoStartLspClientIfRequested() {
     const config = vscode.workspace.getConfiguration('aderyn.config');
     const userPrefersAutoStart = config.get<boolean>('autoStart');
-    if (userPrefersAutoStart) {
+    if (userPrefersAutoStart && hasRecognizedProjectStructureAtWorkspaceRoot()) {
         try {
             startServing();
         } catch (_ex) {

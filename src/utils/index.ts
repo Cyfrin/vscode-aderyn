@@ -4,6 +4,7 @@ import {
     executeCommand,
     isWindowsNotWSL,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    hasRecognizedProjectStructureAtWorkspaceRoot,
 } from './runtime';
 import { ensureAderynIsInstalled } from './install';
 import { isKeyUsed, Keys } from './keys';
@@ -12,6 +13,7 @@ import { readAderynConfigTemplate } from './metadata';
 
 export {
     findProjectRoot,
+    hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
     readAderynConfigTemplate,
     isWindowsNotWSL,
