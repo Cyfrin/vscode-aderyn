@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerWebviewPanels(context))
         .then(() => registerEditorCommands(context))
         .then(() => registerStatusBarItems(context))
-        .then(registerDataProviders)
+        .then(() => registerDataProviders(context))
         .then(autoStartLspClientIfRequested);
 }
 
