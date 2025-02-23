@@ -1,7 +1,7 @@
 import { Logger } from '../logger';
 import { readPackageJson } from '../metadata';
 import { hasReliableInternet } from '../runtime';
-import { isAderynAvailableOnPath } from './aderyn';
+import { isAderynAvailableOnPath, createAderynReportAndDeserialize } from './aderyn';
 import {
     whichAderyn,
     installAderynWithAppropriateCmd,
@@ -155,4 +155,4 @@ async function ensureAderynIsInstalled(): Promise<void> {
     }
 }
 
-export { ensureAderynIsInstalled };
+export { ensureAderynIsInstalled, createAderynReportAndDeserialize };
