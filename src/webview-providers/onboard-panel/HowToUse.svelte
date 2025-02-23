@@ -6,8 +6,8 @@
         <ul class="list-disc mt-4 max-w-[60%] space-y-2">
             <li>
                 Aderyn will start automatically on commonly recognized project structures
-                i.e when a <b>foundry.toml</b> or <b>hardhat.config.ts</b> is found in the
-                root of the workspace
+                i.e when a <b>foundry.toml</b> or <b>hardhat.config.ts</b> or
+                <b>aderyn.toml</b> is found in the root of the workspace
             </li>
             <li>
                 If the project's framework config file is nested in some directory or is
