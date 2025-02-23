@@ -17,7 +17,31 @@
   },
   "icon": "icon.png",
   "contributes": {
+    "viewsWelcome": [
+      {
+        "view": "aderyn-panel-diagnostics-provider",
+        "contents": "Visit the [Welcome Page](command:aderyn.commands.showOnboardPanel) to get started",
+        "when": "!aderyn-panel-diagnostics-provider.hasItems"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aderyn-panel-diagnostics",
+          "title": "Aderyn Diagnostics",
+          "icon": "media/common/dep.svg"
+        }
+      ]
+    },
     "views": {
+      "aderyn-panel-diagnostics": [
+        {
+          "id": "aderyn-panel-diagnostics-provider",
+          "name": "Aderyn Diagnostics",
+          "icon": "media/common/dep.svg",
+          "contextualTitle": "Aderyn Diagnostics"
+        }
+      ],
       "explorer": [
         {
           "type": "webview",

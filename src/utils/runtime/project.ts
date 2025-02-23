@@ -18,7 +18,20 @@ function findProjectRoot(projectRootUri: string): string {
         }
         currentDir = path.dirname(currentDir);
     }
-    return projectRootUri;
+    return currentDir;
+}
+
+function hasRecognizedProjectStructureAtWorkspaceRoot(): boolean {
+    const workspaceRoot = ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
+    if (!workspaceRoot) return false;
+    const root = findProjectRoot(workspaceRoot);
+    return (
+        root != null &&
+        (fs.existsSync(path.join(root, 'aderyn.toml')) ||
+            fs.existsSync(path.join(root, 'foundry.toml')) ||
+            fs.existsSync(path.join(root, 'hardhat.config.ts')) ||
+            fs.existsSync(path.join(root, 'hardhat.config.js')))
+    );
 }
 
 function ensureWorkspacePreconditionsMetAndReturnProjectURI(
@@ -40,4 +53,8 @@ function ensureWorkspacePreconditionsMetAndReturnProjectURI(
     return projectRootUri.toString().substring('file://'.length);
 }
 
-export { findProjectRoot, ensureWorkspacePreconditionsMetAndReturnProjectURI };
+export {
+    findProjectRoot,
+    hasRecognizedProjectStructureAtWorkspaceRoot,
+    ensureWorkspacePreconditionsMetAndReturnProjectURI,
+};
