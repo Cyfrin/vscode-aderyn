@@ -34,6 +34,9 @@ minor-release: check-main-branch
 	@git push origin $(TARGET_BRANCH) --tags
 	@echo "Minor release completed and pushed."
 
+install:
+	npm install
+
 dev:
 	npm run compile-watch
 
@@ -43,8 +46,8 @@ pretty:
 test:
 	npm run test
 
-install:
-	npm install
+package:
+	npm run vscode:package
 
 # Default help command
 help:
@@ -55,4 +58,5 @@ help:
 	@echo "  make dev             # Start development server" 
 	@echo "  make pretty          # Prettify the typescript" 
 	@echo "  make test            # Run jest tests"
+	@echo "  make package         # Package the extension into *.vsix"
 
