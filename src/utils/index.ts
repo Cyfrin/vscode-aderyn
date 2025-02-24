@@ -10,6 +10,7 @@ import { ensureAderynIsInstalled } from './install';
 import { isKeyUsed, Keys } from './keys';
 import { Logger } from './logger';
 import { readAderynConfigTemplate } from './metadata';
+import { startPeriodicChecks } from './update';
 
 export {
     findProjectRoot,
@@ -21,6 +22,7 @@ export {
     executeCommand,
     ensureAderynIsInstalled,
     isKeyUsed,
+    startPeriodicChecks,
     Keys,
     Logger,
 };

@@ -3,6 +3,7 @@ import {
     hasRecognizedProjectStructureAtWorkspaceRoot,
     isKeyUsed,
     isWindowsNotWSL,
+    startPeriodicChecks,
     Keys,
     Logger,
 } from './utils';
@@ -35,7 +36,8 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerEditorCommands(context))
         .then(() => registerStatusBarItems(context))
         .then(() => registerDataProviders(context))
-        .then(autoStartLspClientIfRequested);
+        .then(autoStartLspClientIfRequested)
+        .then(startPeriodicChecks);
 }
 
 async function autoStartLspClientIfRequested() {
