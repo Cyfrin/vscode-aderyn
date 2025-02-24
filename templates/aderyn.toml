@@ -15,7 +15,7 @@ root = "."
 # If not specified, Aderyn will try to extract it from the framework that is being used. (Foundry / Hardhat)
 # That would be "contracts/" in case of Hardhat and in case of Foundry, it depends on foundry.toml and
 # many other factors like FOUNDRY_PROFILE environment variable used when starting VS Code, etc.
-# Please specify explicitly in case it's not Foundry / Hardhat project.
+# Please feel free to always specify the values explicitly.
 # Example:
 # src = "src/"
 
