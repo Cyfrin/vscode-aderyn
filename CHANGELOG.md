@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-02-24
+## 2025-02-25
 
-* template change (by @TilakMaddy)
-* make file: add make package (by @TilakMaddy)
-* Merge pull request #8 from Cyfrin/update-aderyn-input-box (by @Tilak Madichetti)
-* periodic update check (by @TilakMaddy)
+* Merge pull request #10 from Cyfrin/change-publisher-to-cyfrin (by @Tilak Madichetti)
+* simplify generate_release script (by @TilakMaddy)
+* Change publisher to Cyfrin (by @TilakMaddy)
+* make (by @TilakMaddy)
