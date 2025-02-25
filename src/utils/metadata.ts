@@ -50,7 +50,7 @@ type ExtensionInfoError = {
 async function readPackageJson(logger: Logger): Promise<ExtensionInfo> {
     try {
         const extensionPath =
-            vscode.extensions.getExtension('cyfrinio.aderyn')?.extensionPath;
+            vscode.extensions.getExtension('cyfrin.aderyn')?.extensionPath;
         if (!extensionPath) {
             logger.err('Extension path not found');
             const E: ExtensionInfoError = {
@@ -77,7 +77,7 @@ async function readPackageJson(logger: Logger): Promise<ExtensionInfo> {
 async function readAderynConfigTemplate(logger: Logger): Promise<string> {
     try {
         const extensionPath =
-            vscode.extensions.getExtension('cyfrinio.aderyn')?.extensionPath;
+            vscode.extensions.getExtension('cyfrin.aderyn')?.extensionPath;
         if (!extensionPath) {
             logger.err('Extension path not found');
             const E: ExtensionInfoError = {

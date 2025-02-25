@@ -53,7 +53,7 @@ pretty:
 test:
 	npm run test
 
-package:
+package: install compile
 	npm run vscode:package
 
 # Default help command
