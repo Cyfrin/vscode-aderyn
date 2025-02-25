@@ -1,6 +1,10 @@
 # Define the target branch
 TARGET_BRANCH := main
 
+.PHONY: default
+
+default: install compile
+
 create-change-log:
 	@echo "# Changelog" > CHANGELOG.md
 	@echo "\nAll notable changes to this project will be documented in this file." >> CHANGELOG.md
@@ -40,6 +44,9 @@ install:
 dev:
 	npm run compile-watch
 
+compile:
+	npm run compile
+
 pretty:
 	npm run prettier:fix
 
@@ -56,6 +63,7 @@ help:
 	@echo "  make minor-release   # Creates a minor release (increments minor version)"
 	@echo "  make install         # Install necessary npm packages for development"
 	@echo "  make dev             # Start development server" 
+	@echo "  make compile         # Compile the extension"
 	@echo "  make pretty          # Prettify the typescript" 
 	@echo "  make test            # Run jest tests"
 	@echo "  make package         # Package the extension into *.vsix"
