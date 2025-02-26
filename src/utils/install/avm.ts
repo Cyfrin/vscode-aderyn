@@ -90,7 +90,7 @@ async function reinstallAderynWithAppropriateCmd(
     let env: Record<string, any> = {};
     switch (source) {
         case AderynSource.LegacyCyfrinupAderyn:
-            command = 'cyfrinup';
+            command = 'cyfrinup aderyn';
             break;
         case AderynSource.NodePackageManager:
             command = 'npm install -g @cyfrin/aderyn';
