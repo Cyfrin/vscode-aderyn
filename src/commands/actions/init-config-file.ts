@@ -5,8 +5,6 @@ import * as fs from 'fs';
 import {
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
     executeCommand,
-    Logger,
-    readAderynConfigTemplate,
 } from '../../utils';
 
 async function action() {
