@@ -8,7 +8,10 @@ const {
     findProjectRoot,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    parseAderynConfig,
 } = project;
+
+import { AderynConfig } from './project';
 
 export {
     findProjectRoot,
@@ -18,6 +21,8 @@ export {
     isWindowsNotWSL,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    parseAderynConfig,
+    AderynConfig,
     SystemInfo,
     ExecuteCommandError,
     ExecuteCommandErrorType,

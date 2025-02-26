@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import {
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
     findProjectRoot,
+    parseAderynConfig,
 } from '../utils/index';
 import {
     createAderynReportAndDeserialize,
@@ -49,7 +51,9 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
             if (!workspaceRoot) {
                 return Promise.reject('workspace pre-conditions unmet');
             }
-            this.projectRootUri = findProjectRoot(workspaceRoot);
+            this.projectRootUri = await this.getProjectRootPrefixFromAderynToml(
+                findProjectRoot(workspaceRoot),
+            );
             return await createAderynReportAndDeserialize(this.projectRootUri).catch(
                 (err) => {
                     logger.err(err);
@@ -59,6 +63,21 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
             );
         }
         return null;
+    }
+
+    async getProjectRootPrefixFromAderynToml(workspaceRoot: string): Promise<string> {
+        const aderynToml = path.join(workspaceRoot, 'aderyn.toml');
+        if (!fs.existsSync(aderynToml)) {
+            return workspaceRoot;
+        }
+        const configAsString = fs.readFileSync(aderynToml).toString();
+        try {
+            const config = await parseAderynConfig(configAsString);
+            return path.join(workspaceRoot, config.root);
+        } catch (err) {
+            vscode.window.showErrorMessage('Error parsing aderyn.toml');
+            return Promise.resolve(workspaceRoot);
+        }
     }
 
     getTopLevelItems(report: Report | null): DiagnosticItem[] {

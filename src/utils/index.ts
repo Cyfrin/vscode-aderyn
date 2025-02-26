@@ -4,6 +4,8 @@ import {
     executeCommand,
     isWindowsNotWSL,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    parseAderynConfig,
+    AderynConfig,
     hasRecognizedProjectStructureAtWorkspaceRoot,
 } from './runtime';
 import { ensureAderynIsInstalled } from './install';
@@ -12,6 +14,7 @@ import { Logger } from './logger';
 import { startPeriodicChecks } from './update';
 
 export {
+    parseAderynConfig,
     findProjectRoot,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
@@ -23,4 +26,5 @@ export {
     startPeriodicChecks,
     Keys,
     Logger,
+    AderynConfig,
 };

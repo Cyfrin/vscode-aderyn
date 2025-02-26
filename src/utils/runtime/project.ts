@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+import * as toml from '@iarna/toml';
+
 // This will make sure that even if the user opens a subfolder of the solidity project, the server will still be started
 // succesfully because we use the nearest parent that is a git folder heuristic to know where the project root is.
 function findProjectRoot(projectRootUri: string): string {
@@ -53,8 +55,40 @@ function ensureWorkspacePreconditionsMetAndReturnProjectURI(
     return projectRootUri.toString().substring('file://'.length);
 }
 
+interface AderynConfig {
+    version: number;
+    root: string;
+    src?: string;
+    include?: string[];
+    exclude?: string[];
+    remappings?: string[];
+}
+
+async function parseAderynConfig(configString: string): Promise<AderynConfig> {
+    try {
+        const parsed = toml.parse(configString) as any;
+
+        if (parsed.version !== 1) {
+            throw new Error('Unsupported config version');
+        }
+
+        return {
+            version: parsed.version,
+            root: parsed.root || '.',
+            src: parsed.src,
+            include: parsed.include || [],
+            exclude: parsed.exclude || [],
+            remappings: parsed.remappings || [],
+        };
+    } catch (error) {
+        throw new Error(`Failed to parse Aderyn config: ${JSON.stringify(error)}`);
+    }
+}
+
 export {
     findProjectRoot,
+    parseAderynConfig,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    AderynConfig,
 };
