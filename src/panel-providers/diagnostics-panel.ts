@@ -127,7 +127,7 @@ class InstanceItem extends DiagnosticItem {
         projectRootUri: string,
     ) {
         super(
-            `${instance.contractPath} Line: ${instance.lineNo} ${instance.srcChar}`,
+            `${instance.contractPath} Line: ${instance.lineNo}`,
             vscode.TreeItemCollapsibleState.None,
             ItemKind.Instance,
         );
