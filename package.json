@@ -1,7 +1,7 @@
 {
   "name": "aderyn",
   "displayName": "Aderyn",
-  "description": "Support for the Solidity programming language",
+  "description": "Rust-based Solidity AST analyzer.",
   "version": "0.0.7",
   "supportedAderynVersions": {
     "major": 0,
