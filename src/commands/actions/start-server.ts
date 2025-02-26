@@ -10,9 +10,9 @@ async function action() {
         if (client.isRunning()) {
             vscode.window.showWarningMessage('Aderyn diagnostics server is running.');
         } else {
+            vscode.window.showInformationMessage('Starting Aderyn diagnostics server.');
             await client.start();
             showAderynStatusOn();
-            vscode.window.showInformationMessage('Starting Aderyn diagnostics server.');
         }
     } catch (err) {
         client.error('Starting Aderyn failed', err, 'force');
