@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 import {
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    executeCommand,
     Logger,
     readAderynConfigTemplate,
 } from '../../utils';
@@ -21,21 +22,22 @@ async function action() {
         return;
     }
 
-    const templateContent = (await readAderynConfigTemplate(new Logger()).catch((err) => {
-        vscode.window.showErrorMessage(`template not found :( ${err}`);
-    })) as string;
-
-    fs.writeFileSync(filePath, templateContent);
-    vscode.window.showInformationMessage(`Created aderyn.toml at ${filePath}`);
-
-    vscode.workspace.openTextDocument(filePath).then(
-        (document) => {
-            vscode.window.showTextDocument(document);
-        },
-        (err) => {
-            vscode.window.showErrorMessage(`Error opening file: ${err}`);
-        },
-    );
+    const cmd = `aderyn init ${workspaceUri}`;
+    executeCommand(cmd)
+        .then(() => {
+            vscode.window.showInformationMessage(`Created aderyn.toml at ${filePath}`);
+            vscode.workspace.openTextDocument(filePath).then(
+                (document) => {
+                    vscode.window.showTextDocument(document);
+                },
+                (err) => {
+                    vscode.window.showErrorMessage(`Error opening file: ${err}`);
+                },
+            );
+        })
+        .catch((err) => {
+            vscode.window.showErrorMessage(`Error creating aderyn.toml file: ${err}`);
+        });
 }
 
 export { action };
