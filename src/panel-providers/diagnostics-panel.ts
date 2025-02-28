@@ -46,14 +46,18 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
         const logger = new Logger();
         const aderynIsOnPath = await isAderynAvailableOnPath(logger);
         if (aderynIsOnPath) {
+            logger.info("[Sidebar]: aderyn is on path");
             const workspaceRoot =
                 ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
             if (!workspaceRoot) {
                 return Promise.reject('workspace pre-conditions unmet');
             }
+            logger.info(`[Sidebar]: Workspace root found ${workspaceRoot}`);
             this.projectRootUri = await this.getProjectRootPrefixFromAderynToml(
                 findProjectRoot(workspaceRoot),
             );
+
+            logger.info(`[Sidebar]: Workspace root found ${workspaceRoot}`);
             return await createAderynReportAndDeserialize(this.projectRootUri).catch(
                 (err) => {
                     logger.err(err);
