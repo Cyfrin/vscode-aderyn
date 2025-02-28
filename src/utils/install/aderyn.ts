@@ -24,10 +24,15 @@ async function isAderynAvailableOnPath(logger: Logger): Promise<boolean> {
         });
 }
 
-async function createAderynReportAndDeserialize(projectRootUri: string): Promise<Report> {
+async function createAderynReportAndDeserialize(
+    logger: Logger,
+    projectRootUri: string,
+): Promise<Report> {
     const cmd = `aderyn ${projectRootUri} -o report.json --stdout --skip-cloc`;
+    logger.info(`Running ${cmd}`);
     return executeCommand(cmd)
         .then((text) => {
+            logger.info(`Got text - ${text}`);
             const match = text.match(/STDOUT START([\s\S]*?)STDOUT END/);
             if (!match) {
                 throw new Error('corrupted json');

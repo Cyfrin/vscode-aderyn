@@ -57,13 +57,14 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
                 findProjectRoot(workspaceRoot),
             );
             logger.info(`[Sidebar]: Project root URI ${this.projectRootUri}`);
-            return await createAderynReportAndDeserialize(this.projectRootUri).catch(
-                (err) => {
-                    logger.err(err);
-                    vscode.window.showErrorMessage('Error fetching results from aderyn');
-                    return null;
-                },
-            );
+            return await createAderynReportAndDeserialize(
+                logger,
+                this.projectRootUri,
+            ).catch((err) => {
+                logger.err(err);
+                vscode.window.showErrorMessage('Error fetching results from aderyn');
+                return null;
+            });
         }
         return null;
     }
