@@ -28,11 +28,12 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
         projectRootUri: string,
     ) => {
         let actualProjectRootUri = findProjectRoot(projectRootUri);
-        if (process.env.NODE_ENV === 'development') {
-            return developmentServerOptions(actualProjectRootUri);
-        } else {
-            return productionServerOptions(actualProjectRootUri);
-        }
+        return productionServerOptions(actualProjectRootUri);
+        //if (process.env.NODE_ENV === 'development') {
+        //    return developmentServerOptions(actualProjectRootUri);
+        //} else {
+        //    return productionServerOptions(actualProjectRootUri);
+        //}
     };
 
     return new LanguageClient(
