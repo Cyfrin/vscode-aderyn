@@ -30,32 +30,61 @@ async function executeCommand(
     command: string,
     env?: Record<string, any>,
     timeoutMilli?: number,
+    cwd?: string,
 ): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const controller = new AbortController();
-        const { signal } = controller;
-        exec(
-            command,
-            { signal, env: { ...process.env, ...env } },
-            (error, stdout, stderr) => {
-                if (error) {
-                    const E: ExecuteCommandError = {
-                        errorType: ExecuteCommandErrorType.BadCommandExitStatus,
-                        payload: stderr,
-                    };
-                    reject(E);
-                } else {
-                    resolve(stdout.trim());
-                }
-            },
-        );
-        if (timeoutMilli) {
-            const E: ExecuteCommandError = {
-                errorType: ExecuteCommandErrorType.BadCommandExitStatus,
-            };
-            setTimeout(() => reject(E), timeoutMilli);
-        }
-    });
+    if (cwd && cwd.length > 0) {
+        return new Promise((resolve, reject) => {
+            const controller = new AbortController();
+            const { signal } = controller;
+            exec(
+                command,
+                { signal, env: { ...process.env, ...env }, cwd },
+                (error, stdout, stderr) => {
+                    if (error) {
+                        const E: ExecuteCommandError = {
+                            errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                            payload: stderr,
+                        };
+                        reject(E);
+                    } else {
+                        resolve(stdout.trim());
+                    }
+                },
+            );
+            if (timeoutMilli) {
+                const E: ExecuteCommandError = {
+                    errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                };
+                setTimeout(() => reject(E), timeoutMilli);
+            }
+        });
+    } else {
+        return new Promise((resolve, reject) => {
+            const controller = new AbortController();
+            const { signal } = controller;
+            exec(
+                command,
+                { signal, env: { ...process.env, ...env } },
+                (error, stdout, stderr) => {
+                    if (error) {
+                        const E: ExecuteCommandError = {
+                            errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                            payload: stderr,
+                        };
+                        reject(E);
+                    } else {
+                        resolve(stdout.trim());
+                    }
+                },
+            );
+            if (timeoutMilli) {
+                const E: ExecuteCommandError = {
+                    errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                };
+                setTimeout(() => reject(E), timeoutMilli);
+            }
+        });
+    }
 }
 
 async function hasReliableInternet(logger: Logger): Promise<boolean> {

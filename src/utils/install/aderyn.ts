@@ -1,8 +1,4 @@
-import {
-    ensureWorkspacePreconditionsMetAndReturnProjectURI,
-    executeCommand,
-    findProjectRoot,
-} from '../runtime';
+import { executeCommand } from '../runtime';
 import { Logger } from '../logger';
 import { parseAderynReportFromJsonString, Report } from './issues';
 
@@ -25,8 +21,8 @@ async function isAderynAvailableOnPath(logger: Logger): Promise<boolean> {
 }
 
 async function createAderynReportAndDeserialize(projectRootUri: string): Promise<Report> {
-    const cmd = `aderyn ${projectRootUri} -o report.json --stdout --skip-cloc`;
-    return executeCommand(cmd)
+    const cmd = `aderyn -o report.json --stdout --skip-cloc`;
+    return executeCommand(cmd, undefined, undefined, projectRootUri)
         .then((text) => {
             const match = text.match(/STDOUT START([\s\S]*?)STDOUT END/);
             if (!match) {

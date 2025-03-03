@@ -45,9 +45,10 @@ async function createLanguageClient(): Promise<LanguageClient | undefined> {
 function productionServerOptions(solidityProjectRoot: string): ServerOptions {
     return {
         command: 'aderyn',
-        args: [solidityProjectRoot, '--lsp', '--stdout'],
+        args: ['--lsp', '--stdout'],
         options: {
             env: process.env,
+            cwd: solidityProjectRoot,
         },
     };
 }
