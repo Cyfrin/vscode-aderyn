@@ -56,7 +56,7 @@ async function getLocalAderynVersion(logger: Logger): Promise<AderynVersion> {
             return Promise.resolve(aderynCliVersion);
         })
         .catch((err) => {
-            logger.err(`checking local aderyn version failed - ${err}`);
+            logger.err(`checking local aderyn version failed - ${JSON.stringify(err)}`);
             return Promise.reject(err);
         });
 }
