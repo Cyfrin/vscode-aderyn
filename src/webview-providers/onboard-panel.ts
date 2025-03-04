@@ -32,6 +32,7 @@ class OnboardPanel {
             {
                 enableScripts: true,
                 localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'media')],
+                retainContextWhenHidden: true,
             },
         );
 
