@@ -6,7 +6,7 @@ import { readPackageJson } from '../utils/metadata';
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
 
-    private readonly _panel: vscode.WebviewPanel;
+    private _panel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
 
     public static createOrShow(
@@ -47,6 +47,9 @@ class OnboardPanel {
     }
 
     public static destroy() {
+        if (OnboardPanel.currentPanel?._panel) {
+            OnboardPanel.currentPanel._panel.dispose();
+        }
         OnboardPanel.currentPanel = undefined;
     }
 
