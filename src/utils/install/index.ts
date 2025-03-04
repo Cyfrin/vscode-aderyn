@@ -25,6 +25,7 @@ enum AderynInstallationErrorType {
     NoReliableInternet = 'No reliable internet connection',
     FailedToFetchLatestAderynVersion = 'Failed to connect to Github to fetch latest aderyn version',
     FailedToDetectLocalAderynVersion = 'Failed to detect local aderyn version',
+    FailedToCrossCheckAderynVersion = 'Failed to cross check aderyn installation',
     UnableToFetchExtensionMetadata = 'Unable to fetch extension metadata',
     ExtensionIsTooOld = 'Extension is too old, must be upgraded to support latest aderyn',
     FailedToDetectAderynSource = 'Failed to detect installation source for the exisitng aderyn',
@@ -80,7 +81,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
             const existingAderynVersion = await getLocalAderynVersion(logger).catch(
                 () => {
                     throw new Error(
-                        AderynInstallationErrorType.FailedToDetectLocalAderynVersion,
+                        AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
                     );
                 },
             );
@@ -116,6 +117,8 @@ async function ensureAderynIsInstalled(): Promise<void> {
             throw new Error(AderynInstallationErrorType.ExtensionIsTooOld);
         }
     } else {
+        logger.info('Newly installing aderyn');
+
         const { supportedAderynVersions } = await readPackageJson(logger).catch(() => {
             throw new Error(AderynInstallationErrorType.UnableToFetchExtensionMetadata);
         });
@@ -137,7 +140,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
             const existingAderynVersion = await getLocalAderynVersion(logger).catch(
                 () => {
                     throw new Error(
-                        AderynInstallationErrorType.FailedToDetectLocalAderynVersion,
+                        AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
                     );
                 },
             );

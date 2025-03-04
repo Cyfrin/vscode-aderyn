@@ -88,50 +88,56 @@ async function reinstallAderynWithAppropriateCmd(
 ): Promise<void> {
     let command: string | undefined;
     let env: Record<string, any> = {};
-    switch (source) {
-        case AderynSource.LegacyCyfrinupAderyn:
-            command = 'cyfrinup aderyn';
-            break;
-        case AderynSource.NodePackageManager:
-            command = 'npm install -g @cyfrin/aderyn';
-            break;
-        case AderynSource.NewCyfrinupAtCargoHome:
-            // A distinct binary whose job is to update aderyn. Only shipped with cURL installation
-            command = 'aderyn-update';
-            break;
-        case AderynSource.HomebrewPackageManager:
-            command = 'brew upgrade cyfrin/tap/aderyn';
-            // https://docs.brew.sh/Manpage#environment
-            env['HOMEBREW_NO_AUTO_UPDATE'] = 1;
-            break;
-    }
     if (source == AderynSource.HomebrewPackageManager) {
-        // In case of homebrew first, do a brew install (to warm up brew).
-        const command = 'brew install cyfrin/tap/aderyn';
+        // In case of homebrew first, uninstall.
+        const commands = [
+            'brew uninstall cyfrin/tap/aderyn',
+            'brew install cyfrin/tap/aderyn',
+        ];
         logger.info(`running command for warming brew installation - ${command}`);
         // https://docs.brew.sh/Manpage#environment
         let env = {
             HOMEBREW_NO_AUTO_UPDATE: 1,
             HOMEBREW_NO_INSTALL_CLEANUP: 1,
         };
-        await executeCommand(command, env).catch((err) => {
-            const error = `failed to re-install aderyn - ${JSON.stringify(err)}`;
+        await executeCommand('brew cleanup -s aderyn', env).catch((err) => {
+            const error = `failed in brew cleanup aderyn (soft error) - ${JSON.stringify(err)}`;
             logger.err(error);
-            return Promise.reject(command);
-        });
-    }
-    logger.info(`running command for re-installation - ${command}`);
-    return executeCommand(command, env)
-        .then((/*stdout*/) => {
-            // Usually, when installation is successful, warnings are emitted to stderr, NOT stdin
-            // So there's no point in logging stdout which is most likely empty
             return Promise.resolve();
-        })
-        .catch((err) => {
-            const error = `failed to re-install aderyn - ${JSON.stringify(err)}`;
-            logger.err(error);
-            return Promise.reject(command);
         });
+        for (const command of commands) {
+            await executeCommand(command, env).catch((err) => {
+                const error = `failed to re-install aderyn - ${JSON.stringify(err)}`;
+                logger.err(error);
+                return Promise.reject(command);
+            });
+        }
+    } else {
+        switch (source) {
+            case AderynSource.LegacyCyfrinupAderyn:
+                command = 'cyfrinup aderyn';
+                break;
+            case AderynSource.NodePackageManager:
+                command = 'npm install -g @cyfrin/aderyn';
+                break;
+            case AderynSource.NewCyfrinupAtCargoHome:
+                // A distinct binary whose job is to update aderyn. Only shipped with cURL installation
+                command = 'aderyn-update';
+                break;
+        }
+        logger.info(`running command for re-installation - ${command}`);
+        return executeCommand(command, env)
+            .then((/*stdout*/) => {
+                // Usually, when installation is successful, warnings are emitted to stderr, NOT stdin
+                // So there's no point in logging stdout which is most likely empty
+                return Promise.resolve();
+            })
+            .catch((err) => {
+                const error = `failed to re-install aderyn - ${JSON.stringify(err)}`;
+                logger.err(error);
+                return Promise.reject(command);
+            });
+    }
 }
 
 /**
@@ -224,7 +230,7 @@ async function installAderynWithAppropriateCmd(
             command = `curl --proto '=https' --tlsv1.2 -LsSf ${DYNAMIC_SCRIPT} | sh`;
             break;
     }
-    logger.info(`running command for re-installation - ${command}`);
+    logger.info(`running command for installation - ${command}`);
     return executeCommand(command, env)
         .then((stdout) => {
             logger.info(`output of aderyn installation - ${JSON.stringify(stdout)}`);

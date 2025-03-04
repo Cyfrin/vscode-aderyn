@@ -15,7 +15,7 @@ async function isAderynAvailableOnPath(logger: Logger): Promise<boolean> {
             return Promise.resolve(true);
         })
         .catch((err) => {
-            logger.err(`command "aderyn" was not found on path - ${err}`);
+            logger.err(`command "aderyn" was not found on path - ${JSON.stringify(err)}`);
             return Promise.resolve(false);
         });
 }
