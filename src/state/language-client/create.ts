@@ -59,10 +59,10 @@ function developmentServerOptions(solidityProjectRoot: string): ServerOptions {
     try {
         URL = fs.readFileSync(path.join(__dirname, '../manifest'));
     } catch (ex) {
-        vscode.window.showErrorMessage(
-            'File manifest not found. Read manifest.sample please!',
+        vscode.window.showWarningMessage(
+            'File manifest not found. Revertig to server configuations!',
         );
-        throw new Error('DEV: Aderyn Local Mannifest Not found');
+        return productionServerOptions(solidityProjectRoot);
     }
     return {
         command: 'cargo',

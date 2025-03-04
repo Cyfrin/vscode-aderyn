@@ -35,3 +35,5 @@ Aderyn helps developers detect vulnerabilities in their Solidity smart contracts
 5. Create a [`manifest`](https://github.com/Cyfrin/vscode-aderyn/blob/main/manifest.sample) file and point it to **Cargo.toml** in Aderyn’s repository.  
 6. Open the project in VS Code and press **F5** to launch a development instance.  
 
+> Note: Step 4 and 5 are optional. Required only when debugging language server.
+
