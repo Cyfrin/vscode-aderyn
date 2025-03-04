@@ -23,7 +23,7 @@ import {
  */
 enum AderynInstallationErrorType {
     NoReliableInternet = 'No reliable internet connection',
-    FailedToFetchLatestAderynVersion = 'Failed to connect to Github to fetch latest aderyn version',
+    FailedToFetchLatestAderynVersion = 'Failed to connect to Github to fetch latest aderyn version. Restart your router.',
     FailedToDetectLocalAderynVersion = 'Failed to detect local aderyn version',
     FailedToCrossCheckAderynVersion = 'Failed to cross check aderyn installation',
     UnableToFetchExtensionMetadata = 'Unable to fetch extension metadata',
