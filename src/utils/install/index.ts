@@ -155,4 +155,13 @@ async function ensureAderynIsInstalled(): Promise<void> {
     }
 }
 
-export { ensureAderynIsInstalled, createAderynReportAndDeserialize };
+// Invoked when you try again
+function clearCorruptedInstallation() {
+    // TODO:
+}
+
+export {
+    ensureAderynIsInstalled,
+    createAderynReportAndDeserialize,
+    clearCorruptedInstallation,
+};

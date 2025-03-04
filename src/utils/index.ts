@@ -8,7 +8,7 @@ import {
     AderynConfig,
     hasRecognizedProjectStructureAtWorkspaceRoot,
 } from './runtime';
-import { ensureAderynIsInstalled } from './install';
+import { ensureAderynIsInstalled, clearCorruptedInstallation } from './install';
 import { isKeyUsed, Keys } from './keys';
 import { Logger } from './logger';
 import { startPeriodicChecks } from './update';
@@ -24,6 +24,7 @@ export {
     ensureAderynIsInstalled,
     isKeyUsed,
     startPeriodicChecks,
+    clearCorruptedInstallation,
     Keys,
     Logger,
     AderynConfig,

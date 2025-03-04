@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { ensureAderynIsInstalled, Logger } from '../utils';
+import { clearCorruptedInstallation, ensureAderynIsInstalled, Logger } from '../utils';
 import { MessageType, postMessageTo } from './onboard-panel/messages';
 import { readPackageJson } from '../utils/metadata';
 
@@ -101,6 +101,7 @@ class OnboardPanel {
             switch (data.command) {
                 case 'retry':
                     vscode.window.showInformationMessage(data.value);
+                    clearCorruptedInstallation();
                     this.attemptAderynCliSetup();
                     break;
             }

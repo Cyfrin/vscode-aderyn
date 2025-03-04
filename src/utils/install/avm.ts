@@ -105,6 +105,21 @@ async function reinstallAderynWithAppropriateCmd(
             env['HOMEBREW_NO_AUTO_UPDATE'] = 1;
             break;
     }
+    if (source == AderynSource.HomebrewPackageManager) {
+        // In case of homebrew first, do a brew install (to warm up brew).
+        const command = 'brew install cyfrin/tap/aderyn';
+        logger.info(`running command for warming brew installation - ${command}`);
+        // https://docs.brew.sh/Manpage#environment
+        let env = {
+            HOMEBREW_NO_AUTO_UPDATE: 1,
+            HOMEBREW_NO_INSTALL_CLEANUP: 1,
+        };
+        await executeCommand(command, env).catch((err) => {
+            const error = `failed to re-install aderyn - ${JSON.stringify(err)}`;
+            logger.err(error);
+            return Promise.reject(command);
+        });
+    }
     logger.info(`running command for re-installation - ${command}`);
     return executeCommand(command, env)
         .then((/*stdout*/) => {
