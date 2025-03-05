@@ -159,6 +159,7 @@ async function reinstallAderynWithAppropriateCmd(
             HOMEBREW_NO_AUTO_UPDATE: 1,
             HOMEBREW_NO_INSTALL_CLEANUP: 1,
         };
+        await removeAderyn(logger);
         await executeCommand('brew cleanup -s aderyn', env).catch((err) => {
             const error = `failed in brew cleanup aderyn (soft error) - ${JSON.stringify(err)}`;
             logger.err(error);
