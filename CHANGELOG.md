@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-04
+## 2025-03-05
 
-* chore: make testing easy by enabling opt-in for debugging lsp (by @TilakMaddy)
+* feat: try cUrl first (by @TilakMaddy)
 * nit (by @TilakMaddy)
-* fix: brew upgrade setup (by @TilakMaddy)
+* refactor (by @TilakMaddy)
+* fix: homebrew installation (by @TilakMaddy)
 * nit (by @TilakMaddy)
-* fix: brew install (by @TilakMaddy)
-* feat: retain context (by @TilakMaddy)
-* fix: remove permanant laoding state (by @TilakMaddy)
+* feat: handle corrupted installations (by @TilakMaddy)
+* feat: Support WSL users who previously installed corrupted Aderyn (by @TilakMaddy)
