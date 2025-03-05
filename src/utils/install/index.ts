@@ -1,5 +1,5 @@
 import { Logger } from '../logger';
-import { readPackageJson } from '../metadata';
+import { readPackageJson, SupportedAderynVersions } from '../metadata';
 import { hasReliableInternet } from '../runtime';
 import { isAderynAvailableOnPath, createAderynReportAndDeserialize } from './aderyn';
 import {
@@ -17,6 +17,7 @@ import {
     latestAderynVersionOnGithub,
     areAderynVersionsEqual,
     isAderynVersionCompatibleWithSupportedAderynVersions as extensionIsCompatible,
+    AderynVersion,
 } from './versions';
 
 /*
@@ -98,115 +99,112 @@ async function clearCorruptedInstallation() {
 async function ensureAderynIsInstalled(): Promise<void> {
     const logger = new Logger();
 
-    const isOnPath = await isAderynAvailableOnPath(logger);
-
     const latestAderynVersion = await latestAderynVersionOnGithub(logger).catch(() => {
         throw new Error(AderynInstallationErrorType.FailedToFetchLatestAderynVersion);
     });
 
-    if (isOnPath) {
-        const existingAderynVersion = await getLocalAderynVersion(logger).catch(() => {
-            throw new Error(AderynInstallationErrorType.FailedToDetectLocalAderynVersion);
-        });
+    const { supportedAderynVersions } = await readPackageJson(logger).catch(() => {
+        throw new Error(AderynInstallationErrorType.UnableToFetchExtensionMetadata);
+    });
 
-        if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
-            logger.info('Resolving promise for ensuring aderyn installation');
-            // NOTE: OK - no need to do anything more
-            return Promise.resolve();
-        }
-
-        const { supportedAderynVersions } = await readPackageJson(logger).catch(() => {
-            throw new Error(AderynInstallationErrorType.UnableToFetchExtensionMetadata);
-        });
-
-        if (extensionIsCompatible(latestAderynVersion, supportedAderynVersions)) {
-            const source = await whichAderyn(logger).catch(() => {
-                throw new Error(AderynInstallationErrorType.FailedToDetectAderynSource);
-            });
-
-            await reinstallAderynWithAppropriateCmd(logger, source).catch((command) => {
-                throw new Error(`Failed to upgrade Aderyn - ${command}`);
-            });
-
-            // Cross check after installation
-            const existingAderynVersion = await getLocalAderynVersion(logger).catch(
-                () => {
-                    throw new Error(
-                        AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
-                    );
-                },
-            );
-
-            if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
-                logger.info('Resolving promise for ensuring aderyn installation');
-                // NOTE: OK - no need to do anything more
-                return Promise.resolve();
-            } else {
-                await removeAderynFromLegacyLocationIfPresent(logger).catch(() => {
-                    throw new Error(
-                        AderynInstallationErrorType.FailedToRemoveLegacyBinary,
-                    );
-                });
-
-                const existingAderynVersion = await getLocalAderynVersion(logger).catch(
-                    () => {
-                        throw new Error(
-                            AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
-                        );
-                    },
-                );
-
-                if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
-                    logger.info('Resolving promise for ensuring aderyn installation');
-                    // NOTE: OK - no need to do anything more
-                    return Promise.resolve();
-                }
-
-                throw new Error(AderynInstallationErrorType.UknownReason);
-            }
-        } else {
-            throw new Error(AderynInstallationErrorType.ExtensionIsTooOld);
-        }
-    } else {
-        logger.info('Newly installing aderyn');
-
-        const { supportedAderynVersions } = await readPackageJson(logger).catch(() => {
-            throw new Error(AderynInstallationErrorType.UnableToFetchExtensionMetadata);
-        });
-
-        if (extensionIsCompatible(latestAderynVersion, supportedAderynVersions)) {
-            // First time installation
-            const installationChannel = await findMostAppropriateInstallationChannel(
-                logger,
-            ).catch(() => {
-                throw new Error(AderynInstallationErrorType.NoInstallationChannel);
-            });
-
-            await installAderynWithAppropriateCmd(logger, installationChannel).catch(
-                (command) => {
-                    throw new Error(`Failed to install Aderyn - ${command}`);
-                },
-            );
-            // Cross check after installation
-            const existingAderynVersion = await getLocalAderynVersion(logger).catch(
-                () => {
-                    throw new Error(
-                        AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
-                    );
-                },
-            );
-
-            if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
-                logger.info('Resolving promise for ensuring aderyn installation');
-                // NOTE: OK - no need to do anything more
-                return Promise.resolve();
-            }
-
-            throw new Error(AderynInstallationErrorType.UknownReason);
-        } else {
-            throw new Error(AderynInstallationErrorType.ExtensionIsTooOld);
-        }
+    if (!extensionIsCompatible(latestAderynVersion, supportedAderynVersions)) {
+        throw new Error(AderynInstallationErrorType.ExtensionIsTooOld);
     }
+
+    const isOnPath = await isAderynAvailableOnPath(logger);
+
+    if (isOnPath) {
+        await ensureInstallationForExistingUsers(logger, latestAderynVersion);
+    } else {
+        await ensureInstallationForNewUsers(logger, latestAderynVersion);
+    }
+}
+
+// Helper functions
+
+async function ensureInstallationForExistingUsers(
+    logger: Logger,
+    latestAderynVersion: AderynVersion,
+) {
+    if (
+        await hasSuccessfullyInstalledLatestAderyn(latestAderynVersion, logger).catch(
+            () => {
+                throw new Error(
+                    AderynInstallationErrorType.FailedToDetectLocalAderynVersion,
+                );
+            },
+        )
+    ) {
+        logger.info('Resolving promise for ensuring aderyn installation');
+        // NOTE: OK - no need to do anything more
+        return Promise.resolve();
+    }
+
+    const source = await whichAderyn(logger).catch(() => {
+        throw new Error(AderynInstallationErrorType.FailedToDetectAderynSource);
+    });
+
+    await reinstallAderynWithAppropriateCmd(logger, source).catch((command) => {
+        throw new Error(`Failed to upgrade Aderyn - ${command}`);
+    });
+
+    await removeAderynFromLegacyLocationIfPresent(logger).catch(() => {
+        throw new Error(AderynInstallationErrorType.FailedToRemoveLegacyBinary);
+    });
+
+    if (await hasSuccessfullyInstalledLatestAderyn(latestAderynVersion, logger)) {
+        logger.info('Resolving promise for ensuring aderyn installation');
+        // NOTE: OK - no need to do anything more
+        return Promise.resolve();
+    } else {
+        throw new Error(AderynInstallationErrorType.UknownReason);
+    }
+}
+
+async function ensureInstallationForNewUsers(
+    logger: Logger,
+    latestAderynVersion: AderynVersion,
+) {
+    logger.info('Newly installing aderyn');
+
+    // First time installation
+    const installationChannel = await findMostAppropriateInstallationChannel(
+        logger,
+    ).catch(() => {
+        throw new Error(AderynInstallationErrorType.NoInstallationChannel);
+    });
+
+    await installAderynWithAppropriateCmd(logger, installationChannel).catch(
+        (command) => {
+            throw new Error(`Failed to install Aderyn - ${command}`);
+        },
+    );
+
+    if (await hasSuccessfullyInstalledLatestAderyn(latestAderynVersion, logger)) {
+        logger.info('Resolving promise for ensuring aderyn installation');
+        // NOTE: OK - no need to do anything more
+        return Promise.resolve();
+    }
+
+    throw new Error(AderynInstallationErrorType.UknownReason);
+}
+
+async function hasSuccessfullyInstalledLatestAderyn(
+    latestAderynVersion: AderynVersion,
+    logger: Logger,
+): Promise<boolean> {
+    // Cross check after installation
+    const existingAderynVersion = await getLocalAderynVersion(logger).catch(() => {
+        throw new Error(AderynInstallationErrorType.FailedToCrossCheckAderynVersion);
+    });
+
+    if (areAderynVersionsEqual(latestAderynVersion, existingAderynVersion)) {
+        logger.info('Resolving promise for ensuring aderyn installation');
+        // NOTE: OK - no need to do anything more
+        return true;
+    }
+
+    return false;
 }
 
 export {
