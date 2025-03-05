@@ -11,6 +11,7 @@ import {
     aderynUpdateIsRecognized,
     AderynSource,
     removeAderyn,
+    InstallationChannel,
 } from './avm';
 import {
     getLocalAderynVersion,
@@ -167,26 +168,33 @@ async function ensureInstallationForNewUsers(
 ) {
     logger.info('Newly installing aderyn');
 
-    // First time installation
-    const installationChannel = await findMostAppropriateInstallationChannel(
-        logger,
-    ).catch(() => {
-        throw new Error(AderynInstallationErrorType.NoInstallationChannel);
-    });
+    // First try cURL, if it fails don't make a fuss.
+    try {
+        await installAderynWithAppropriateCmd(logger, InstallationChannel.Curl);
+    } catch (exception) {
+        logger.err(`Failed to install Aderyn with curl (Blind try)`);
 
-    await installAderynWithAppropriateCmd(logger, installationChannel).catch(
-        (command) => {
-            throw new Error(`Failed to install Aderyn - ${command}`);
-        },
-    );
+        // First time installation
+        const installationChannel = await findMostAppropriateInstallationChannel(
+            logger,
+        ).catch(() => {
+            throw new Error(AderynInstallationErrorType.NoInstallationChannel);
+        });
+
+        await installAderynWithAppropriateCmd(logger, installationChannel).catch(
+            (command) => {
+                throw new Error(`Failed to install Aderyn - ${command}`);
+            },
+        );
+    }
 
     if (await hasSuccessfullyInstalledLatestAderyn(latestAderynVersion, logger)) {
         logger.info('Resolving promise for ensuring aderyn installation');
         // NOTE: OK - no need to do anything more
         return Promise.resolve();
+    } else {
+        throw new Error(AderynInstallationErrorType.UknownReason);
     }
-
-    throw new Error(AderynInstallationErrorType.UknownReason);
 }
 
 async function hasSuccessfullyInstalledLatestAderyn(
