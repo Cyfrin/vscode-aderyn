@@ -10,7 +10,6 @@ import {
     findMostAppropriateInstallationChannel,
     aderynUpdateIsRecognized,
     AderynSource,
-    removeAderynUpdate,
     removeAderyn,
 } from './avm';
 import {
