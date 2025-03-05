@@ -1,5 +1,5 @@
 import { Logger } from '../logger';
-import { readPackageJson, SupportedAderynVersions } from '../metadata';
+import { readPackageJson } from '../metadata';
 import { hasReliableInternet } from '../runtime';
 import { isAderynAvailableOnPath, createAderynReportAndDeserialize } from './aderyn';
 import {
