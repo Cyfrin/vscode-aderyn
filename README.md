@@ -11,6 +11,10 @@ Aderyn helps developers detect vulnerabilities in their Solidity smart contracts
 
 🔗 [Aderyn CLI](https://github.com/cyfrin/aderyn)  
 
+## Docs
+
+- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
+
 ## 🚀 Installation  
 
 1. Download the `.vsix` file from the [Releases](https://github.com/Cyfrin/vscode-aderyn/releases) page.  
