@@ -74,6 +74,65 @@ async function whichAderyn(logger: Logger): Promise<AderynSource> {
         });
 }
 
+async function aderynUpdateIsRecognized(logger: Logger): Promise<boolean> {
+    const cmd = 'command -v aderyn-update';
+    return executeCommand(cmd)
+        .then((stdout) => {
+            logger.info(`which aderyn-update - command output ! ${stdout}`);
+            return Promise.resolve(true);
+        })
+        .catch((err) => {
+            logger.err(`failed to locate which aderyn - ${JSON.stringify(err)}`);
+            return Promise.resolve(false);
+        });
+}
+
+async function removeAderyn(logger: Logger): Promise<boolean> {
+    const commands = [
+        'rm $(command -v aderyn)',
+        'rm `which aderyn`',
+        'rm (command -v adeyrn)',
+    ];
+    for (const cmd of commands) {
+        const worked = await executeCommand(cmd)
+            .then((stdout) => {
+                logger.info(`removed aderyn - command output ! ${stdout}`);
+                return Promise.resolve(true);
+            })
+            .catch((err) => {
+                logger.err(`failed to remove aderyn - ${JSON.stringify(err)}`);
+                return Promise.resolve(false);
+            });
+        if (worked) {
+            return Promise.resolve(true);
+        }
+    }
+    return Promise.resolve(false);
+}
+
+async function removeAderynUpdate(logger: Logger): Promise<boolean> {
+    const commands = [
+        'rm $(command -v aderyn-update)',
+        'rm `which aderyn-update`',
+        'rm (command -v adeyrn-update)',
+    ];
+    for (const cmd of commands) {
+        const worked = await executeCommand(cmd)
+            .then((stdout) => {
+                logger.info(`removed aderyn-update - command output ! ${stdout}`);
+                return Promise.resolve(true);
+            })
+            .catch((err) => {
+                logger.err(`failed to remove aderyn-update - ${JSON.stringify(err)}`);
+                return Promise.resolve(false);
+            });
+        if (worked) {
+            return Promise.resolve(true);
+        }
+    }
+    return Promise.resolve(false);
+}
+
 /**
  * @description reinstalls aderyn for returning users. do not run this for first time users
  *
@@ -245,6 +304,9 @@ async function installAderynWithAppropriateCmd(
 
 export {
     whichAderyn,
+    aderynUpdateIsRecognized,
+    removeAderyn,
+    removeAderynUpdate,
     installAderynWithAppropriateCmd,
     reinstallAderynWithAppropriateCmd,
     removeAderynFromLegacyLocationIfPresent,

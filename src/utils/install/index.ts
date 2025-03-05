@@ -8,6 +8,10 @@ import {
     reinstallAderynWithAppropriateCmd,
     removeAderynFromLegacyLocationIfPresent,
     findMostAppropriateInstallationChannel,
+    aderynUpdateIsRecognized,
+    AderynSource,
+    removeAderynUpdate,
+    removeAderyn,
 } from './avm';
 import {
     getLocalAderynVersion,
@@ -54,9 +58,8 @@ async function ensureHealthyInternet() {
 async function clearCorruptedInstallation() {
     const logger = new Logger();
 
-    const isOnPath = await isAderynAvailableOnPath(logger);
-
-    if (isOnPath) {
+    // Handle Case 1
+    if (await isAderynAvailableOnPath(logger)) {
         // In case of corrupted aderyn (or) old version that threw GLIBC incomaptible errors,
         // the --version option will fail. In that case, we're better off deleting that to
         // do a fresh install.
@@ -70,6 +73,25 @@ async function clearCorruptedInstallation() {
                 );
             });
         });
+    }
+
+    // Handle Case 2
+    if (await isAderynAvailableOnPath(logger) /*(still)*/) {
+        // In the Case when the aderyn binary appears in .cargo/bin but there is no aderyn-update also qualifies as
+        // corrupted installation
+        const source = await whichAderyn(logger).catch(() => {
+            throw new Error(AderynInstallationErrorType.FailedToDetectAderynSource);
+        });
+        if (
+            source == AderynSource.NewCyfrinupAtCargoHome &&
+            !(await aderynUpdateIsRecognized(logger))
+        ) {
+            if (!(await removeAderyn(logger))) {
+                throw new Error(
+                    AderynInstallationErrorType.FailedToClearCorruptedInstallation,
+                );
+            }
+        }
     }
 }
 
