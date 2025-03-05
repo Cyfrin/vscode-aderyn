@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { clearCorruptedInstallation, ensureAderynIsInstalled, Logger } from '../utils';
 import { MessageType, postMessageTo } from './onboard-panel/messages';
 import { readPackageJson } from '../utils/metadata';
+import { ensureHealthyInternet } from '../utils/install/index';
 
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
@@ -69,7 +70,9 @@ class OnboardPanel {
     }
 
     attemptAderynCliSetup() {
-        ensureAderynIsInstalled()
+        ensureHealthyInternet()
+            .then(clearCorruptedInstallation)
+            .then(ensureAderynIsInstalled)
             .then(() => {
                 postMessageTo(
                     this._panel.webview,
@@ -101,7 +104,6 @@ class OnboardPanel {
             switch (data.command) {
                 case 'retry':
                     vscode.window.showInformationMessage(data.value);
-                    clearCorruptedInstallation();
                     this.attemptAderynCliSetup();
                     break;
             }

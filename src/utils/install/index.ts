@@ -27,6 +27,7 @@ enum AderynInstallationErrorType {
     FailedToDetectLocalAderynVersion = 'Failed to detect local aderyn version',
     FailedToCrossCheckAderynVersion = 'Failed to cross check aderyn installation',
     UnableToFetchExtensionMetadata = 'Unable to fetch extension metadata',
+    FailedToClearCorruptedInstallation = 'Failed to clear corrupted legacy installation',
     ExtensionIsTooOld = 'Extension is too old, must be upgraded to support latest aderyn',
     FailedToDetectAderynSource = 'Failed to detect installation source for the exisitng aderyn',
     NoInstallationChannel = 'Failed to find tools for installation - no npm, brew or curl!',
@@ -38,7 +39,8 @@ enum AderynInstallationErrorType {
     InstallationError = 'INSTALLATION_ERROR',
 }
 
-async function ensureAderynIsInstalled(): Promise<void> {
+// STEP 1
+async function ensureHealthyInternet() {
     const logger = new Logger();
 
     const isOnline = await hasReliableInternet(logger);
@@ -46,6 +48,34 @@ async function ensureAderynIsInstalled(): Promise<void> {
     if (!isOnline) {
         throw new Error(AderynInstallationErrorType.NoReliableInternet);
     }
+}
+
+// STEP 2
+async function clearCorruptedInstallation() {
+    const logger = new Logger();
+
+    const isOnPath = await isAderynAvailableOnPath(logger);
+
+    if (isOnPath) {
+        // In case of corrupted aderyn (or) old version that threw GLIBC incomaptible errors,
+        // the --version option will fail. In that case, we're better off deleting that to
+        // do a fresh install.
+        //
+        // Also, this error is only expected in the legacy versions of the releases.
+        // So we're conservative in choosing when to delete the binary
+        await getLocalAderynVersion(logger).catch(async () => {
+            await removeAderynFromLegacyLocationIfPresent(logger).catch(() => {
+                throw new Error(
+                    AderynInstallationErrorType.FailedToClearCorruptedInstallation,
+                );
+            });
+        });
+    }
+}
+
+// STEP 3
+async function ensureAderynIsInstalled(): Promise<void> {
+    const logger = new Logger();
 
     const isOnPath = await isAderynAvailableOnPath(logger);
 
@@ -100,7 +130,7 @@ async function ensureAderynIsInstalled(): Promise<void> {
                 const existingAderynVersion = await getLocalAderynVersion(logger).catch(
                     () => {
                         throw new Error(
-                            AderynInstallationErrorType.FailedToDetectLocalAderynVersion,
+                            AderynInstallationErrorType.FailedToCrossCheckAderynVersion,
                         );
                     },
                 );
@@ -158,12 +188,8 @@ async function ensureAderynIsInstalled(): Promise<void> {
     }
 }
 
-// Invoked when you try again
-function clearCorruptedInstallation() {
-    // TODO:
-}
-
 export {
+    ensureHealthyInternet,
     ensureAderynIsInstalled,
     createAderynReportAndDeserialize,
     clearCorruptedInstallation,
