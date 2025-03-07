@@ -51,12 +51,17 @@ async function promptUserToUpdate(): Promise<UserAction> {
 
 async function startPeriodicChecks() {
     const action = async () => {
-        const can = await updateIsAvailable(new Logger());
-        if (can) {
-            const action = await promptUserToUpdate();
-            if (action == UserAction.YES || action == UserAction.NO) {
-                clearInterval(intervalId);
+        try {
+            const can = await updateIsAvailable(new Logger());
+            if (can) {
+                const action = await promptUserToUpdate();
+                if (action == UserAction.YES || action == UserAction.NO) {
+                    clearInterval(intervalId);
+                }
             }
+        } catch (_ex) {
+            // no-op
+            // Expect corrupted aderyn binary that doesn't respond to --version
         }
     };
     const TIME_PERIOD = 15 * 60 * 1000; // 15 minutes
