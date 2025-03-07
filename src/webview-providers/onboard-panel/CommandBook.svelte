@@ -20,7 +20,11 @@
         <h2 class="font-light mt-4">
             Remember, to press
             <kbd>Cmd</kbd>
+            /
+            <kbd>Ctrl</kbd>
+            +
             <kbd>Shift</kbd>
+            +
             <kbd>P</kbd>
             <b> "Aderyn: Welcome on board" </b> to return to this guide
         </h2>
