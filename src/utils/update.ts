@@ -59,7 +59,7 @@ async function startPeriodicChecks() {
             }
         }
     };
-    const TIME_PERIOD = 30 * 60 * 1000; // 30 minute
+    const TIME_PERIOD = 15 * 60 * 1000; // 15 minutes
     const intervalId = setInterval(action, TIME_PERIOD);
 }
 
