@@ -175,7 +175,8 @@ async function reinstallAderynWithAppropriateCmd(
     } else {
         switch (source) {
             case AderynSource.LegacyCyfrinupAderyn:
-                command = 'cyfrinup aderyn';
+                command = 'cyfrinup';
+                env['CYFRINUP_ONLY_INSTALL'] = 'aderyn';
                 break;
             case AderynSource.NodePackageManager:
                 command = 'npm install -g @cyfrin/aderyn';
@@ -185,7 +186,9 @@ async function reinstallAderynWithAppropriateCmd(
                 command = 'aderyn-update';
                 break;
         }
-        logger.info(`running command for re-installation - ${command}`);
+        logger.info(
+            `running command for re-installation - ${command} env ${JSON.stringify(env)}`,
+        );
         return executeCommand(command, env)
             .then((/*stdout*/) => {
                 // Usually, when installation is successful, warnings are emitted to stderr, NOT stdin
