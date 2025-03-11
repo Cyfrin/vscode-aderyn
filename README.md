@@ -4,10 +4,10 @@ Aderyn helps developers detect vulnerabilities in their Solidity smart contracts
 
 ## 🔹 Features  
 
-- **Real-time Security Analysis** – Detect vulnerabilities as you code.  
-- **Inline Diagnostics** – Highlights issues with detailed explanations.  
-- **Quick Fixes & Suggestions** – Offers actionable recommendations.  
-- **Lightweight & Fast** – Powered by Aderyn’s AST-based scanning engine.  
+- **Real-time Security Analysis** – Detect vulnerabilities as you code.
+- **Inline Diagnostics** – Highlights issues with detailed explanations.
+- **Quick Fixes & Suggestions** – Offers actionable recommendations.
+- **Lightweight & Fast** – Powered by Aderyn’s AST-based scanning engine.
 
 🔗 [Aderyn CLI](https://github.com/cyfrin/aderyn)  
 
