@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 
 import { PanelProviders } from './variants';
-import { AderynDiagnosticsProvider } from './diagnostics-panel';
+import { AderynProjectDiagnosticsProvider as ProjectProvider } from './project-panel';
 
 function registerDataProviders(context: vscode.ExtensionContext) {
     // Project Diagnostics
-    const projectDataProvider = new AderynDiagnosticsProvider();
+    const projectDataProvider = new ProjectProvider();
     const projectTreeView = vscode.window.createTreeView(PanelProviders.Project, {
         treeDataProvider: projectDataProvider,
     });
@@ -16,7 +16,7 @@ function registerDataProviders(context: vscode.ExtensionContext) {
     });
 
     // Active activeFile Diagnostics
-    const activeFileDataProvider = new AderynDiagnosticsProvider();
+    const activeFileDataProvider = new ProjectProvider();
     const activeFileTreeView = vscode.window.createTreeView(PanelProviders.ActiveFile, {
         treeDataProvider: activeFileDataProvider,
     });

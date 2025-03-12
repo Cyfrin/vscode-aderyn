@@ -3,7 +3,9 @@ import * as path from 'path';
 import { Report, IssueInstance, Issue } from '../utils/install/issues';
 import { prepareResults } from './utils';
 
-class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticItem> {
+class AderynProjectDiagnosticsProvider
+    implements vscode.TreeDataProvider<DiagnosticItem>
+{
     private _onDidChangeTreeData: vscode.EventEmitter<DiagnosticItem | undefined | void> =
         new vscode.EventEmitter<DiagnosticItem | undefined | void>();
     readonly onDidChangeTreeData: vscode.Event<DiagnosticItem | undefined | void> =
@@ -127,4 +129,4 @@ class InstanceItem extends DiagnosticItem {
     }
 }
 
-export { AderynDiagnosticsProvider };
+export { AderynProjectDiagnosticsProvider };

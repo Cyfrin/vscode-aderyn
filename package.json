@@ -20,7 +20,7 @@
     "viewsWelcome": [
       {
         "view": "aderyn-panel-diagnostics-provider",
-        "contents": "Open a Solidity project to get started. For help, visit the [Welcome Page](command:aderyn.commands.showOnboardPanel) to get started",
+        "contents": "Open a Solidity project to get started. For help & FAQ visit the [Welcome Page](command:aderyn.commands.showOnboardPanel)",
         "when": "!aderyn-panel-diagnostics-provider.hasItems"
       },
       {
