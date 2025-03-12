@@ -1,17 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
-import {
-    ensureWorkspacePreconditionsMetAndReturnProjectURI,
-    findProjectRoot,
-    parseAderynConfig,
-} from '../utils/index';
-import {
-    createAderynReportAndDeserialize,
-    isAderynAvailableOnPath,
-} from '../utils/install/aderyn';
 import { Report, IssueInstance, Issue } from '../utils/install/issues';
-import { Logger } from '../utils/logger';
+import { prepareResults } from './utils';
 
 class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticItem> {
     private _onDidChangeTreeData: vscode.EventEmitter<DiagnosticItem | undefined | void> =
@@ -31,7 +21,13 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
 
     async getChildren(element?: DiagnosticItem): Promise<DiagnosticItem[]> {
         if (!element) {
-            return this.prepareResults().then(this.getTopLevelItems);
+            const results = await prepareResults();
+            if (!results) {
+                return [];
+            }
+            const [projectRootUri, report] = results;
+            this.projectRootUri = projectRootUri;
+            return this.getTopLevelItems(report);
         }
         if (element.itemKind == ItemKind.Category) {
             return this.getIssueItems(element as CategoryItem);
@@ -40,44 +36,6 @@ class AderynDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticIte
             return this.getInstances(element as IssueItem);
         }
         return Promise.resolve([]);
-    }
-
-    async prepareResults(): Promise<Report | null> {
-        const logger = new Logger();
-        const aderynIsOnPath = await isAderynAvailableOnPath(logger);
-        if (aderynIsOnPath) {
-            const workspaceRoot =
-                ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
-            if (!workspaceRoot) {
-                return Promise.reject('workspace pre-conditions unmet');
-            }
-            this.projectRootUri = await this.getProjectRootPrefixFromAderynToml(
-                findProjectRoot(workspaceRoot),
-            );
-            return await createAderynReportAndDeserialize(this.projectRootUri).catch(
-                (err) => {
-                    logger.err(err);
-                    vscode.window.showErrorMessage('Error fetching results from aderyn');
-                    return null;
-                },
-            );
-        }
-        return null;
-    }
-
-    async getProjectRootPrefixFromAderynToml(workspaceRoot: string): Promise<string> {
-        const aderynToml = path.join(workspaceRoot, 'aderyn.toml');
-        if (!fs.existsSync(aderynToml)) {
-            return workspaceRoot;
-        }
-        const configAsString = fs.readFileSync(aderynToml).toString();
-        try {
-            const config = await parseAderynConfig(configAsString);
-            return path.join(workspaceRoot, config.root);
-        } catch (err) {
-            vscode.window.showErrorMessage('Error parsing aderyn.toml');
-            return Promise.resolve(workspaceRoot);
-        }
     }
 
     getTopLevelItems(report: Report | null): DiagnosticItem[] {

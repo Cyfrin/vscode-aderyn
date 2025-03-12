@@ -1,19 +1,33 @@
 import * as vscode from 'vscode';
 
 import { PanelProviders } from './variants';
-import { AderynDiagnosticsProvider as D } from './diagnostics-panel';
+import { AderynDiagnosticsProvider } from './diagnostics-panel';
 
 function registerDataProviders(context: vscode.ExtensionContext) {
-    const diagnosticsDataProvider = new D();
-    const diagnosticsTreeView = vscode.window.createTreeView(PanelProviders.Diagnostics, {
-        treeDataProvider: diagnosticsDataProvider,
+    // Project Diagnostics
+    const projectDataProvider = new AderynDiagnosticsProvider();
+    const projectTreeView = vscode.window.createTreeView(PanelProviders.Project, {
+        treeDataProvider: projectDataProvider,
     });
-    diagnosticsTreeView.onDidChangeVisibility((e) => {
+    projectTreeView.onDidChangeVisibility((e) => {
         if (e.visible) {
-            diagnosticsDataProvider.refresh();
+            projectDataProvider.refresh();
         }
     });
-    context.subscriptions.push(diagnosticsTreeView);
+
+    // Active activeFile Diagnostics
+    const activeFileDataProvider = new AderynDiagnosticsProvider();
+    const activeFileTreeView = vscode.window.createTreeView(PanelProviders.ActiveFile, {
+        treeDataProvider: activeFileDataProvider,
+    });
+    activeFileTreeView.onDidChangeVisibility((e) => {
+        if (e.visible) {
+            activeFileDataProvider.refresh();
+        }
+    });
+
+    context.subscriptions.push(projectTreeView);
+    context.subscriptions.push(activeFileTreeView);
 }
 
 export { registerDataProviders };
