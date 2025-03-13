@@ -12,6 +12,7 @@ import {
 } from '../utils/install/aderyn';
 import { Report } from '../utils/install/issues';
 import { Logger } from '../utils/logger';
+import { ExecuteCommandError } from '../utils/runtime/system';
 
 type AderynReport =
     | {
@@ -23,7 +24,7 @@ type AderynReport =
           type: 'Error';
           aderynIsOnPath: boolean;
           workspaceConditionsUnmet?: boolean;
-          stderr?: string;
+          err?: ExecuteCommandError;
       };
 
 let cachedReport: Report | null = null;
@@ -73,16 +74,13 @@ async function prepareResults(cached?: boolean): Promise<AderynReport> {
                 report,
                 projectRootUri,
             };
-        } catch (stderr) {
-            logger.err(`${JSON.stringify(stderr)}`);
-            vscode.window.showErrorMessage(
-                `Error fetching results from aderyn - ${JSON.stringify(stderr)}`,
-            );
+        } catch (err) {
+            logger.err(`${JSON.stringify(err)}`);
             return {
                 type: 'Error',
                 aderynIsOnPath: true,
                 workspaceConditionsUnmet: true,
-                stderr: `${stderr}`,
+                err: err as ExecuteCommandError,
             };
         }
     }

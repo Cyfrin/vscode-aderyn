@@ -1,7 +1,14 @@
 import * as vscode from 'vscode';
-import { ItemKind, DiagnosticItem, CategoryItem, IssueItem } from './diagnostics-items';
+import {
+    ItemKind,
+    DiagnosticItem,
+    CategoryItem,
+    IssueItem,
+    ErrorItem,
+} from './diagnostics-items';
 import { Report } from '../utils/install/issues';
 import { AderynReport, getActiveFileURI } from './utils';
+import { ExecuteCommandErrorType } from '../utils/runtime/system';
 
 abstract class AderynGenericIssueProvider
     implements vscode.TreeDataProvider<DiagnosticItem>
@@ -16,6 +23,7 @@ abstract class AderynGenericIssueProvider
     protected projectRootUri: string | null = null;
     protected activeFileUri: vscode.Uri | null = null;
     protected report: Report | null = null;
+    protected errorMessage: string | null = null;
 
     refresh(): void {
         this._onDidChangeTreeData.fire();
@@ -27,9 +35,33 @@ abstract class AderynGenericIssueProvider
 
     async getChildren(element?: DiagnosticItem): Promise<DiagnosticItem[]> {
         if (!element) {
+            // Reset errors from previous runs
+            this.errorMessage = null;
+
+            // Init the results
             return this.initData().then(() => {
-                // Active File URI
                 this.activeFileUri = getActiveFileURI();
+
+                if (this.results?.type == 'Error' && this.results.aderynIsOnPath) {
+                    if (!this.results.workspaceConditionsUnmet) {
+                        this.errorMessage =
+                            'Exactly 1 open workspace is needed for running aderyn';
+                    } else if (this.results.err) {
+                        const { errorType, payload } = this.results.err;
+                        if (errorType == ExecuteCommandErrorType.Timeout) {
+                            this.errorMessage = 'Running aderyn timed out!';
+                        } else if (
+                            errorType == ExecuteCommandErrorType.BadCommandExitStatus &&
+                            payload
+                        ) {
+                            this.errorMessage = payload.toString();
+                        }
+                    }
+                }
+
+                if (this.errorMessage) {
+                    return this.errorMessage.split('\n').map((msg) => new ErrorItem(msg));
+                }
 
                 // Populate UI
                 return this.getTopLevelItems(this.report);
@@ -41,6 +73,7 @@ abstract class AderynGenericIssueProvider
             case ItemKind.Issue:
                 return this.getInstances(element as IssueItem);
             case ItemKind.Instance:
+            case ItemKind.ErrorMessage:
                 // Unexpected, since the state is non collapsible, this place shouldn't be reached
                 return [];
         }
