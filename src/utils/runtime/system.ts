@@ -53,7 +53,7 @@ async function executeCommand(
             );
             if (timeoutMilli) {
                 const E: ExecuteCommandError = {
-                    errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                    errorType: ExecuteCommandErrorType.Timeout,
                 };
                 setTimeout(() => reject(E), timeoutMilli);
             }
@@ -79,7 +79,7 @@ async function executeCommand(
             );
             if (timeoutMilli) {
                 const E: ExecuteCommandError = {
-                    errorType: ExecuteCommandErrorType.BadCommandExitStatus,
+                    errorType: ExecuteCommandErrorType.Timeout,
                 };
                 setTimeout(() => reject(E), timeoutMilli);
             }

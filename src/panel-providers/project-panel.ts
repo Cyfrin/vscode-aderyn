@@ -6,8 +6,21 @@ import {
 } from './diagnostics-items';
 import { Report } from '../utils/install/issues';
 import { AderynGenericIssueProvider } from './generic-issue-panel';
+import { prepareResults } from './utils';
 
 class AderynProjectDiagnosticsProvider extends AderynGenericIssueProvider {
+    initData(): Promise<void> {
+        return (async () => {
+            // Report
+            this.results = await prepareResults();
+            if (this.results.type == 'Success') {
+                const { projectRootUri, report } = this.results;
+                this.projectRootUri = projectRootUri;
+                this.report = report;
+            }
+        })();
+    }
+
     getTopLevelItems(report: Report | null): DiagnosticItem[] {
         if (!report) {
             return [];

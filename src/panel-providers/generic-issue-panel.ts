@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { ItemKind, DiagnosticItem, CategoryItem, IssueItem } from './diagnostics-items';
 import { Report } from '../utils/install/issues';
-import { AderynReport, prepareResults } from './utils';
+import { AderynReport, getActiveFileURI } from './utils';
 
 abstract class AderynGenericIssueProvider
     implements vscode.TreeDataProvider<DiagnosticItem>
@@ -14,6 +14,7 @@ abstract class AderynGenericIssueProvider
     protected results: AderynReport | null = null;
 
     protected projectRootUri: string | null = null;
+    protected activeFileUri: vscode.Uri | null = null;
     protected report: Report | null = null;
 
     refresh(): void {
@@ -26,18 +27,13 @@ abstract class AderynGenericIssueProvider
 
     async getChildren(element?: DiagnosticItem): Promise<DiagnosticItem[]> {
         if (!element) {
-            // Report
-            this.results = await prepareResults();
-            if (this.results.type == 'Success') {
-                const { projectRootUri, report } = this.results;
-                this.projectRootUri = projectRootUri;
-                this.report = report;
-            } else {
-                return [];
-            }
+            return this.initData().then(() => {
+                // Active File URI
+                this.activeFileUri = getActiveFileURI();
 
-            // Populate UI
-            return this.getTopLevelItems(this.report);
+                // Populate UI
+                return this.getTopLevelItems(this.report);
+            });
         }
         switch (element.itemKind) {
             case ItemKind.Category:
@@ -49,6 +45,8 @@ abstract class AderynGenericIssueProvider
                 return [];
         }
     }
+
+    abstract initData(): Promise<void>;
 
     abstract getTopLevelItems(report: Report | null): DiagnosticItem[];
 

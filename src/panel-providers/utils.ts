@@ -26,7 +26,13 @@ type AderynReport =
           stderr?: string;
       };
 
-async function prepareResults(): Promise<AderynReport> {
+let cachedReport: Report | null = null;
+
+async function prepareResults(cached?: boolean): Promise<AderynReport> {
+    if (cached && !cachedReport) {
+        return prepareResults(false);
+    }
+
     const logger = new Logger();
 
     // Pre-checks
@@ -52,22 +58,33 @@ async function prepareResults(): Promise<AderynReport> {
     );
 
     // Generate report
-    try {
-        const report = await createAderynReportAndDeserialize(projectRootUri);
+    if (cached && cachedReport) {
         return {
             type: 'Success',
-            report,
+            report: cachedReport,
             projectRootUri,
         };
-    } catch (stderr) {
-        logger.err(`${JSON.stringify(stderr)}`);
-        vscode.window.showErrorMessage('Error fetching results from aderyn');
-        return {
-            type: 'Error',
-            aderynIsOnPath: true,
-            workspaceConditionsUnmet: true,
-            stderr: `${stderr}`,
-        };
+    } else {
+        try {
+            const report = await createAderynReportAndDeserialize(projectRootUri);
+            cachedReport = report;
+            return {
+                type: 'Success',
+                report,
+                projectRootUri,
+            };
+        } catch (stderr) {
+            logger.err(`${JSON.stringify(stderr)}`);
+            vscode.window.showErrorMessage(
+                `Error fetching results from aderyn - ${JSON.stringify(stderr)}`,
+            );
+            return {
+                type: 'Error',
+                aderynIsOnPath: true,
+                workspaceConditionsUnmet: true,
+                stderr: `${stderr}`,
+            };
+        }
     }
 }
 
