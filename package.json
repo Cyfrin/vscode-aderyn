@@ -2,10 +2,10 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Rust-based Solidity AST analyzer.",
-  "version": "0.0.14",
+  "version": "0.0.16",
   "supportedAderynVersions": {
     "major": 0,
-    "minor": 4
+    "minor": 5
   },
   "publisher": "cyfrin",
   "repository": {
@@ -20,8 +20,13 @@
     "viewsWelcome": [
       {
         "view": "aderyn-panel-diagnostics-provider",
-        "contents": "Visit the [Welcome Page](command:aderyn.commands.showOnboardPanel) to get started",
+        "contents": "Open a Solidity project to get started. For help, visit [Welcome Page](command:aderyn.commands.showOnboardPanel)",
         "when": "!aderyn-panel-diagnostics-provider.hasItems"
+      },
+      {
+        "view": "aderyn-panel-specific-file-diagnostics-provider",
+        "contents": "Nothing to show",
+        "when": "!aderyn-panel-specific-file-diagnostics-provider.hasItems"
       }
     ],
     "viewsContainers": {
@@ -37,9 +42,15 @@
       "aderyn-panel-diagnostics": [
         {
           "id": "aderyn-panel-diagnostics-provider",
-          "name": "Aderyn Diagnostics",
+          "name": "Project",
           "icon": "media/common/dep.svg",
-          "contextualTitle": "Aderyn Diagnostics"
+          "contextualTitle": "Project"
+        },
+        {
+          "id": "aderyn-panel-specific-file-diagnostics-provider",
+          "name": "Active File",
+          "icon": "media/common/dep.svg",
+          "contextualTitle": "Active File"
         }
       ],
       "explorer": [
