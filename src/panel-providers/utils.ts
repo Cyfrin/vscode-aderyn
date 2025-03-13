@@ -13,27 +13,65 @@ import {
 import { Report } from '../utils/install/issues';
 import { Logger } from '../utils/logger';
 
-async function prepareResults(): Promise<[string, Report | null] | null> {
+type AderynReport =
+    | {
+          type: 'Success';
+          report: Report;
+          projectRootUri: string;
+      }
+    | {
+          type: 'Error';
+          aderynIsOnPath: boolean;
+          workspaceConditionsUnmet?: boolean;
+          stderr?: string;
+      };
+
+async function prepareResults(): Promise<AderynReport> {
     const logger = new Logger();
+
+    // Pre-checks
     const aderynIsOnPath = await isAderynAvailableOnPath(logger);
-    if (aderynIsOnPath) {
-        const workspaceRoot = ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
-        if (!workspaceRoot) {
-            return Promise.reject('workspace pre-conditions unmet');
-        }
-        const projectRootUri = await getProjectRootPrefixFromAderynToml(
-            findProjectRoot(workspaceRoot),
-        );
-        return [
-            projectRootUri,
-            await createAderynReportAndDeserialize(projectRootUri).catch((err) => {
-                logger.err(err);
-                vscode.window.showErrorMessage('Error fetching results from aderyn');
-                return null;
-            }),
-        ];
+    if (!aderynIsOnPath) {
+        return {
+            type: 'Error',
+            aderynIsOnPath: false,
+        };
     }
-    return null;
+
+    const workspaceRoot = ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
+    if (!workspaceRoot) {
+        return {
+            type: 'Error',
+            aderynIsOnPath: true,
+            workspaceConditionsUnmet: false,
+        };
+    }
+
+    const projectRootUri = await getProjectRootPrefixFromAderynToml(
+        findProjectRoot(workspaceRoot),
+    );
+
+    // Generate report
+    try {
+        vscode.window.showInformationMessage('Creating report');
+        vscode.window.showInformationMessage(projectRootUri);
+        const report = await createAderynReportAndDeserialize(projectRootUri);
+        vscode.window.showInformationMessage('Created report');
+        return {
+            type: 'Success',
+            report,
+            projectRootUri,
+        };
+    } catch (stderr) {
+        logger.err(`${JSON.stringify(stderr)}`);
+        vscode.window.showErrorMessage('Error fetching results from aderyn');
+        return {
+            type: 'Error',
+            aderynIsOnPath: true,
+            workspaceConditionsUnmet: true,
+            stderr: `${stderr}`,
+        };
+    }
 }
 
 async function getProjectRootPrefixFromAderynToml(
@@ -53,4 +91,17 @@ async function getProjectRootPrefixFromAderynToml(
     }
 }
 
-export { prepareResults, getProjectRootPrefixFromAderynToml };
+function getActiveFileURI(): vscode.Uri | null {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return null;
+    }
+    return editor.document.uri ?? null;
+}
+
+export {
+    AderynReport,
+    prepareResults,
+    getProjectRootPrefixFromAderynToml,
+    getActiveFileURI,
+};

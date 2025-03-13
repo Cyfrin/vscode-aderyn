@@ -1,17 +1,16 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Report, IssueInstance, Issue } from '../utils/install/issues';
-import { AderynReport, prepareResults } from './utils';
+import { prepareResults, getActiveFileURI, AderynReport } from './utils';
 
-class AderynProjectDiagnosticsProvider
-    implements vscode.TreeDataProvider<DiagnosticItem>
-{
+class AderynFileDiagnosticsProvider implements vscode.TreeDataProvider<DiagnosticItem> {
     private _onDidChangeTreeData: vscode.EventEmitter<DiagnosticItem | undefined | void> =
         new vscode.EventEmitter<DiagnosticItem | undefined | void>();
     readonly onDidChangeTreeData: vscode.Event<DiagnosticItem | undefined | void> =
         this._onDidChangeTreeData.event;
 
     projectRootUri: string | null = null;
+    activeFileUri: vscode.Uri | null = null;
 
     refresh(): void {
         this._onDidChangeTreeData.fire();
@@ -23,33 +22,44 @@ class AderynProjectDiagnosticsProvider
 
     async getChildren(element?: DiagnosticItem): Promise<DiagnosticItem[]> {
         if (!element) {
-            vscode.window.showInformationMessage('Preparing results');
             const results: AderynReport = await prepareResults();
             if (results.type == 'Error') {
                 return [];
             }
             const { projectRootUri, report } = results;
             this.projectRootUri = projectRootUri;
-            vscode.window.showInformationMessage('Prepared results');
             return this.getTopLevelItems(report);
         }
-        switch (element.itemKind) {
-            case ItemKind.Category:
-                return this.getIssueItems(element as CategoryItem);
-            case ItemKind.Issue:
-                return this.getInstances(element as IssueItem);
-            case ItemKind.Instance:
-                // Unexpected, since the state is non collapsible, this place shouldn't be reached
-                return [];
+        if (element.itemKind == ItemKind.Category) {
+            return this.getIssueItems(element as CategoryItem);
         }
+        if (element.itemKind == ItemKind.Issue) {
+            return this.getInstances(element as IssueItem);
+        }
+        return Promise.resolve([]);
     }
 
     getTopLevelItems(report: Report | null): DiagnosticItem[] {
         if (!report) {
             return [];
         }
-        const highIssues = report.highIssues.issues;
-        const lowIssues = report.lowIssues.issues;
+        const isRelevantInstance = (instance: IssueInstance): boolean => {
+            if (!this.activeFileUri || !this.projectRootUri) {
+                return false;
+            }
+            const instancePath = vscode.Uri.file(
+                path.join(this.projectRootUri, instance.contractPath),
+            );
+            return instancePath == this.activeFileUri;
+        };
+
+        const highIssues = report.highIssues.issues.filter((issue) =>
+            issue.instances.filter(isRelevantInstance),
+        );
+        const lowIssues = report.lowIssues.issues.filter((issue) =>
+            issue.instances.filter(isRelevantInstance),
+        );
+
         return [new CategoryItem('High', highIssues), new CategoryItem('Low', lowIssues)];
     }
 
@@ -133,4 +143,4 @@ class InstanceItem extends DiagnosticItem {
     }
 }
 
-export { AderynProjectDiagnosticsProvider };
+export { AderynFileDiagnosticsProvider };

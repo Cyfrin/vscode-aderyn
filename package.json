@@ -5,7 +5,7 @@
   "version": "0.0.15",
   "supportedAderynVersions": {
     "major": 0,
-    "minor": 4
+    "minor": 5
   },
   "publisher": "cyfrin",
   "repository": {
@@ -20,7 +20,7 @@
     "viewsWelcome": [
       {
         "view": "aderyn-panel-diagnostics-provider",
-        "contents": "Open a Solidity project to get started. For help & FAQ visit the [Welcome Page](command:aderyn.commands.showOnboardPanel)",
+        "contents": "Open a Solidity project to get started. For help, visit [Welcome Page](command:aderyn.commands.showOnboardPanel)",
         "when": "!aderyn-panel-diagnostics-provider.hasItems"
       },
       {
@@ -50,7 +50,7 @@
           "id": "aderyn-panel-specific-file-diagnostics-provider",
           "name": "Active File",
           "icon": "media/common/dep.svg",
-          "contextualTitle": "File"
+          "contextualTitle": "Active File"
         }
       ],
       "explorer": [
