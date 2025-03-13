@@ -6,6 +6,7 @@ const enum ItemKind {
     Category,
     Issue,
     Instance,
+    ErrorMessage,
 }
 
 class DiagnosticItem extends vscode.TreeItem {
@@ -15,6 +16,13 @@ class DiagnosticItem extends vscode.TreeItem {
         public readonly itemKind: ItemKind,
     ) {
         super(label, collapsibleState);
+        this.tooltip = `${this.label}`;
+    }
+}
+
+class ErrorItem extends DiagnosticItem {
+    constructor(public readonly label: string) {
+        super('Error', vscode.TreeItemCollapsibleState.None, ItemKind.ErrorMessage);
         this.tooltip = `${this.label}`;
     }
 }
@@ -71,4 +79,4 @@ class InstanceItem extends DiagnosticItem {
     }
 }
 
-export { ItemKind, DiagnosticItem, CategoryItem, IssueItem, InstanceItem };
+export { ItemKind, DiagnosticItem, CategoryItem, IssueItem, InstanceItem, ErrorItem };
