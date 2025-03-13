@@ -1,4 +1,4 @@
-import { AderynDiagnosticsProvider } from './diagnostics-panel';
+import { AderynProjectDiagnosticsProvider } from './project-panel';
 import { registerDataProviders } from './registrations';
 
-export { AderynDiagnosticsProvider, registerDataProviders };
+export { AderynProjectDiagnosticsProvider, registerDataProviders };

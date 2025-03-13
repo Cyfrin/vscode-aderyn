@@ -1,5 +1,6 @@
 const enum PanelProviders {
-    Diagnostics = 'aderyn-panel-diagnostics-provider',
+    Project = 'aderyn-panel-diagnostics-provider',
+    ActiveFile = 'aderyn-panel-specific-file-diagnostics-provider',
 }
 
 export { PanelProviders };
