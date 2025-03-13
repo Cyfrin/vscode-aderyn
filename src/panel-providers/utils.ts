@@ -53,10 +53,7 @@ async function prepareResults(): Promise<AderynReport> {
 
     // Generate report
     try {
-        vscode.window.showInformationMessage('Creating report');
-        vscode.window.showInformationMessage(projectRootUri);
         const report = await createAderynReportAndDeserialize(projectRootUri);
-        vscode.window.showInformationMessage('Created report');
         return {
             type: 'Success',
             report,
