@@ -27,6 +27,11 @@
         "view": "aderyn-panel-specific-file-diagnostics-provider",
         "contents": "Nothing to show",
         "when": "!aderyn-panel-specific-file-diagnostics-provider.hasItems"
+      },
+      {
+        "view": "aderyn-panel-help-and-feedback-provider",
+        "contents": "Help & Feedback",
+        "when": "!aderyn-panel-help-and-feedback-provider.hasItems"
       }
     ],
     "viewsContainers": {
@@ -51,6 +56,12 @@
           "name": "Active File",
           "icon": "media/common/dep.svg",
           "contextualTitle": "Active File"
+        },
+        {
+          "id": "aderyn-panel-help-and-feedback-provider",
+          "name": "Help and Feedback",
+          "icon": "media/common/dep.svg",
+          "contextualTitle": "Help And Feedback"
         }
       ],
       "explorer": [

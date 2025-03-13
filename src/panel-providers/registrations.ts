@@ -7,6 +7,7 @@ import {
     setActiveFileDiagnosticsProvider,
     setProjectDiagnosticsProvider,
 } from '../state/index';
+import { AderynHelpAndFeedbackProvider } from './help-and-feedback';
 
 function registerDataProviders(context: vscode.ExtensionContext) {
     // Project Diagnostics
@@ -31,8 +32,26 @@ function registerDataProviders(context: vscode.ExtensionContext) {
         }
     });
 
+    // Help and feedback provider
+    const helpAndFeedbackProvider = new AderynHelpAndFeedbackProvider();
+    const helpAndFeedbackTreeView = vscode.window.createTreeView(
+        PanelProviders.HelpAndFeedback,
+        {
+            treeDataProvider: helpAndFeedbackProvider,
+        },
+    );
+    helpAndFeedbackTreeView.onDidChangeSelection((selection) => {
+        if (selection.selection.length == 1) {
+            const s = selection.selection[0];
+            if (s.ctaUrl) {
+                vscode.env.openExternal(vscode.Uri.parse(s.ctaUrl));
+            }
+        }
+    });
+
     context.subscriptions.push(projectTreeView);
     context.subscriptions.push(activeFileTreeView);
+    context.subscriptions.push(helpAndFeedbackTreeView);
 
     setProjectDiagnosticsProvider(projectDataProvider);
     setActiveFileDiagnosticsProvider(activeFileDataProvider);
