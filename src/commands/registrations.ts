@@ -6,6 +6,8 @@ import {
     startServer,
     initConfigFile,
     openSettings,
+    refreshActiveFilePanel,
+    refreshProjectPanel,
 } from './actions';
 import { EditorCmd } from './variants';
 
@@ -37,12 +39,24 @@ function registerEditorCommands(context: vscode.ExtensionContext) {
         openSettings,
     );
 
+    const refreshProjectPanelCommand = vscode.commands.registerCommand(
+        EditorCmd.RefreshProjectPanel,
+        refreshProjectPanel,
+    );
+
+    const refreshActivePanelCommand = vscode.commands.registerCommand(
+        EditorCmd.RefreshActiveFilePanel,
+        refreshActiveFilePanel,
+    );
+
     context.subscriptions.push(startCommand);
     context.subscriptions.push(stopCommand);
     context.subscriptions.push(restartCommand);
     context.subscriptions.push(showOnboardCommand);
     context.subscriptions.push(initConfigFileCommand);
     context.subscriptions.push(openSettingsCommand);
+    context.subscriptions.push(refreshProjectPanelCommand);
+    context.subscriptions.push(refreshActivePanelCommand);
 }
 
 export { registerEditorCommands };
