@@ -1,6 +1,8 @@
 import { StatusBarItem, Uri } from 'vscode';
 
 import { LanguageClient } from 'vscode-languageclient/node';
+import { AderynFileDiagnosticsProvider } from '../panel-providers/file-panel';
+import { AderynProjectDiagnosticsProvider } from '../panel-providers/project-panel';
 
 import {
     createLanguageClient,
@@ -27,6 +29,8 @@ import {
  */
 let client: LanguageClient | undefined;
 let aderynStatusItem: StatusBarItem | undefined;
+let projectDiagnosticsProvider: AderynProjectDiagnosticsProvider | undefined;
+let activeFileDiagnosticsProvider: AderynFileDiagnosticsProvider | undefined;
 
 async function createAderynStatusItem() {
     aderynStatusItem = createStatusBarItem(StatusIcon.AderynServer);
@@ -38,6 +42,14 @@ async function createOrInitLspClient() {
 
 async function createOrInitOnboardProvider(uri: Uri) {
     createNewOrShowOnboardProvider(uri);
+}
+
+function setProjectDiagnosticsProvider(provider: AderynProjectDiagnosticsProvider) {
+    projectDiagnosticsProvider = provider;
+}
+
+function setActiveFileDiagnosticsProvider(provider: AderynFileDiagnosticsProvider) {
+    activeFileDiagnosticsProvider = provider;
 }
 
 export {
@@ -62,4 +74,10 @@ export {
     showAderynStatusOn,
     showAderynStatusOff,
     hideAderynStatus,
+
+    // Panels
+    projectDiagnosticsProvider,
+    activeFileDiagnosticsProvider,
+    setProjectDiagnosticsProvider,
+    setActiveFileDiagnosticsProvider,
 };

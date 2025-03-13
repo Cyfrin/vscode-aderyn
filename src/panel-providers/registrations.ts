@@ -3,6 +3,10 @@ import * as vscode from 'vscode';
 import { PanelProviders } from './variants';
 import { AderynProjectDiagnosticsProvider as ProjectProvider } from './project-panel';
 import { AderynFileDiagnosticsProvider as FileProvider } from './file-panel';
+import {
+    setActiveFileDiagnosticsProvider,
+    setProjectDiagnosticsProvider,
+} from '../state/index';
 
 function registerDataProviders(context: vscode.ExtensionContext) {
     // Project Diagnostics
@@ -29,6 +33,9 @@ function registerDataProviders(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(projectTreeView);
     context.subscriptions.push(activeFileTreeView);
+
+    setProjectDiagnosticsProvider(projectDataProvider);
+    setActiveFileDiagnosticsProvider(activeFileDataProvider);
 }
 
 export { registerDataProviders };
