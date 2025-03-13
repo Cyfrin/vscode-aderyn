@@ -2,6 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-13
+## 2025-03-14
 
-* feat: help and feedback (by @TilakMaddy)
+* checklist for errors (by @TilakMaddy)
