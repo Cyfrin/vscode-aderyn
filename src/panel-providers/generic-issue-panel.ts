@@ -60,7 +60,22 @@ abstract class AderynGenericIssueProvider
                 }
 
                 if (this.errorMessage) {
-                    return this.errorMessage.split('\n').map((msg) => new ErrorItem(msg));
+                    return [
+                        ...this.errorMessage.split('\n').map((msg) => new ErrorItem(msg)),
+                        new ErrorItem(''),
+                        new ErrorItem(
+                            'To generate the above message manually, run `aderyn` in the command line at root of the project',
+                        ),
+                        new ErrorItem(''),
+                        new ErrorItem('Have you tried the following?'),
+                        new ErrorItem(''),
+                        new ErrorItem("Install the project's dependencies"),
+                        new ErrorItem('Write the remappings in remappings.txt'),
+                        new ErrorItem(
+                            'Initializing a adreyn.toml config file with sensible values',
+                        ),
+                        new ErrorItem('Consulting Help and Feedback below'),
+                    ];
                 }
 
                 // Populate UI
