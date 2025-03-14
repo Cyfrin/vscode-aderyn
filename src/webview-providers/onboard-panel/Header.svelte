@@ -1,9 +1,9 @@
 <div class="mb-2">
-    <h1 class="m-1 text-2xl font-bold">Congratulations!</h1>
+    <h1 class="m-1 text-2xl font-bold">Welcome to Cyfrin Aderyn</h1>
 </div>
 <div class="mb-8">
     <h2 class="m-1 italic">
-        You have indeed made a good call by installing the Aderyn extension.
+        Thank you for installing Aderyn! We are excited to have you on board!
     </h2>
 </div>
 <img

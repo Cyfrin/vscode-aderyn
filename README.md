@@ -1,24 +1,56 @@
 # ✨ Aderyn - Solidity Security Extension for VS Code ✨  
 
-Aderyn helps developers detect vulnerabilities in their Solidity smart contracts using static analysis. It seamlessly integrates with Aderyn’s CLI tool, providing real-time security insights directly in VS Code.  
+Aderyn is a Rust-based Solidity static analyzer that detects vulnerabilities in smart contracts during development. With the Aderyn VS Code Extension, Smart contract security checks become an effortless part of your development workflow. 
 
-## 🔹 Features  
+Here’s what you can expect:
+- **Fast, real-time security checks:** Spot issues the moment you save your Solidity files, without running commands manually. 
+- **Structured tree view:** See all vulnerabilities at a glance and navigate them effortlessly.  
+- **AI-powered fixes:** Squiggly lines highlight issues, and AI tools may assist in quick resolution.  
+- **Automatic updates and easy setup:** The extension manages Aderyn installations for you.
 
-- **Real-time Security Analysis** – Detect vulnerabilities as you code.
-- **Inline Diagnostics** – Highlights issues with detailed explanations.
-- **Quick Fixes & Suggestions** – Offers actionable recommendations.
-- **Lightweight & Fast** – Powered by Aderyn’s AST-based scanning engine.
+For a list of supported vulnerabilities, visit the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/supported-detector).
 
-🔗 [Aderyn CLI](https://github.com/cyfrin/aderyn)  
-
-## 📚 Docs
-
-- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
+</br>
 
 ## 🚀 Installation  
 
-1. Download the `.vsix` file from the [Releases](https://github.com/Cyfrin/vscode-aderyn/releases) page.  
-2. Open VS Code and install the extension.  
+1. Install Aderyn via the VS Code Marketplace ADD LINK
+2. Visit the Welcome page (Aderyn will open this in your IDE)
+3. Aderyn will start looking for vulnerabilities in your codebase.
+   
+Aderyn works seamlessly on commonly recognized project structures i.e when a foundry.toml or hardhat.config.ts or aderyn.toml is found in the root of the workspace. 
+
+Learn how to run Aderyn on a custom project structure [in this guide](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/run-aderyn-on-a-custom-project).
+
+</br>
+
+## 🔹 Features  
+
+### 1. Inline diagnostics and real-time feedback
+Aderyn runs in the background, analyzing your Solidity code as you work, giving you access to:
+
+* **Real-time vulnerabilities report:** Errors and vulnerabilities appear right in your code, just like syntax errors.  
+* **Inline explanations:** Get detailed insights into each issue without leaving your editor.
+* **AI-assisted fixes:** Copilot and other AI tools can interface with Aderyn to help resolve flagged issues, making security fixes quicker.  
+
+### 2. All your code vulnerabilities listed
+To help you stay organized, Aderyn provides a tree view in the VS Code Activity Bar. This gives you a comprehensive overview of all detected issues across your project. Instead of manually searching for vulnerabilities file by file, you get a centralized list to navigate and resolve problems efficiently.  
+
+### 3. Continuous monitoring and background analysis 
+Aderyn instantly scans for vulnerabilities and updates diagnostics whenever you save a file. You don't need to rerun commands manually. The extension works silently in the background, ensuring your security checks stay updated as you develop.  
+
+### 4. Automatic setup and seamless integration
+The extension automatically installs and starts scanning your Solidity files, ensuring you're always using the latest Aderyn version and vulnerability detectors. Just install it and start coding. Aderyn takes care of the rest.  
+
+</br>
+
+## 📚 Docs
+
+You can find commonly needed information by navigating to the command menu <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> and searching for `Aderyn: Welcome on board` 
+
+For in-depth docs, navigate to the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/).
+
+</br>
 
 ## 🛠 Contributing  
 
@@ -40,4 +72,58 @@ Aderyn helps developers detect vulnerabilities in their Solidity smart contracts
 6. Open the project in VS Code and press **F5** to launch a development instance.  
 
 > Note: Step 4 and 5 are optional. Required only when debugging language server.
+
+</br>
+
+## ⁉️ FAQs and troubleshooting
+
+1. **Can I run Aderyn on multiple projects in the same directory?**
+
+   If there are multiple parallel solidity projects in the same workspace it will not be supported. Two instances of the editor vscode must be opened and treated as separate projects.
+
+2. **Can I use Aderyn on a custom project structure (not Foundry or Hardhat)?**
+
+   If the project's framework config file is nested in some directory or is using a custom build pipeline, please create an aderyn.toml by typing <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>  and search for "Aderyn: initialize config file". 
+
+   Learn how to properly edit the aderyn.toml file on the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/supported-detector).
+
+3. **How do I open the Welcome Page?**
+
+   To open the welcome page, press: <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>  and search for "Aderyn: Welcome on board" 
+
+4. **Why isn’t Aderyn displaying any found vulnerabilities?**
+   
+   If Aderyn isn’t showing any vulnerabilities, follow these steps to ensure it is functioning correctly:
+   * **Access the Welcome Page:**
+
+     * Press <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> > to open the command palette.
+     * Type ⁠Aderyn: Welcome on board and select it.
+   
+	* **Check for Errors:**
+
+      	* Look for any error messages displayed in red on the Welcome page.
+      	* If an error is present, carefully follow the instructions provided to resolve the issue.
+   
+	* **Verify Project Compatibility:**
+
+      	* Ensure that you have a compatible project open. Aderyn requires one of the following configuration files in the root folder of your workspace:
+            
+            * foundry.toml
+      	   * hardhat.config.ts
+      	   * ⁠aderyn.toml
+
+   * **Address Displayed Errors:**
+   
+   	   * If any errors are shown, take appropriate action based on the messages to rectify the issue.
+      	
+   If you’ve followed these steps and Aderyn still isn’t showing any vulnerabilities, open a [new issue](https://github.com/Cyfrin/vscode-aderyn/issues) or contact support on [Discord](https://discord.gg/cyfrin).
+
+</br>
+
+## ✋ Feedback and Support
+
+Cyfrin [Discord Server](https://discord.gg/cyfrin).
+
+Follow [Cyfrin Research on Twitter](https://x.com/cyfrinresearch).
+
 
