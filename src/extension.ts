@@ -4,6 +4,7 @@ import {
     isKeyUsed,
     isWindowsNotWSL,
     startPeriodicChecks,
+    startInstallationOneTimeCheck,
     Keys,
     Logger,
 } from './utils';
@@ -37,7 +38,8 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerStatusBarItems(context))
         .then(() => registerDataProviders(context))
         .then(autoStartLspClientIfRequested)
-        .then(startPeriodicChecks);
+        .then(startPeriodicChecks)
+        .then(startInstallationOneTimeCheck);
 }
 
 async function autoStartLspClientIfRequested() {

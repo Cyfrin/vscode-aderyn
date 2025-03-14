@@ -11,7 +11,8 @@ import {
 import { ensureAderynIsInstalled, clearCorruptedInstallation } from './install';
 import { isKeyUsed, Keys } from './keys';
 import { Logger } from './logger';
-import { startPeriodicChecks } from './update';
+import { startPeriodicChecks } from './startup-update';
+import { startInstallationOneTimeCheck } from './startup-install';
 
 export {
     parseAderynConfig,
@@ -25,6 +26,7 @@ export {
     isKeyUsed,
     startPeriodicChecks,
     clearCorruptedInstallation,
+    startInstallationOneTimeCheck,
     Keys,
     Logger,
     AderynConfig,

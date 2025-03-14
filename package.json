@@ -151,6 +151,11 @@
           "type": "boolean",
           "default": true,
           "description": "Auto start Aderyn on Foundry/Hardhat projects"
+        },
+        "aderyn.config.autoCheckHealth": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto check for bad / no Aderyn installation on startup"
         }
       }
     }
