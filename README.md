@@ -17,7 +17,7 @@ For a list of supported vulnerabilities, visit the [official Cyfrin Research doc
 
 ## 🚀 Installation  
 
-1. Install Aderyn via the VS Code Marketplace ADD LINK
+1. Install Aderyn via the VS Code Marketplace
 2. Visit the Welcome page (Aderyn will open this in your IDE)
 3. Aderyn will start looking for vulnerabilities in your codebase.
    
