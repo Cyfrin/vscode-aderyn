@@ -20,24 +20,26 @@ class AderynHelpAndFeedbackProvider implements vscode.TreeDataProvider<HelpItem>
         return [
             new HelpItem('Visit Welcome page', EditorCmd.ShowOnboardPanel),
             new HelpItem(
-                'Check for updates & Fix corrupt installation',
+                'Updates & Fix corrupt installation',
                 EditorCmd.ShowOnboardPanel,
             ),
             new HelpItem(
-                'Read Extension Documentation',
+                'Documentation',
                 undefined,
-                'https://support.cyfrin.io/en/collections/11474626-tools',
+                'https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/what-is-aderyn-vs-code-extension',
             ),
             new HelpItem(
-                'Report Issue',
+                'Report Extension Issues',
                 undefined,
                 'https://github.com/Cyfrin/vscode-aderyn',
             ),
             new HelpItem(
-                'Contribute',
+                'Report Detector Logic Issues',
                 undefined,
-                'https://github.com/Cyfrin/vscode-aderyn',
+                'https://github.com/Cyfrin/aderyn',
             ),
+            new HelpItem('Security Course', undefined, 'https://www.cyfrin.io/updraft'),
+            new HelpItem('Support', undefined, 'https://discord.com/invite/cyfrin'),
         ];
     }
 }
