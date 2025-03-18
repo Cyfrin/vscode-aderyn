@@ -8,6 +8,9 @@ Here’s what you can expect:
 - **AI-powered fixes:** Squiggly lines highlight issues, and AI tools may assist in quick resolution.  
 - **Automatic updates and easy setup:** The extension manages Aderyn installations for you.
 
+![Aderyn Extension Demo](./media/common/aderyn.gif)
+
+
 For a list of supported vulnerabilities, visit the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/supported-detector).
 
 </br>
@@ -18,7 +21,8 @@ For a list of supported vulnerabilities, visit the [official Cyfrin Research doc
 2. Visit the Welcome page (Aderyn will open this in your IDE)
 3. Aderyn will start looking for vulnerabilities in your codebase.
    
-Aderyn works seamlessly on commonly recognized project structures i.e when a foundry.toml or hardhat.config.ts or aderyn.toml is found in the root of the workspace. 
+Aderyn works seamlessly on commonly recognized project structures i.e when a foundry.toml or hardhat.config.ts is found in the root of the workspace. 
+If not in the root file, make sure your aderyn.toml file correctly points to your foundry.toml or hardhat.config.toml file
 
 Learn how to run Aderyn on a custom project structure [in this guide](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/run-aderyn-on-a-custom-project).
 
@@ -33,6 +37,7 @@ Aderyn runs in the background, analyzing your Solidity code as you work, giving 
 * **Inline explanations:** Get detailed insights into each issue without leaving your editor.
 * **AI-assisted fixes:** Copilot and other AI tools can interface with Aderyn to help resolve flagged issues, making security fixes quicker.  
 
+![Aderyn Inline Diagnostics](./media/common/aderyn-issues.png)
 ### 2. All your code vulnerabilities listed
 To help you stay organized, Aderyn provides a tree view in the VS Code Activity Bar. This gives you a comprehensive overview of all detected issues across your project. Instead of manually searching for vulnerabilities file by file, you get a centralized list to navigate and resolve problems efficiently.  
 
@@ -54,24 +59,33 @@ For in-depth docs, navigate to the [official Cyfrin Research docs](https://cyfri
 
 ## 🛠 Contributing  
 
+Before you start contributing, visit the [issue tracker](https://github.com/Cyfrin/vscode-aderyn/issues) to find a list of open issues or to create a new one.
+
+To start contributing:
+
 1. Clone the repository:  
    ```sh
    git clone https://github.com/cyfrin/vscode-aderyn.git
+   ```
+2. Navigate to the extension folder:  
+   ```sh
    cd vscode-aderyn
-   ```  
-2. Install dependencies:  
+   ```
+3. Install dependencies:  
    ```sh
    make
    ```  
 3. Start the development server:  
    ```sh
    make dev
-   ```  
-4. Install [Rust](https://www.rust-lang.org/) and clone [Aderyn](https://github.com/cyfrin/aderyn) separately.  
-5. Create a [`manifest`](https://github.com/Cyfrin/vscode-aderyn/blob/main/manifest.sample) file and point it to **Cargo.toml** in Aderyn’s repository.  
-6. Open the project in VS Code and press **F5** to launch a development instance.  
+   ```   
+4. Open the project in VS Code and press **F5** to launch a development instance.  
 
-> Note: Step 4 and 5 are optional. Required only when debugging language server.
+If you need to debug the language server, follow these additional steps:
+
+1. Install [Rust](https://www.rust-lang.org/) and clone [Aderyn](https://github.com/cyfrin/aderyn) separately.  
+
+2. Create a [`manifest`](https://github.com/Cyfrin/vscode-aderyn/blob/main/manifest.sample) file and point it to **Cargo.toml** in Aderyn’s repository. 
 
 </br>
 
