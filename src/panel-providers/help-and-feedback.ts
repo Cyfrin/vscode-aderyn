@@ -18,8 +18,11 @@ class AderynHelpAndFeedbackProvider implements vscode.TreeDataProvider<HelpItem>
 
     async getChildren(): Promise<HelpItem[]> {
         return [
-            new HelpItem('Visit Welcome on board page', EditorCmd.ShowOnboardPanel),
-            new HelpItem('Fix Corrupted Installation', EditorCmd.ShowOnboardPanel),
+            new HelpItem('Visit Welcome page', EditorCmd.ShowOnboardPanel),
+            new HelpItem(
+                'Check for updates & Fix corrupt installation',
+                EditorCmd.ShowOnboardPanel,
+            ),
             new HelpItem(
                 'Read Extension Documentation',
                 undefined,
