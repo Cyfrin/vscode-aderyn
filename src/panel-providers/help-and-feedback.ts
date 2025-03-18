@@ -38,7 +38,7 @@ class AderynHelpAndFeedbackProvider implements vscode.TreeDataProvider<HelpItem>
                 undefined,
                 'https://github.com/Cyfrin/aderyn',
             ),
-            new HelpItem('Security Course', undefined, 'https://www.cyfrin.io/updraft'),
+            new HelpItem('Security Course', undefined, 'https://www.cyfrin.io/updraft?utm_source=VSCode&utm_medium=CyfrinAderyn'),
             new HelpItem('Support', undefined, 'https://discord.com/invite/cyfrin'),
         ];
     }
