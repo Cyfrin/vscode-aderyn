@@ -12,6 +12,8 @@ import path from 'path';
 import { prepareResults } from './utils';
 
 class AderynFileDiagnosticsProvider extends AderynGenericIssueProvider {
+    private useCache: boolean = true;
+
     initData(): Promise<void> {
         return (async () => {
             // Delay avoids race conditions that kills solc and enters perpetual lock
@@ -19,13 +21,19 @@ class AderynFileDiagnosticsProvider extends AderynGenericIssueProvider {
             const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
             await delay(3000);
             // Report
-            this.results = await prepareResults(true);
+            this.results = await prepareResults(this.useCache);
+            this.useCache = true; // set it back to true
             if (this.results.type == 'Success') {
                 const { projectRootUri, report } = this.results;
                 this.projectRootUri = projectRootUri;
                 this.report = report;
             }
         })();
+    }
+
+    override refresh(): void {
+        this.useCache = false;
+        super.refresh();
     }
 
     getTopLevelItems(report: Report | null): DiagnosticItem[] {
