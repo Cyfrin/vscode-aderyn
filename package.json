@@ -38,7 +38,7 @@
       "activitybar": [
         {
           "id": "aderyn-panel-diagnostics",
-          "title": "Aderyn Diagnostics",
+          "title": "Cyfrin Aderyn Diagnostics",
           "icon": "media/common/dep.svg"
         }
       ]
