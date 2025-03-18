@@ -26,7 +26,7 @@
             <kbd>Shift</kbd>
             +
             <kbd>P</kbd>
-            <b> "Aderyn: Welcome on board" </b> to return to this guide
+            <b> "Aderyn: Welcome" </b> to return to this guide
         </h2>
     </div>
     <div class="mt-4 flex flex-col items-center">

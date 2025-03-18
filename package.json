@@ -89,9 +89,9 @@
     "commands": [
       {
         "command": "aderyn.commands.showOnboardPanel",
-        "title": "Welcome on board",
+        "title": "Welcome",
         "category": "Aderyn",
-        "description": "Opens this page"
+        "description": "Opens the welcome page"
       },
       {
         "command": "aderyn.commands.startServer",
