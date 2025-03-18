@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-12
+## 2025-03-18
 
-* Merge pull request #16 from Cyfrin/bump-aderyn-cli-version (by @Tilak Madichetti)
-* Bump version to minor 5 (by @Alex Roan)
+* links (by @TilakMaddy)
+* nit (by @TilakMaddy)
+* use cache (by @TilakMaddy)
+* issue count (by @TilakMaddy)
+* more debug help (by @TilakMaddy)
+* change title of sidebar (by @TilakMaddy)

@@ -51,7 +51,7 @@ The extension automatically installs and starts scanning your Solidity files, en
 
 ## 📚 Docs
 
-You can find commonly needed information by navigating to the command menu <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> and searching for `Aderyn: Welcome on board` 
+- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
 
 For in-depth docs, navigate to the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/).
 

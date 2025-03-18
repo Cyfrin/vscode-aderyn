@@ -5,6 +5,8 @@ const enum EditorCmd {
     StartServer = 'aderyn.commands.startServer',
     StopServer = 'aderyn.commands.stopServer',
     InitConfigFile = 'aderyn.commands.initConfigFile',
+    RefreshProjectPanel = 'aderyn.commands.refreshProjectDiagnostics',
+    RefreshActiveFilePanel = 'aderyn.commands.refreshActiveFileDiagnostics',
 }
 
 export { EditorCmd };

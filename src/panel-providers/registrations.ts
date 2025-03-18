@@ -1,19 +1,60 @@
 import * as vscode from 'vscode';
 
 import { PanelProviders } from './variants';
-import { AderynDiagnosticsProvider as D } from './diagnostics-panel';
+import { AderynProjectDiagnosticsProvider as ProjectProvider } from './project-panel';
+import { AderynFileDiagnosticsProvider as FileProvider } from './file-panel';
+import {
+    setActiveFileDiagnosticsProvider,
+    setProjectDiagnosticsProvider,
+} from '../state/index';
+import { AderynHelpAndFeedbackProvider } from './help-and-feedback';
 
 function registerDataProviders(context: vscode.ExtensionContext) {
-    const diagnosticsDataProvider = new D();
-    const diagnosticsTreeView = vscode.window.createTreeView(PanelProviders.Diagnostics, {
-        treeDataProvider: diagnosticsDataProvider,
+    // Project Diagnostics
+    const projectDataProvider = new ProjectProvider();
+    const projectTreeView = vscode.window.createTreeView(PanelProviders.Project, {
+        treeDataProvider: projectDataProvider,
     });
-    diagnosticsTreeView.onDidChangeVisibility((e) => {
+    projectTreeView.onDidChangeVisibility((e) => {
         if (e.visible) {
-            diagnosticsDataProvider.refresh();
+            projectDataProvider.refresh();
         }
     });
-    context.subscriptions.push(diagnosticsTreeView);
+
+    // Active activeFile Diagnostics
+    const activeFileDataProvider = new FileProvider();
+    const activeFileTreeView = vscode.window.createTreeView(PanelProviders.ActiveFile, {
+        treeDataProvider: activeFileDataProvider,
+    });
+    activeFileTreeView.onDidChangeVisibility((e) => {
+        if (e.visible) {
+            activeFileDataProvider.refresh();
+        }
+    });
+
+    // Help and feedback provider
+    const helpAndFeedbackProvider = new AderynHelpAndFeedbackProvider();
+    const helpAndFeedbackTreeView = vscode.window.createTreeView(
+        PanelProviders.HelpAndFeedback,
+        {
+            treeDataProvider: helpAndFeedbackProvider,
+        },
+    );
+    helpAndFeedbackTreeView.onDidChangeSelection((selection) => {
+        if (selection.selection.length == 1) {
+            const s = selection.selection[0];
+            if (s.ctaUrl) {
+                vscode.env.openExternal(vscode.Uri.parse(s.ctaUrl));
+            }
+        }
+    });
+
+    context.subscriptions.push(projectTreeView);
+    context.subscriptions.push(activeFileTreeView);
+    context.subscriptions.push(helpAndFeedbackTreeView);
+
+    setProjectDiagnosticsProvider(projectDataProvider);
+    setActiveFileDiagnosticsProvider(activeFileDataProvider);
 }
 
 export { registerDataProviders };

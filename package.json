@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Rust-based Solidity AST analyzer.",
-  "version": "0.0.16",
+  "version": "0.0.21",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 5
@@ -20,15 +20,25 @@
     "viewsWelcome": [
       {
         "view": "aderyn-panel-diagnostics-provider",
-        "contents": "Visit the [Welcome Page](command:aderyn.commands.showOnboardPanel) to get started",
+        "contents": "Open a Solidity project to get started. For help, visit [Welcome Page](command:aderyn.commands.showOnboardPanel)",
         "when": "!aderyn-panel-diagnostics-provider.hasItems"
+      },
+      {
+        "view": "aderyn-panel-specific-file-diagnostics-provider",
+        "contents": "Nothing to show",
+        "when": "!aderyn-panel-specific-file-diagnostics-provider.hasItems"
+      },
+      {
+        "view": "aderyn-panel-help-and-feedback-provider",
+        "contents": "Help & Feedback",
+        "when": "!aderyn-panel-help-and-feedback-provider.hasItems"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
           "id": "aderyn-panel-diagnostics",
-          "title": "Aderyn Diagnostics",
+          "title": "Cyfrin Aderyn Diagnostics",
           "icon": "media/common/dep.svg"
         }
       ]
@@ -37,9 +47,21 @@
       "aderyn-panel-diagnostics": [
         {
           "id": "aderyn-panel-diagnostics-provider",
-          "name": "Aderyn Diagnostics",
+          "name": "Project",
           "icon": "media/common/dep.svg",
-          "contextualTitle": "Aderyn Diagnostics"
+          "contextualTitle": "Project"
+        },
+        {
+          "id": "aderyn-panel-specific-file-diagnostics-provider",
+          "name": "Active File",
+          "icon": "media/common/dep.svg",
+          "contextualTitle": "Active File"
+        },
+        {
+          "id": "aderyn-panel-help-and-feedback-provider",
+          "name": "Help and Feedback",
+          "icon": "media/common/dep.svg",
+          "contextualTitle": "Help And Feedback"
         }
       ],
       "explorer": [
@@ -50,12 +72,26 @@
         }
       ]
     },
+    "menus": {
+      "view/title": [
+        {
+          "command": "aderyn.commands.refreshProjectDiagnostics",
+          "when": "view == aderyn-panel-diagnostics-provider",
+          "group": "navigation"
+        },
+        {
+          "command": "aderyn.commands.refreshActiveFileDiagnostics",
+          "when": "view == aderyn-panel-specific-file-diagnostics-provider",
+          "group": "navigation"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "aderyn.commands.showOnboardPanel",
-        "title": "Welcome on board",
+        "title": "Welcome",
         "category": "Aderyn",
-        "description": "Opens this page"
+        "description": "Opens the welcome page"
       },
       {
         "command": "aderyn.commands.startServer",
@@ -86,6 +122,26 @@
         "title": "Open Settings",
         "category": "Aderyn",
         "description": "Set preferences in settings"
+      },
+      {
+        "command": "aderyn.commands.refreshProjectDiagnostics",
+        "title": "Refresh Panel: Project",
+        "category": "Aderyn",
+        "description": "Refresh Project Diagnostics Panel",
+        "icon": {
+          "light": "media/common/light-refresh.svg",
+          "dark": "media/common/dark-refresh.svg"
+        }
+      },
+      {
+        "command": "aderyn.commands.refreshActiveFileDiagnostics",
+        "title": "Refresh Panel: Active File",
+        "category": "Aderyn",
+        "description": "Refresh Active File Diagnostics Panel",
+        "icon": {
+          "light": "media/common/light-refresh.svg",
+          "dark": "media/common/dark-refresh.svg"
+        }
       }
     ],
     "configuration": {
@@ -95,6 +151,11 @@
           "type": "boolean",
           "default": true,
           "description": "Auto start Aderyn on Foundry/Hardhat projects"
+        },
+        "aderyn.config.autoCheckHealth": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Auto check for bad / no Aderyn installation on startup"
         }
       }
     }

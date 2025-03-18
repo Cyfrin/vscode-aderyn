@@ -25,6 +25,7 @@
             /
             <kbd class="px-2 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 rounded">Ctrl</kbd>
             +
+<<<<<<< HEAD
             <kbd class="px-2 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 rounded">Shift</kbd>
             
             <kbd class="px-2 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 rounded">P</kbd>
@@ -32,6 +33,13 @@
            
         </p>
         <p> Or type one of the following commands to interact with Aderyn:</p>
+=======
+            <kbd>Shift</kbd>
+            +
+            <kbd>P</kbd>
+            <b> "Aderyn: Welcome" </b> to return to this guide
+        </h2>
+>>>>>>> 0185e020734c1cdc0700658e0cd8563816255bf0
     </div>
     
     <div class="mt-6 flex flex-col items-center">

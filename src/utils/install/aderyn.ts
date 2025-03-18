@@ -22,7 +22,8 @@ async function isAderynAvailableOnPath(logger: Logger): Promise<boolean> {
 
 async function createAderynReportAndDeserialize(projectRootUri: string): Promise<Report> {
     const cmd = `aderyn -o report.json --stdout --skip-cloc`;
-    return executeCommand(cmd, undefined, undefined, projectRootUri)
+    // 20 second timeout
+    return executeCommand(cmd, undefined, 20 * 1000, projectRootUri)
         .then((text) => {
             const match = text.match(/STDOUT START([\s\S]*?)STDOUT END/);
             if (!match) {
