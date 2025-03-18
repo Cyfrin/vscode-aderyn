@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Rust-based Solidity AST analyzer.",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 5
