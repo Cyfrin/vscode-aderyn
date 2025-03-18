@@ -44,8 +44,15 @@ class CategoryItem extends DiagnosticItem {
 }
 
 class IssueItem extends DiagnosticItem {
-    constructor(public readonly issue: Issue) {
-        super(issue.title, vscode.TreeItemCollapsibleState.Collapsed, ItemKind.Issue);
+    constructor(
+        public readonly issue: Issue,
+        public readonly count: number,
+    ) {
+        super(
+            `${issue.title} (${count})`,
+            vscode.TreeItemCollapsibleState.Collapsed,
+            ItemKind.Issue,
+        );
         this.tooltip = issue.description;
     }
 }

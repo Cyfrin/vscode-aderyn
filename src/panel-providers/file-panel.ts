@@ -32,9 +32,18 @@ class AderynFileDiagnosticsProvider extends AderynGenericIssueProvider {
         if (!report || !this.activeFileUri || !this.projectRootUri) {
             return [];
         }
-        const highIssues = report.highIssues.issues;
-        const lowIssues = report.lowIssues.issues;
-        return [new CategoryItem('High', highIssues), new CategoryItem('Low', lowIssues)];
+
+        // Pre-count instances to display in bracket
+        const highIssues = new CategoryItem('High', report.highIssues.issues);
+        const lowIssues = new CategoryItem('Low', report.lowIssues.issues);
+
+        const highIssuesCount = this.getIssueItems(highIssues).length;
+        const lowIssuesCount = this.getIssueItems(lowIssues).length;
+
+        return [
+            new CategoryItem(`High (${highIssuesCount})`, highIssues.issues),
+            new CategoryItem(`Low (${lowIssuesCount})`, lowIssues.issues),
+        ];
     }
 
     getIssueItems(category: CategoryItem): DiagnosticItem[] {
@@ -44,7 +53,11 @@ class AderynFileDiagnosticsProvider extends AderynGenericIssueProvider {
                     isRelevantInstance(instance, this.activeFileUri, this.projectRootUri),
                 ),
             )
-            .map((issue) => new IssueItem(issue));
+            .map((issue) => {
+                const issueItem = new IssueItem(issue, 0);
+                const issueItemItems = this.getInstances(issueItem).length;
+                return new IssueItem(issue, issueItemItems);
+            });
     }
 
     getInstances(issueItem: IssueItem): DiagnosticItem[] {

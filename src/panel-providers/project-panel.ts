@@ -27,11 +27,26 @@ class AderynProjectDiagnosticsProvider extends AderynGenericIssueProvider {
         }
         const highIssues = report.highIssues.issues;
         const lowIssues = report.lowIssues.issues;
-        return [new CategoryItem('High', highIssues), new CategoryItem('Low', lowIssues)];
+
+        const highIssueItems = this.getIssueItems(
+            new CategoryItem('High', highIssues),
+        ).length;
+        const lowIssueItems = this.getIssueItems(
+            new CategoryItem('Low', lowIssues),
+        ).length;
+
+        return [
+            new CategoryItem(`High (${highIssueItems})`, highIssues),
+            new CategoryItem(`Low (${lowIssueItems})`, lowIssues),
+        ];
     }
 
     getIssueItems(category: CategoryItem): DiagnosticItem[] {
-        return category.issues.map((issue) => new IssueItem(issue));
+        return category.issues.map((issue) => {
+            const i = new IssueItem(issue, 0);
+            const items = this.getInstances(i).length;
+            return new IssueItem(issue, items);
+        });
     }
 
     getInstances(issueItem: IssueItem): DiagnosticItem[] {
