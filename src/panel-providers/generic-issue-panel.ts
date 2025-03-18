@@ -74,6 +74,7 @@ abstract class AderynGenericIssueProvider
                         new ErrorItem(
                             'Initializing a adreyn.toml config file with sensible values',
                         ),
+                        new ErrorItem('Restarting VS Code'),
                         new ErrorItem('Consulting Help and Feedback below'),
                     ];
                 }
