@@ -13,7 +13,7 @@ Aderyn helps developers detect vulnerabilities in their Solidity smart contracts
 
 ## 📚 Docs
 
-- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
+- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome`
 
 ## 🚀 Installation  
 
