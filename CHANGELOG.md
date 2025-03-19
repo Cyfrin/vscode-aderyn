@@ -2,11 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-18
+## 2025-03-19
 
-* links (by @TilakMaddy)
-* nit (by @TilakMaddy)
-* use cache (by @TilakMaddy)
-* issue count (by @TilakMaddy)
-* more debug help (by @TilakMaddy)
-* change title of sidebar (by @TilakMaddy)
+* Update README.md (by @Tilak Madichetti)
+* Update README.md (by @Tilak Madichetti)
+* Update README.md (by @Tilak Madichetti)
+* Merge pull request #22 from Cyfrin/feat/readme-from-vitto (by @Tilak Madichetti)
+* readm (by @TilakMaddy)
+* Update help-and-feedback.ts (by @Tilak Madichetti)
+* Merge pull request #20 from Cyfrin/nit/alex-copy (by @Tilak Madichetti)
+* Welcome on baord -> Welcome (by @Alex Roan)
