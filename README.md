@@ -19,7 +19,7 @@ For a list of supported vulnerabilities, visit the [official Cyfrin Research doc
 
 1. Install Aderyn via the VS Code Marketplace
 2. Visit the Welcome page (Aderyn will open this in your IDE)
-3. Aderyn will start looking for vulnerabilities in your codebase.
+3. Aderyn is ready to look for vulnerabilities in your codebase.
    
 Aderyn works seamlessly on commonly recognized project structures i.e when a foundry.toml or hardhat.config.ts is found in the root of the workspace. 
 If not in the root file, make sure your aderyn.toml file correctly points to your foundry.toml or hardhat.config.toml file
