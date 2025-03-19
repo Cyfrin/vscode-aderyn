@@ -1,4 +1,4 @@
-<div class="m-4 mt-8  shadow-md p-6">
+<div class="m-4 mt-8  p-6">
     <div class="mb-4">
         <h1 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-100">How to Use</h1>
         <div class="w-16 h-1 mx-auto mt-2"></div>
@@ -13,7 +13,7 @@
                 "If there are multiple parallel solidity projects in the same workspace it will not be supported. Two instances of the editor vscode must be opened and treated as separate projects.",
                 "Remember to return to this page if any commands don't work because by opening this page, Aderyn will run a health checker that will make sure Aderyn is in a healthy and usable state."
             ] as step, i}
-                <li class="flex items-start p-4 shadow-sm hover:shadow-md transition-shadow">
+                <li class="flex items-start p-4 hover:shadow-md transition-shadow">
                     <div class="flex-shrink-0 mr-4">
                         <div class="flex items-center justify-center w-8 h-8 rounded-full text-white font-bold">
                             {i + 1}
