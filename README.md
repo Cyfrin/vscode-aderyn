@@ -19,7 +19,7 @@ For a list of supported vulnerabilities, visit the [official Cyfrin Research doc
 
 1. Install Aderyn via the VS Code Marketplace
 2. Visit the Welcome page (Aderyn will open this in your IDE)
-3. Aderyn will start looking for vulnerabilities in your codebase.
+3. Aderyn is ready to look for vulnerabilities in your codebase.
    
 Aderyn works seamlessly on commonly recognized project structures i.e when a foundry.toml or hardhat.config.ts is found in the root of the workspace. 
 If not in the root file, make sure your aderyn.toml file correctly points to your foundry.toml or hardhat.config.toml file
@@ -51,7 +51,7 @@ The extension automatically installs and starts scanning your Solidity files, en
 
 ## 📚 Docs
 
-- For docs, navigate to the command menu <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
+- For docs, navigate to the command menu <kbd>Ctrl/Cmd</kbd> <kbd>Shift</kbd> <kbd>P</kbd> and search for `Aderyn: Welcome on board`
 
 For in-depth docs, navigate to the [official Cyfrin Research docs](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/).
 
@@ -81,7 +81,7 @@ To start contributing:
    ```   
 4. Open the project in VS Code and press **F5** to launch a development instance.  
 
-If you need to debug the language server, follow these additional steps:
+If you need to debug the language server, follow these additional steps and run `make dev` again:
 
 1. Install [Rust](https://www.rust-lang.org/) and clone [Aderyn](https://github.com/cyfrin/aderyn) separately.  
 
@@ -103,26 +103,35 @@ If you need to debug the language server, follow these additional steps:
 
 3. **How do I open the Welcome Page?**
 
-   To open the welcome page, press: <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>  and search for "Aderyn: Welcome on board" 
+   To open the welcome page, press: <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>  and search for "Aderyn: Welcome" 
 
-4. **Why isn’t Aderyn displaying any found vulnerabilities?**
+4. **Can I use in Windows?**
+
+   To use in Windows, you must have WSL installed. Then open VS Code from the terminal using `code .`
+   
+5. **Can I customize the scope of the files to be scanned?**
+
+   To customize the scope of the files to be scanned, initialize a config file using the commnad `Aderyn: Initialize Config` 
+
+6. **Why isn’t Aderyn displaying any found vulnerabilities?**
    
    If Aderyn isn’t showing any vulnerabilities, follow these steps to ensure it is functioning correctly:
    * **Access the Welcome Page:**
 
      * Press <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> > to open the command palette.
-     * Type ⁠Aderyn: Welcome on board and select it.
+     * Type ⁠`Aderyn: Welcome` and select it.
    
 	* **Check for Errors:**
 
       	* Look for any error messages displayed in red on the Welcome page.
+      	* Look for errors in the Cyfrin Aderyn Diagnostics panel that opens in the sidebar. (Compilation errors / Bad remappings)
       	* If an error is present, carefully follow the instructions provided to resolve the issue.
    
 	* **Verify Project Compatibility:**
 
       	* Ensure that you have a compatible project open. Aderyn requires one of the following configuration files in the root folder of your workspace:
             
-            * foundry.toml
+           * foundry.toml
       	   * hardhat.config.ts
       	   * ⁠aderyn.toml
 
@@ -131,6 +140,10 @@ If you need to debug the language server, follow these additional steps:
    	   * If any errors are shown, take appropriate action based on the messages to rectify the issue.
       	
    If you’ve followed these steps and Aderyn still isn’t showing any vulnerabilities, open a [new issue](https://github.com/Cyfrin/vscode-aderyn/issues) or contact support on [Discord](https://discord.gg/cyfrin).
+
+6. **Customize auto start behavior**
+
+    To customize the auto start behavior (turn it on and off), visit `Aderyn: Open Settings`
 
 </br>
 

@@ -2,7 +2,7 @@
     <p class="flex items-center justify-center flex-wrap">
         <span>Found an issue? We'd love to hear about it! Please consider opening an issue on</span>
         <a 
-            href="https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/what-is-aderyn-vs-code-extension" 
+            href="http://github.com/cyfrin/aderyn/issues" 
             class="ml-2 text-blue-600 dark:text-blue-400 hover:underline flex items-center"
             target="_blank"
             rel="noopener noreferrer"

@@ -2,11 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-18
+## 2025-03-19
 
-* links (by @TilakMaddy)
-* nit (by @TilakMaddy)
-* use cache (by @TilakMaddy)
-* issue count (by @TilakMaddy)
-* more debug help (by @TilakMaddy)
-* change title of sidebar (by @TilakMaddy)
+* Update Makefile (by Tilak Madichetti)
+* Update CHANGELOG.md (by Tilak Madichetti)
