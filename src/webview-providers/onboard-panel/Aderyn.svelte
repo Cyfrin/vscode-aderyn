@@ -58,7 +58,7 @@
         ]}
     >
         {#if !message}
-            Please wait patiently while we ensure you have the latest Aderyn CLI (unlike
+            Please wait while we ensure you have the latest Aderyn CLI (unlike
             the cat above)...
         {:else}
             {message.msg}
@@ -70,7 +70,7 @@
                 class="w-8 h-8 animate-spin border-4 border-[var(--vscode-button-background)] border-l-[var(--vscode-button-foreground)] rounded-full"
             ></div>
         {:else if message.type == 'INSTALLATION_ERROR'}
-            <button onclick={tryAgainClicked}>Try again</button>
+            <button class="rounded-md bg-blue-700 text-white w-50 px-4 py-6" onclick={tryAgainClicked}>Try again</button>
         {/if}
     </div>
 </div>

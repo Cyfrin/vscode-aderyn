@@ -77,7 +77,7 @@ class OnboardPanel {
                 postMessageTo(
                     this._panel.webview,
                     MessageType.InstallationSuccess,
-                    'You are all set and ready to go, ser! 🫡',
+                    '🟢 Aderyn is now ready to start analyzing your code for vulnerabilities.',
                 );
             })
             .catch((err) => {
