@@ -1,4 +1,4 @@
-# ✨ Aderyn - Solidity Security Extension for VS Code ✨  
+# Aderyn - Solidity Security Extension for VS Code ✨  
 
 Aderyn is a Rust-based Solidity static analyzer that detects vulnerabilities in smart contracts during development. With the Aderyn VS Code Extension, Smart contract security checks become an effortless part of your development workflow. 
 
