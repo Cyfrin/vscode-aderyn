@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerEditorCommands(context))
         .then(() => registerStatusBarItems(context))
         .then(() => registerDataProviders(context))
-        .then(autoStartLspClientIfRequested)
+        .then(() => autoStartLspClientIfRequested(true))
         .then(startPeriodicChecks)
         .then(startInstallationOneTimeCheck);
 }

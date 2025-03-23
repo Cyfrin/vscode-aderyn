@@ -88,7 +88,7 @@ class OnboardPanel {
             .catch((err) => {
                 postMessageTo(this._panel.webview, MessageType.InstallationError, err);
             })
-            .then(autoStartLspClientIfRequested);
+            .then(() => autoStartLspClientIfRequested(false));
     }
 
     sendCommandGuide() {

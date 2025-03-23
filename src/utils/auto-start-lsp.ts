@@ -4,10 +4,15 @@ import { hasRecognizedProjectStructureAtWorkspaceRoot } from './runtime/project'
 import { hasCompatibleAderynVersionLocally } from './install/index';
 import { Logger } from './logger';
 
-async function autoStartLspClientIfRequested() {
-    const config = vscode.workspace.getConfiguration('aderyn.config');
-    const userPrefersAutoStart = config.get<boolean>('autoStart');
-    if (userPrefersAutoStart && hasRecognizedProjectStructureAtWorkspaceRoot()) {
+async function autoStartLspClientIfRequested(checkConfig: boolean) {
+    if (checkConfig) {
+        const config = vscode.workspace.getConfiguration('aderyn.config');
+        const userPrefersAutoStart = config.get<boolean>('autoStart');
+        if (!userPrefersAutoStart) {
+            return;
+        }
+    }
+    if (hasRecognizedProjectStructureAtWorkspaceRoot()) {
         try {
             if (await hasCompatibleAderynVersionLocally(new Logger())) {
                 await stopServingIfOn();
