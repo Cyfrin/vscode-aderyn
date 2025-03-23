@@ -10,6 +10,7 @@ import {
     getLocalAderynVersion,
 } from './install/versions';
 import { EditorCmd } from '../commands/variants';
+import { welcomePageIsOpen } from '../state/index';
 
 async function updateIsAvailable(logger: Logger): Promise<boolean> {
     const isOnPath = await isAderynAvailableOnPath(logger);
@@ -66,6 +67,12 @@ async function startPeriodicChecks() {
     };
     const TIME_PERIOD = 15 * 60 * 1000; // 15 minutes
     const intervalId = setInterval(action, TIME_PERIOD);
+
+    setTimeout(async () => {
+        if (!welcomePageIsOpen) {
+            await action();
+        }
+    }, 10); // 10 seconds
 }
 
 export { startPeriodicChecks };

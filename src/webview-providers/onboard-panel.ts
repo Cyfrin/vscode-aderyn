@@ -8,6 +8,7 @@ import {
 import { MessageType, postMessageTo } from './onboard-panel/messages';
 import { readPackageJson } from '../utils/metadata';
 import { ensureHealthyInternet } from '../utils/install/index';
+import { setWelcomePageOpenState } from '../state/index';
 
 class OnboardPanel {
     public static currentPanel: OnboardPanel | undefined;
@@ -43,6 +44,7 @@ class OnboardPanel {
         );
 
         OnboardPanel.currentPanel = new OnboardPanel(panel, extensionUri, title);
+        setWelcomePageOpenState(true);
     }
 
     public static revive(
@@ -58,6 +60,7 @@ class OnboardPanel {
             OnboardPanel.currentPanel._panel.dispose();
         }
         OnboardPanel.currentPanel = undefined;
+        setWelcomePageOpenState(false);
     }
 
     protected constructor(

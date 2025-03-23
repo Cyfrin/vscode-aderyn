@@ -32,6 +32,7 @@ let client: LanguageClient | undefined;
 let aderynStatusItem: StatusBarItem | undefined;
 let projectDiagnosticsProvider: AderynProjectDiagnosticsProvider | undefined;
 let activeFileDiagnosticsProvider: AderynFileDiagnosticsProvider | undefined;
+let welcomePageIsOpen: boolean;
 
 async function createAderynStatusItem() {
     aderynStatusItem = createStatusBarItem(StatusIcon.AderynServer);
@@ -52,6 +53,10 @@ function setProjectDiagnosticsProvider(provider: AderynProjectDiagnosticsProvide
 
 function setActiveFileDiagnosticsProvider(provider: AderynFileDiagnosticsProvider) {
     activeFileDiagnosticsProvider = provider;
+}
+
+function setWelcomePageOpenState(state: boolean) {
+    welcomePageIsOpen = state;
 }
 
 export {
@@ -82,4 +87,6 @@ export {
     activeFileDiagnosticsProvider,
     setProjectDiagnosticsProvider,
     setActiveFileDiagnosticsProvider,
+    welcomePageIsOpen,
+    setWelcomePageOpenState,
 };

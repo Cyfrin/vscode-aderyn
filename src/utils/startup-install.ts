@@ -6,6 +6,7 @@ import { Logger } from './logger';
 import { isAderynAvailableOnPath } from './install/aderyn';
 import { getLocalAderynVersion } from './install/versions';
 import { EditorCmd } from '../commands/variants';
+import { welcomePageIsOpen } from '../state/index';
 
 async function needsAderynInstallation(logger: Logger): Promise<boolean> {
     // Check for non availability on path
@@ -68,7 +69,11 @@ async function startInstallationOneTimeCheck() {
     };
     const TIME_PERIOD = 60 * 1000; // 1 minute
     if (userPrefersAutoHealthCheck) {
-        setTimeout(action, TIME_PERIOD);
+        setTimeout(async () => {
+            if (!welcomePageIsOpen) {
+                await action();
+            }
+        }, TIME_PERIOD);
     }
 }
 
