@@ -28,7 +28,7 @@ function showAderynStatusLoading() {
         throw new Error('Uninitialized aderyn status item');
     }
     aderynStatusItem.text = 'Aderyn: $(issue-reopened)';
-    aderynStatusItem.tooltip = 'Click to toggle Aderyn';
+    aderynStatusItem.tooltip = 'Click to fix corrupt state';
     aderynStatusItem.command = EditorCmd.ShowOnboardPanel;
     aderynStatusItem.show();
 }
@@ -38,7 +38,7 @@ function showAderynStatusUnintialized() {
         throw new Error('Uninitialized aderyn status item');
     }
     aderynStatusItem.text = '$(light-bulb) Aderyn: Get Started';
-    aderynStatusItem.tooltip = 'Click to toggle Aderyn';
+    aderynStatusItem.tooltip = 'Click to install Aderyn';
     aderynStatusItem.command = EditorCmd.ShowOnboardPanel;
     aderynStatusItem.show();
 }
