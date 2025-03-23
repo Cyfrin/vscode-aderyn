@@ -20,6 +20,7 @@ import {
     showAderynStatusOn,
     showAderynStatusOff,
     hideAderynStatus,
+    showAderynStatusUnintialized,
 } from './statusbar/index';
 
 /*
@@ -34,10 +35,11 @@ let activeFileDiagnosticsProvider: AderynFileDiagnosticsProvider | undefined;
 
 async function createAderynStatusItem() {
     aderynStatusItem = createStatusBarItem(StatusIcon.AderynServer);
+    showAderynStatusUnintialized();
 }
 
 async function createOrInitLspClient() {
-    client = await createLanguageClient();
+    if (!client) client = await createLanguageClient();
 }
 
 async function createOrInitOnboardProvider(uri: Uri) {

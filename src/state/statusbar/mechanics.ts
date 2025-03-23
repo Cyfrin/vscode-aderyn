@@ -23,6 +23,26 @@ function showAderynStatusOff() {
     aderynStatusItem.show();
 }
 
+function showAderynStatusLoading() {
+    if (!aderynStatusItem) {
+        throw new Error('Uninitialized aderyn status item');
+    }
+    aderynStatusItem.text = '$(loading) Aderyn: ⌛';
+    aderynStatusItem.tooltip = 'Click to toggle Aderyn';
+    aderynStatusItem.command = EditorCmd.ShowOnboardPanel;
+    aderynStatusItem.show();
+}
+
+function showAderynStatusUnintialized() {
+    if (!aderynStatusItem) {
+        throw new Error('Uninitialized aderyn status item');
+    }
+    aderynStatusItem.text = '$(light-bulb) Aderyn: Get Started';
+    aderynStatusItem.tooltip = 'Click to toggle Aderyn';
+    aderynStatusItem.command = EditorCmd.ShowOnboardPanel;
+    aderynStatusItem.show();
+}
+
 function hideAderynStatus() {
     if (!aderynStatusItem) {
         throw new Error('Uninitialized aderyn status item');
@@ -30,4 +50,10 @@ function hideAderynStatus() {
     aderynStatusItem.hide();
 }
 
-export { showAderynStatusOn, showAderynStatusOff, hideAderynStatus };
+export {
+    showAderynStatusOn,
+    showAderynStatusOff,
+    hideAderynStatus,
+    showAderynStatusUnintialized,
+    showAderynStatusLoading,
+};

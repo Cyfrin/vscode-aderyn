@@ -1,7 +1,13 @@
 import * as vscode from 'vscode';
 import { StatusIcon } from './variants';
 import { registerStatusBarItems } from './registrations';
-import { showAderynStatusOff, showAderynStatusOn, hideAderynStatus } from './mechanics';
+import {
+    showAderynStatusOff,
+    showAderynStatusOn,
+    hideAderynStatus,
+    showAderynStatusUnintialized,
+    showAderynStatusLoading,
+} from './mechanics';
 
 function createStatusBarItem(statusIcon: StatusIcon): vscode.StatusBarItem {
     switch (statusIcon) {
@@ -20,4 +26,6 @@ export {
     showAderynStatusOn,
     showAderynStatusOff,
     hideAderynStatus,
+    showAderynStatusUnintialized,
+    showAderynStatusLoading,
 };

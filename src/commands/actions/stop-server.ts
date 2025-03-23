@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { client, showAderynStatusOff } from '../../state';
+import { client, stopServing } from '../../state';
 
 async function action() {
     if (!client) {
@@ -8,9 +8,7 @@ async function action() {
     }
     try {
         if (client.isRunning()) {
-            await client.stop();
-            showAderynStatusOff();
-            vscode.window.showInformationMessage('Stopping Aderyn diagnostics server.');
+            await stopServing();
         } else {
             vscode.window.showWarningMessage('Aderyn diagnostics server is not running.');
         }

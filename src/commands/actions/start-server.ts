@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { client, showAderynStatusOn } from '../../state';
+import { client, startServing } from '../../state';
 
 async function action() {
     if (!client) {
@@ -10,9 +10,7 @@ async function action() {
         if (client.isRunning()) {
             vscode.window.showWarningMessage('Aderyn diagnostics server is running.');
         } else {
-            vscode.window.showInformationMessage('Starting Aderyn diagnostics server.');
-            await client.start();
-            showAderynStatusOn();
+            await startServing();
         }
     } catch (err) {
         client.error('Starting Aderyn failed', err, 'force');

@@ -1,5 +1,10 @@
 import * as vscode from 'vscode';
-import { clearCorruptedInstallation, ensureAderynIsInstalled, Logger } from '../utils';
+import {
+    autoStartLspClientIfRequested,
+    clearCorruptedInstallation,
+    ensureAderynIsInstalled,
+    Logger,
+} from '../utils';
 import { MessageType, postMessageTo } from './onboard-panel/messages';
 import { readPackageJson } from '../utils/metadata';
 import { ensureHealthyInternet } from '../utils/install/index';
@@ -82,7 +87,8 @@ class OnboardPanel {
             })
             .catch((err) => {
                 postMessageTo(this._panel.webview, MessageType.InstallationError, err);
-            });
+            })
+            .then(autoStartLspClientIfRequested);
     }
 
     sendCommandGuide() {
