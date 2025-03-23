@@ -7,7 +7,6 @@ async function action() {
         return;
     }
     try {
-        vscode.window.showInformationMessage('Restarting Aderyn diagnostics server.');
         if (client.isRunning()) {
             await stopServing();
         }
