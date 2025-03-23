@@ -27,7 +27,7 @@ function showAderynStatusLoading() {
     if (!aderynStatusItem) {
         throw new Error('Uninitialized aderyn status item');
     }
-    aderynStatusItem.text = '$(loading) Aderyn: ⌛';
+    aderynStatusItem.text = 'Aderyn: $(issue-reopened)';
     aderynStatusItem.tooltip = 'Click to toggle Aderyn';
     aderynStatusItem.command = EditorCmd.ShowOnboardPanel;
     aderynStatusItem.show();

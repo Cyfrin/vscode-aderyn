@@ -215,9 +215,17 @@ async function hasSuccessfullyInstalledLatestAderyn(
     return false;
 }
 
+// Helper function
+async function hasCompatibleAderynVersionLocally(logger: Logger): Promise<boolean> {
+    const existingAderynVersion = await getLocalAderynVersion(logger);
+    const { supportedAderynVersions } = await readPackageJson(logger);
+    return extensionIsCompatible(existingAderynVersion, supportedAderynVersions);
+}
+
 export {
     ensureHealthyInternet,
     ensureAderynIsInstalled,
     createAderynReportAndDeserialize,
     clearCorruptedInstallation,
+    hasCompatibleAderynVersionLocally,
 };

@@ -1,14 +1,18 @@
 import { startServing, stopServingIfOn } from '../state/index';
 import * as vscode from 'vscode';
 import { hasRecognizedProjectStructureAtWorkspaceRoot } from './runtime/project';
+import { hasCompatibleAderynVersionLocally } from './install/index';
+import { Logger } from './logger';
 
 async function autoStartLspClientIfRequested() {
     const config = vscode.workspace.getConfiguration('aderyn.config');
     const userPrefersAutoStart = config.get<boolean>('autoStart');
     if (userPrefersAutoStart && hasRecognizedProjectStructureAtWorkspaceRoot()) {
         try {
-            await stopServingIfOn();
-            await startServing();
+            if (await hasCompatibleAderynVersionLocally(new Logger())) {
+                await stopServingIfOn();
+                await startServing();
+            }
         } catch (_ex) {
             // NOTE: bails without error if aderyn is not installed
             // no-op
