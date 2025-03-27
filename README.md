@@ -19,7 +19,7 @@ For a list of supported vulnerabilities, visit the [official Cyfrin Research doc
 
 > **Microsoft Windows Users: For the Aderyn Extension to work, you must run VS Code using [WSL](https://learn.microsoft.com/en-us/windows/wsl/)**.
 
-1. Install Aderyn via the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Cyfrin.aderyn&ssr=false#review-details)
+1. Install Aderyn via the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Cyfrin.aderyn)
 2. Visit the Welcome page (Aderyn will open this in your IDE)
 3. Aderyn is ready to look for vulnerabilities in your codebase.
    
