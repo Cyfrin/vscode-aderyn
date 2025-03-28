@@ -287,6 +287,7 @@ async function installAderynWithAppropriateCmd(
             env['HOMEBREW_NO_INSTALL_CLEANUP'] = 1;
             break;
         case InstallationChannel.Curl:
+            env['CYFRINUP_ONLY_INSTALL'] = 'aderyn';
             // Call the same script that cyfrinup calls
             const HOST = 'https://raw.githubusercontent.com';
             const DYNAMIC_SCRIPT = `${HOST}/Cyfrin/aderyn/master/cyfrinup/dynamic_script`;
