@@ -61,7 +61,14 @@ abstract class AderynGenericIssueProvider
 
                 if (this.errorMessage) {
                     return [
-                        ...this.errorMessage.split('\n').map((msg) => new ErrorItem(msg)),
+                        ...this.errorMessage.split('\n').map((msg) => {
+                            // https://stackoverflow.com/a/29497680/4546390
+                            const escapedStr = msg.replace(
+                                /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+                                '',
+                            );
+                            return new ErrorItem(escapedStr);
+                        }),
                         new ErrorItem(''),
                         new ErrorItem(
                             'To generate the above message manually, run `aderyn` in the command line at root of the project',
