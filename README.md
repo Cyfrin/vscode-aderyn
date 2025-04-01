@@ -147,6 +147,11 @@ If you need to debug the language server, follow these additional steps and run 
 
     To customize the auto start behavior (turn it on and off), visit `Aderyn: Open Settings`
 
+7. **Failed to Cross Check error in Welcome Page**
+
+    * To fix this error, uninstalling all versions of the extension and freshly installing the latest version helps.
+    * If you have multiple versions of VS Code itself in your system, try the other one (or) better - just delete duplicate installations. Keep only 1.
+
 </br>
 
 ## ✋ Feedback and Support
