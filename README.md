@@ -28,6 +28,10 @@ If not in the root file, make sure your aderyn.toml file correctly points to you
 
 Learn how to run Aderyn on a custom project structure [in this guide](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-vs-code/run-aderyn-on-a-custom-project).
 
+> ⚠️ Windsurf users must install from vscode marketplace instead of the deault option open-vsx. 
+> In settings, set the gallery service URL to `http://marketplace.visualstudio.com/_apis/public/gallery`
+> and the gallery item URL to `https://marketplace.visualstudio.com/items`
+
 </br>
 
 ## 🔹 Features  
