@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2025-03-29
+## 2025-04-12
 
-* escape color codes (by TilakMaddy)
+* start aderyn after creating config file (by TilakMaddy)
+* rewrite welcome screen guide (by TilakMaddy)
+* prompt aderyn.toml creation for nested projects (by TilakMaddy)
+* fix (by TilakMaddy)
+* Update README.md (by Tilak Madichetti)
+* Update README.md (by Tilak Madichetti)
+* Update README.md (by Tilak Madichetti)
+* Update README.md (by Tilak Madichetti)
+* faq (by TilakMaddy)
