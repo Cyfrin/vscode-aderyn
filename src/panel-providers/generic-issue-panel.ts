@@ -77,12 +77,10 @@ abstract class AderynGenericIssueProvider
                         new ErrorItem('Have you tried the following?'),
                         new ErrorItem(''),
                         new ErrorItem("Install the project's dependencies"),
-                        new ErrorItem('Write the remappings in remappings.txt'),
-                        new ErrorItem(
-                            'Initializing a adreyn.toml config file with sensible values',
-                        ),
-                        new ErrorItem('Restarting VS Code'),
-                        new ErrorItem('Consulting Help and Feedback below'),
+                        new ErrorItem('Run command Aderyn: Intialize config file'),
+                        new ErrorItem('Write remappings.txt'),
+                        new ErrorItem('Restart VS Code'),
+                        new ErrorItem('Consult Help and Feedback below'),
                     ];
                 }
 
