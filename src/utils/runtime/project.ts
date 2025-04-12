@@ -58,6 +58,23 @@ function someSolidityProjectExists1LevelDeepFromWorkspaceRoot(): boolean {
     return false;
 }
 
+async function aderynTomlAtWorkspaceRootHasNonDefaultRootValue(): Promise<boolean> {
+    const workspaceRoot = ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
+    if (!workspaceRoot) return false;
+
+    const aderynToml = path.join(workspaceRoot, 'aderyn.toml');
+    if (!fs.existsSync(aderynToml)) {
+        return false;
+    }
+    const configAsString = fs.readFileSync(aderynToml).toString();
+    try {
+        const config = await parseAderynConfig(configAsString);
+        return config.root != '.';
+    } catch (err) {
+        return false;
+    }
+}
+
 function ensureWorkspacePreconditionsMetAndReturnProjectURI(
     warn?: boolean,
 ): string | null {
@@ -112,6 +129,7 @@ export {
     parseAderynConfig,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    aderynTomlAtWorkspaceRootHasNonDefaultRootValue,
     someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
     AderynConfig,
 };

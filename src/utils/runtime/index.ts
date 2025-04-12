@@ -9,6 +9,7 @@ const {
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
     someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
+    aderynTomlAtWorkspaceRootHasNonDefaultRootValue,
     parseAderynConfig,
 } = project;
 
@@ -23,6 +24,7 @@ export {
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
     someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
+    aderynTomlAtWorkspaceRootHasNonDefaultRootValue,
     parseAderynConfig,
     AderynConfig,
     SystemInfo,

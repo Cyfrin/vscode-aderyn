@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import { EditorCmd } from '../commands/variants';
+import { autoStartLspClientIfRequested } from './auto-start-lsp';
 import { hasCompatibleAderynVersionLocally } from './install/index';
 import { Logger } from './logger';
 import {
+    aderynTomlAtWorkspaceRootHasNonDefaultRootValue,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
 } from './runtime/project';
@@ -20,7 +22,16 @@ async function suggestAderynTomlIfProjectIsNested() {
                         )
                         .then((selectedAction) => {
                             if (selectedAction == 'Yes') {
-                                vscode.commands.executeCommand(EditorCmd.InitConfigFile);
+                                vscode.commands
+                                    .executeCommand(EditorCmd.InitConfigFile)
+                                    .then(async () => {
+                                        // Try to restart the diagnostics server now if the `root` value is not `.`
+                                        if (
+                                            await aderynTomlAtWorkspaceRootHasNonDefaultRootValue()
+                                        ) {
+                                            autoStartLspClientIfRequested(true);
+                                        }
+                                    });
                             }
                         });
                 }
