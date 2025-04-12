@@ -7,6 +7,7 @@ import {
     Keys,
     Logger,
     autoStartLspClientIfRequested,
+    suggestAderynTomlIfProjectIsNested,
 } from './utils';
 
 import {
@@ -35,6 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
         .then(() => registerStatusBarItems(context))
         .then(() => registerDataProviders(context))
         .then(() => autoStartLspClientIfRequested(true))
+        .then(suggestAderynTomlIfProjectIsNested)
         .then(startPeriodicChecks)
         .then(startInstallationOneTimeCheck);
 }

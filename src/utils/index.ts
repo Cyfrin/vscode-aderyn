@@ -14,6 +14,7 @@ import { Logger } from './logger';
 import { startPeriodicChecks } from './startup-update';
 import { startInstallationOneTimeCheck } from './startup-install';
 import { autoStartLspClientIfRequested } from './auto-start-lsp';
+import { suggestAderynTomlIfProjectIsNested } from './suggest-aderyn-init';
 
 export {
     parseAderynConfig,
@@ -29,6 +30,7 @@ export {
     clearCorruptedInstallation,
     startInstallationOneTimeCheck,
     autoStartLspClientIfRequested,
+    suggestAderynTomlIfProjectIsNested,
     Keys,
     Logger,
     AderynConfig,

@@ -8,6 +8,7 @@ const {
     findProjectRoot,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
     parseAderynConfig,
 } = project;
 
@@ -21,6 +22,7 @@ export {
     isWindowsNotWSL,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
     parseAderynConfig,
     AderynConfig,
     SystemInfo,

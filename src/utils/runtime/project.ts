@@ -36,6 +36,28 @@ function hasRecognizedProjectStructureAtWorkspaceRoot(): boolean {
     );
 }
 
+// Called after hasRecognizedProjectStructureAtWorkspaceRoot fails
+function someSolidityProjectExists1LevelDeepFromWorkspaceRoot(): boolean {
+    const workspaceRoot = ensureWorkspacePreconditionsMetAndReturnProjectURI(false);
+    if (!workspaceRoot) return false;
+
+    const entries = fs.readdirSync(workspaceRoot, { withFileTypes: true });
+
+    for (const entry of entries) {
+        if (entry.isDirectory()) {
+            const subdirPath = path.join(workspaceRoot, entry.name);
+            if (
+                fs.existsSync(path.join(subdirPath, 'foundry.toml')) ||
+                fs.existsSync(path.join(subdirPath, 'hardhat.config.ts')) ||
+                fs.existsSync(path.join(subdirPath, 'hardhat.config.js'))
+            ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function ensureWorkspacePreconditionsMetAndReturnProjectURI(
     warn?: boolean,
 ): string | null {
@@ -90,5 +112,6 @@ export {
     parseAderynConfig,
     hasRecognizedProjectStructureAtWorkspaceRoot,
     ensureWorkspacePreconditionsMetAndReturnProjectURI,
+    someSolidityProjectExists1LevelDeepFromWorkspaceRoot,
     AderynConfig,
 };
