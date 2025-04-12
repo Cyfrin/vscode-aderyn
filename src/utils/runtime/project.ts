@@ -14,6 +14,7 @@ function findProjectRoot(projectRootUri: string): string {
             fs.existsSync(path.join(currentDir, 'foundry.toml')) ||
             fs.existsSync(path.join(currentDir, 'hardhat.config.ts')) ||
             fs.existsSync(path.join(currentDir, 'hardhat.config.js')) ||
+            fs.existsSync(path.join(currentDir, 'soldeer.toml')) ||
             fs.existsSync(path.join(currentDir, '.git'))
         ) {
             return currentDir;
@@ -28,11 +29,12 @@ function hasRecognizedProjectStructureAtWorkspaceRoot(): boolean {
     if (!workspaceRoot) return false;
     const root = findProjectRoot(workspaceRoot);
     return (
-        root != null &&
-        (fs.existsSync(path.join(root, 'aderyn.toml')) ||
-            fs.existsSync(path.join(root, 'foundry.toml')) ||
-            fs.existsSync(path.join(root, 'hardhat.config.ts')) ||
-            fs.existsSync(path.join(root, 'hardhat.config.js')))
+        (root != null &&
+            (fs.existsSync(path.join(root, 'aderyn.toml')) ||
+                fs.existsSync(path.join(root, 'foundry.toml')) ||
+                fs.existsSync(path.join(root, 'hardhat.config.ts')) ||
+                fs.existsSync(path.join(root, 'hardhat.config.js')))) ||
+        fs.existsSync(path.join(root, 'soldeer.toml'))
     );
 }
 
@@ -49,7 +51,8 @@ function someSolidityProjectExists1LevelDeepFromWorkspaceRoot(): boolean {
             if (
                 fs.existsSync(path.join(subdirPath, 'foundry.toml')) ||
                 fs.existsSync(path.join(subdirPath, 'hardhat.config.ts')) ||
-                fs.existsSync(path.join(subdirPath, 'hardhat.config.js'))
+                fs.existsSync(path.join(subdirPath, 'hardhat.config.js')) ||
+                fs.existsSync(path.join(subdirPath, 'soldeer.toml'))
             ) {
                 return true;
             }
