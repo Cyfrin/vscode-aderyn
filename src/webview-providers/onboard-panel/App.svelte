@@ -10,8 +10,8 @@
     <div class="flex flex-col items-center p-4">
         <Header />
         <Aderyn />
-        <CommandBook />
         <HowToUse />
+        <CommandBook />
     </div>
     <Footer />
 </div>
