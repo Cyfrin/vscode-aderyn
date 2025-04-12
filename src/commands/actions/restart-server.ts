@@ -1,9 +1,8 @@
-import * as vscode from 'vscode';
 import { client, startServing, stopServing } from '../../state';
 
 async function action() {
     if (!client) {
-        vscode.window.showErrorMessage('aderyn client not found');
+        await startServing();
         return;
     }
     try {
