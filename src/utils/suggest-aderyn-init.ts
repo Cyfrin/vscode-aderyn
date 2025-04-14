@@ -29,7 +29,8 @@ async function suggestAderynTomlIfProjectIsNested() {
                                         if (
                                             await aderynTomlAtWorkspaceRootHasNonDefaultRootValue()
                                         ) {
-                                            autoStartLspClientIfRequested(true);
+                                            // TODO: test this part
+                                            await autoStartLspClientIfRequested(true);
                                         }
                                     });
                             }

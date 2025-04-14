@@ -23,7 +23,6 @@ async function action() {
     const cmd = `aderyn init ${workspaceUri}`;
     executeCommand(cmd)
         .then(() => {
-            vscode.window.showInformationMessage(`Created aderyn.toml at ${filePath}`);
             vscode.workspace.openTextDocument(filePath).then(
                 (document) => {
                     vscode.window.showTextDocument(document);
