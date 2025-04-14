@@ -1,4 +1,4 @@
-import { client, createOrInitLspClient } from '..';
+import { client, createOrInitLspClient, unsetAderynLSPLoading } from '..';
 import {
     showAderynStatusLoading,
     showAderynStatusOff,
@@ -12,6 +12,7 @@ async function startServing() {
     }
     showAderynStatusLoading();
     await client.start();
+    unsetAderynLSPLoading();
     showAderynStatusOn();
 }
 
@@ -21,6 +22,7 @@ async function stopServing() {
     }
     showAderynStatusLoading();
     await client.stop();
+    unsetAderynLSPLoading();
     showAderynStatusOff();
 }
 
