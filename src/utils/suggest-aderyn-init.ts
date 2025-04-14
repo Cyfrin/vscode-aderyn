@@ -25,13 +25,14 @@ async function suggestAderynTomlIfProjectIsNested() {
                                 vscode.commands
                                     .executeCommand(EditorCmd.InitConfigFile)
                                     .then(async () => {
-                                        // Try to restart the diagnostics server now if the `root` value is not `.`
-                                        if (
-                                            await aderynTomlAtWorkspaceRootHasNonDefaultRootValue()
-                                        ) {
-                                            // TODO: test this part
-                                            await autoStartLspClientIfRequested(true);
-                                        }
+                                        setTimeout(async () => {
+                                            // Try to restart the diagnostics server now if the `root` value is not `.`
+                                            if (
+                                                await aderynTomlAtWorkspaceRootHasNonDefaultRootValue()
+                                            ) {
+                                                await autoStartLspClientIfRequested(true);
+                                            }
+                                        }, 1000); // Assumption: After 1 second, executeCommand(EditorCmd.InitConfigFile) finishes.
                                     });
                             }
                         });
