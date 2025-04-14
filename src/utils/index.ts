@@ -9,7 +9,7 @@ import {
     hasRecognizedProjectStructureAtWorkspaceRoot,
 } from './runtime';
 import { ensureAderynIsInstalled, clearCorruptedInstallation } from './install';
-import { isKeyUsed, Keys } from './keys';
+import { isKeyUsed, Keys, isKeyUsedGlobally } from './keys';
 import { Logger } from './logger';
 import { startPeriodicChecks } from './startup-update';
 import { startInstallationOneTimeCheck } from './startup-install';
@@ -31,6 +31,7 @@ export {
     startInstallationOneTimeCheck,
     autoStartLspClientIfRequested,
     suggestAderynTomlIfProjectIsNested,
+    isKeyUsedGlobally,
     Keys,
     Logger,
     AderynConfig,

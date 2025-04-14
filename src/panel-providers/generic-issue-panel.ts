@@ -9,6 +9,8 @@ import {
 import { Report } from '../utils/install/issues';
 import { AderynReport, getActiveFileURI } from './utils';
 import { ExecuteCommandErrorType } from '../utils/runtime/system';
+import { isKeyUsedGlobally } from '../utils/keys';
+import { Logger } from '../utils/logger';
 
 abstract class AderynGenericIssueProvider
     implements vscode.TreeDataProvider<DiagnosticItem>
@@ -83,6 +85,57 @@ abstract class AderynGenericIssueProvider
                         new ErrorItem('Consult Help and Feedback below'),
                     ];
                 }
+
+                // Record successful runs to trigger a popup requesting Star on Github
+                isKeyUsedGlobally(new Logger(), 'OK_RESULTS_SHOWN_1_TIME').then((yes) => {
+                    if (yes) {
+                        isKeyUsedGlobally(new Logger(), 'OK_RESULTS_SHOWN_2_TIMES').then(
+                            (yes) => {
+                                if (yes) {
+                                    // 3rd time seeing successfull results
+                                    isKeyUsedGlobally(
+                                        new Logger(),
+                                        'STAR_AND_REVIEW_POPUP_SEEN',
+                                    ).then((yes) => {
+                                        if (!yes) {
+                                            // Show the popup and ask
+                                            vscode.window
+                                                .showInformationMessage(
+                                                    'Together, let’s protect the future of Web3',
+                                                    'Github Star',
+                                                    'Marketplace Review',
+                                                    "No, I won't",
+                                                )
+                                                .then((selection) => {
+                                                    if (!selection) {
+                                                        return;
+                                                    }
+                                                    switch (selection) {
+                                                        case 'Github Star':
+                                                            vscode.env.openExternal(
+                                                                vscode.Uri.parse(
+                                                                    'https://github.com/Cyfrin/aderyn',
+                                                                ),
+                                                            );
+                                                            break;
+                                                        case 'Marketplace Review':
+                                                            vscode.env.openExternal(
+                                                                vscode.Uri.parse(
+                                                                    'https://marketplace.visualstudio.com/items?itemName=Cyfrin.aderyn&ssr=false#review-details',
+                                                                ),
+                                                            );
+                                                            break;
+                                                        case "No, I won't":
+                                                            break;
+                                                    }
+                                                });
+                                        }
+                                    });
+                                }
+                            },
+                        );
+                    }
+                });
 
                 // Populate UI
                 return this.getTopLevelItems(this.report);
