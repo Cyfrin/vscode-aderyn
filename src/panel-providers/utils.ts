@@ -54,16 +54,15 @@ async function prepareResults(cached?: boolean): Promise<AderynReport> {
         };
     }
 
-    const projectRootUri = await getProjectRootPrefixFromAderynToml(
-        findProjectRoot(workspaceRoot),
-    );
+    const projectRootUri = findProjectRoot(workspaceRoot);
+    const prefix = await getProjectRootPrefixFromAderynToml(projectRootUri);
 
     // Generate report
     if (cached && cachedReport) {
         return {
             type: 'Success',
             report: cachedReport,
-            projectRootUri,
+            projectRootUri: prefix,
         };
     } else {
         try {
@@ -72,7 +71,7 @@ async function prepareResults(cached?: boolean): Promise<AderynReport> {
             return {
                 type: 'Success',
                 report,
-                projectRootUri,
+                projectRootUri: prefix,
             };
         } catch (err) {
             logger.err(`${JSON.stringify(err)}`);
