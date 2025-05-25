@@ -36,7 +36,7 @@ enum AderynInstallationErrorType {
     ExtensionIsTooOld = 'Extension is too old, must be upgraded to support latest aderyn',
     FailedToDetectAderynSource = 'Failed to detect installation source for the exisitng aderyn',
     NoInstallationChannel = 'Failed to find tools for installation - no npm, brew or curl!',
-    UknownReason = 'Failed due to uknown reason',
+    UknownReason = 'Failed due to uknown reason. Try installing Aderyn manually if retry fails!',
     FailedToRemoveLegacyBinary = 'Failed to remove legacy binary',
 
     // NOTE: These are not used, it's just for documentation. Instead a dynamic error message is displayed
