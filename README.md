@@ -31,6 +31,14 @@ Learn how to run Aderyn on a custom project structure [in this guide](https://cy
 > ⚠️ Windsurf users must install from vscode marketplace instead of the deault option open-vsx. 
 > In settings, set the gallery service URL to `https://marketplace.visualstudio.com/_apis/public/gallery` and the gallery item URL to `https://marketplace.visualstudio.com/items` . Then restart your extension before searching for `Aderyn` in the marketplace.
 
+Cursor users may have to manually install by dragging and dropping the latest [*.vsix](https://github.com/Cyfrin/vscode-aderyn/releases) file (extension file) from Github Release assets into Extension sidebar
+
+
+
+
+https://github.com/user-attachments/assets/771a22ee-4885-4969-9592-d84829628ba7
+
+
 </br>
 
 ## 🔹 Features  
