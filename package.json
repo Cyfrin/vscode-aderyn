@@ -2,7 +2,7 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Rust-based Solidity static analyzer for VS Code.",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 6
