@@ -1,11 +1,11 @@
 {
   "name": "aderyn",
   "displayName": "Aderyn",
-  "description": "Rust-based Solidity AST analyzer.",
+  "description": "Rust-based Solidity static analyzer for VS Code.",
   "version": "0.0.36",
   "supportedAderynVersions": {
     "major": 0,
-    "minor": 5
+    "minor": 6
   },
   "publisher": "cyfrin",
   "repository": {
