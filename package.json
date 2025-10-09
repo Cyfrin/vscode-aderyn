@@ -2,7 +2,11 @@
   "name": "aderyn",
   "displayName": "Aderyn",
   "description": "Rust-based Solidity static analyzer for VS Code.",
-  "categories": ["Linters", "Programming Languages", "Debuggers"],
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Debuggers"
+  ],
   "keywords": [
     "solidity",
     "static analysis",
@@ -21,7 +25,7 @@
     "blockchain",
     "smart contract security"
   ],
-  "version": "0.0.37",
+  "version": "0.0.38",
   "supportedAderynVersions": {
     "major": 0,
     "minor": 6
