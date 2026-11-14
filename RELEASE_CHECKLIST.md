@@ -1,26 +1,12 @@
-# Release checklist
+# Extension releases are retired
 
-This checklist is meant to be used as a guide for the release process.
+The Aderyn extension is no longer maintained. Do not publish new VSIX packages,
+push release tags, or re-enable publishing automation.
 
-## Requirements
+Do not run `make patch-release` or `make minor-release`. Keep repository Actions
+and release publishing disabled after retirement. Historical release instructions
+remain available in Git history.
 
-- [npm](https://github.com/crate-ci/cargo-release)
-
-## Steps
-
-- [ ] Swich to `main` branch
-- [ ] Make sure to have no staged commits.
-- [ ] Run `make patch-release` or `make minor-release` to handle the version bump, changelog, and commit.
-
-## Handling breaking changes in CLI
-
-- [ ] Change the following value in `package.json`
-
-```javascript
-  "supportedAderynVersions": {
-    "major": 0,
-    "minor": 4
-  }
-```
-
-- [ ] Cut a release (patch or minor) using the steps above
+Preserve the repository, source tags, and release notes for historical reference.
+Retired release assets are retained separately for recovery and reproducibility;
+do not republish those backups as an installation channel.
